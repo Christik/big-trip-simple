@@ -73,7 +73,6 @@ const generatePointDestinationId = (destinations) => {
   }
 
   const destination = getRandomArrayElement(destinations);
-console.log(destination);
 
   return destination.id;
 };

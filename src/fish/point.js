@@ -2,15 +2,16 @@ import {
   getRandomInteger,
   getRandomArrayElement,
   createRandomizerOfUniqueInteger,
-  createCounter } from '../utils.js';
+  createCounter,
+  getOffersByType } from '../utils.js';
 import { POINT_TYPES } from '../const.js';
-import { getOffersByType } from './offersByType.js';
-import { generateDestinations } from './destinations.js';
+import { getAllTypeOffers } from './offers.js';
+import { getDestinations } from './destinations.js';
 import dayjs from 'dayjs';
 
-const offersByType = getOffersByType();
+const offersByType = getAllTypeOffers();
 
-const allDestinations = generateDestinations();
+const allDestinations = getDestinations();
 
 const generateBasePrice = () => {
   const randomNumber = getRandomInteger(1, 30);
@@ -19,17 +20,17 @@ const generateBasePrice = () => {
 };
 
 const generateDateFrom = () => {
-  const maxDaysGap = 5;
-  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+  const maxMinutesGap = 5 * 24 * 60;
+  const minutesGap = getRandomInteger(-maxMinutesGap, maxMinutesGap);
 
-  return dayjs().add(daysGap).format();
+  return dayjs().add(minutesGap, 'minute').format();
 };
 
 const generateDateTo = (dateFrom) => {
   const maxDaysGap = 3;
-  const hoursGap = getRandomInteger(0, maxDaysGap * 24 * 60);
+  const minutesGap = getRandomInteger(0, maxDaysGap * 24 * 60);
 
-  return dayjs(dateFrom).add(hoursGap, 'minute').format();
+  return dayjs(dateFrom).add(minutesGap, 'minute').format();
 };
 
 const generatePointId = createCounter();
@@ -38,8 +39,7 @@ const generatePointType = (types) => getRandomArrayElement(types);
 
 const generatePointOffers = (pointType) => {
   const pointOffers = [];
-  const offersByCurrentType = offersByType.find(({type}) => (type === pointType));
-  const possibleOffers = offersByCurrentType.offers;
+  const possibleOffers = getOffersByType(offersByType, pointType);
 
   if (possibleOffers.length === 0) {
     return pointOffers;
@@ -52,7 +52,7 @@ const generatePointOffers = (pointType) => {
   }
 
   if (possibleOffers.length === 1) {
-    return possibleOffers[0].id;
+    return [possibleOffers[0].id];
   }
 
   const getOfferIndex = createRandomizerOfUniqueInteger(0, possibleOffers.length - 1);

@@ -35,9 +35,30 @@ const createCounter = () => {
   return () => ++count;
 };
 
+const capitalizeFirstLetter = (text) => {
+  const firstLetter = text[0].toUpperCase();
+  const restText = text.slice(1);
+
+  return `${firstLetter}${restText}`;
+};
+
+const getOffersByType = (offers, type) => {
+  const typeOffer = offers.find((offerObj) => (offerObj.type === type));
+
+  return typeOffer.offers;
+};
+
+const getOffersByIds = (offers, ids) => offers.filter((offer) => ids.includes(offer.id));
+
+const getDestinationById = (destinations, id) => destinations.find((destination) => (destination.id === id));
+
 export {
   getRandomInteger,
   getRandomArrayElement,
   createRandomizerOfUniqueInteger,
-  createCounter
+  createCounter,
+  capitalizeFirstLetter,
+  getOffersByType,
+  getOffersByIds,
+  getDestinationById
 };

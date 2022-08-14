@@ -13,7 +13,7 @@ const generateOfferList = (listLength) => {
 };
 
 const generateOffersByType = () => {
-  const offersByType = [];
+  const offers = [];
 
   for (const pointType of POINT_TYPES) {
     const listLength = getRandomInteger(0, 5);
@@ -22,12 +22,14 @@ const generateOffersByType = () => {
       offers: generateOfferList(listLength),
     };
 
-    offersByType.push(obj);
+    offers.push(obj);
   }
 
-  return offersByType;
+  return offers;
 };
 
-const getOffersByType = () => generateOffersByType();
+const offersByType = generateOffersByType();
 
-export { getOffersByType };
+const getAllTypeOffers = () => offersByType;
+
+export { getAllTypeOffers };

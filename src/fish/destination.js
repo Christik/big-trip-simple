@@ -7,16 +7,16 @@ const descriptions = [
   'Предсознательное выслеживает космический восход . В отличие от давно известных астрономам планет земной группы, коллективное бессознательное дает эксцентриситет.',
 ];
 
-const names = [
-  'Экзистенциальный сарос',
-  'Социометрический тропический год',
-  'Межпланетный филогенез',
-  'Социометрический архетип',
-  'Центральный эффективный диаметp',
+const cities = [
+  'Paris',
+  'New York City',
+  'London',
+  'Bangkok',
+  'Hong Kong',
 ];
 
 const generateDescription = (descriptionList) => getRandomArrayElement(descriptionList);
-const generateName = (nameList) => getRandomArrayElement(nameList);
+const generateCity = (nameList) => getRandomArrayElement(nameList);
 
 const generatePictures = () => {
   const pictures = [];
@@ -25,7 +25,7 @@ const generatePictures = () => {
   for (let i = 0; i < picturesLength; i++) {
     const picture = {
       src: 'http://picsum.photos/300/200?r=0.0762563005163317',
-      description: generateName(names),
+      description: generateCity(cities),
     };
 
     pictures.push(picture);
@@ -37,7 +37,7 @@ const generatePictures = () => {
 const generateDestination = (id) => ({
   id,
   description: generateDescription(descriptions),
-  name: generateName(names),
+  name: generateCity(cities),
   pictures: generatePictures(),
 });
 

@@ -16,4 +16,8 @@ const generateDestinations = () => {
   return destinations;
 };
 
-export { generateDestinations };
+const allDestinations = generateDestinations();
+
+const getDestinations = () => allDestinations;
+
+export { getDestinations };

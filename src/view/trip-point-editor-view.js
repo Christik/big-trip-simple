@@ -5,8 +5,8 @@ export default class TripPointEditorView extends BaseView {
   /**
    * @override
    */
-  createAdjacentHtml() {
-    return createAdjacentHtmlPointEditor(...arguments);
+  createAdjacentHtml(...args) {
+    return createAdjacentHtmlPointEditor(...args);
   }
 }
 

@@ -13,8 +13,11 @@ export default class RoutePresenter {
     this.offers = [...this.pointsModel.getOffers()];
     this.destinations = [...this.pointsModel.getDestinations()];
 
-    this.routeElement.append(new TripNewPointView());
-    this.routeElement.append(new TripPointEditorView());
+    const newPointElement = new TripNewPointView();
+    const pointEditorElement = new TripPointEditorView(this.points[0], this.offers, this.destinations);
+
+    this.routeElement.append(newPointElement);
+    this.routeElement.append(pointEditorElement);
 
     for (let i = 0; i < this.points.length; i++) {
       const pointElement = new TripPointView(this.points[i], this.offers, this.destinations);

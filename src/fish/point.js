@@ -94,6 +94,4 @@ const generatePoint = () => {
   };
 };
 
-generatePoint();
-
 export { generatePoint };

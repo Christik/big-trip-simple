@@ -24,8 +24,8 @@ const generatePictures = () => {
 
   for (let i = 0; i < picturesLength; i++) {
     const picture = {
-      src: 'http://picsum.photos/300/200?r=0.0762563005163317',
-      description: generateCity(cities),
+      src: `http://picsum.photos/300/200?r=${Math.random()}`,
+      description: generateDescription(cities),
     };
 
     pictures.push(picture);

@@ -7,24 +7,24 @@ export default class RoutePresenter {
   routeElement = new TripRouteView();
 
   init(containerElement, pointsModel) {
-    this.containerElement = containerElement;
-    this.pointsModel = pointsModel;
-    this.points = [...this.pointsModel.getPoints()];
-    this.offers = [...this.pointsModel.getOffers()];
-    this.destinations = [...this.pointsModel.getDestinations()];
+    // this.containerElement = containerElement;
+    // this.pointsModel = pointsModel;
+    // this.points = [...this.pointsModel.getPoints()];
+    // this.offers = [...this.pointsModel.getOffers()];
+    // this.destinations = [...this.pointsModel.getDestinations()];
 
-    const newPointElement = new TripNewPointView();
-    const pointEditorElement = new TripPointEditorView(this.points[0], this.offers, this.destinations);
+    // const newPointElement = new TripNewPointView();
+    // const pointEditorElement = new TripPointEditorView(this.points[0], this.offers, this.destinations);
 
-    this.routeElement.append(newPointElement);
-    this.routeElement.append(pointEditorElement);
+    // this.routeElement.append(newPointElement);
+    // this.routeElement.append(pointEditorElement);
 
-    for (let i = 0; i < this.points.length; i++) {
-      const pointElement = new TripPointView(this.points[i], this.offers, this.destinations);
+    // for (let i = 0; i < this.points.length; i++) {
+    //   const pointElement = new TripPointView(this.points[i], this.offers, this.destinations);
 
-      this.routeElement.append(pointElement);
-    }
+    //   this.routeElement.append(pointElement);
+    // }
 
-    containerElement.append(this.routeElement);
+    // containerElement.append(this.routeElement);
   }
 }

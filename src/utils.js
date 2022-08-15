@@ -42,8 +42,8 @@ const capitalizeFirstLetter = (text) => {
   return `${firstLetter}${restText}`;
 };
 
-const getOffersByType = (offers, type) => {
-  const typeOffer = offers.find((offer) => (offer.type === type));
+const getOffersByType = (offerGroups, type) => {
+  const typeOffer = offerGroups.find((offerGroup) => (offerGroup.type === type));
 
   return typeOffer.offers;
 };

@@ -43,7 +43,7 @@ const capitalizeFirstLetter = (text) => {
 };
 
 const getOffersByType = (offers, type) => {
-  const typeOffer = offers.find((offerObj) => (offerObj.type === type));
+  const typeOffer = offers.find((offer) => (offer.type === type));
 
   return typeOffer.offers;
 };

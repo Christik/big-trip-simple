@@ -5,13 +5,13 @@ import {
   createCounter,
   getOffersByType } from '../utils.js';
 import { POINT_TYPES } from '../const.js';
-import { getAllTypeOffers } from './offers.js';
+import { getOfferGroups } from './offerGroups.js';
 import { getDestinations } from './destinations.js';
 import dayjs from 'dayjs';
 
-const offersByType = getAllTypeOffers();
-
+const offerGroups = getOfferGroups();
 const allDestinations = getDestinations();
+const generatePointId = createCounter();
 
 const generateBasePrice = () => {
   const randomNumber = getRandomInteger(1, 30);
@@ -33,41 +33,39 @@ const generateDateTo = (dateFrom) => {
   return dayjs(dateFrom).add(minutesGap, 'minute').format();
 };
 
-const generatePointId = createCounter();
+const generateType = (types) => getRandomArrayElement(types);
 
-const generatePointType = (types) => getRandomArrayElement(types);
+const generatePointOffers = (type) => {
+  const allOffers = getOffersByType(offerGroups, type);
 
-const generatePointOffers = (pointType) => {
-  const pointOffers = [];
-  const possibleOffers = getOffersByType(offersByType, pointType);
-
-  if (possibleOffers.length === 0) {
-    return pointOffers;
+  if (allOffers.length === 0) {
+    return [];
   }
 
-  const offersLength = getRandomInteger(0, possibleOffers.length);
+  const quantity = getRandomInteger(0, allOffers.length);
 
-  if (offersLength === 0) {
-    return pointOffers;
+  if (quantity === 0) {
+    return [];
   }
 
-  if (possibleOffers.length === 1) {
-    return [possibleOffers[0].id];
+  if (allOffers.length === 1) {
+    return [allOffers[0].id];
   }
 
-  const getOfferIndex = createRandomizerOfUniqueInteger(0, possibleOffers.length - 1);
+  const offers = [];
+  const getOfferIndex = createRandomizerOfUniqueInteger(0, allOffers.length - 1);
 
-  for (let i = 0; i < offersLength; i++) {
+  for (let i = 0; i < quantity; i++) {
     const offerIndex = getOfferIndex();
-    const offerId = possibleOffers[offerIndex].id;
+    const offerId = allOffers[offerIndex].id;
 
-    pointOffers.push(offerId);
+    offers.push(offerId);
   }
 
-  return pointOffers;
+  return offers;
 };
 
-const generatePointDestinationId = (destinations) => {
+const generateDestinationId = (destinations) => {
   if (destinations.length === 1) {
     return destinations[0].id;
   }
@@ -78,19 +76,19 @@ const generatePointDestinationId = (destinations) => {
 };
 
 const generatePoint = () => {
-  const type = generatePointType(POINT_TYPES);
+  const type = generateType(POINT_TYPES);
   const offers = generatePointOffers(type);
   const dateFrom = generateDateFrom();
   const dateTo = generateDateTo(dateFrom);
 
   return {
-    basePrice: generateBasePrice(),
-    dateFrom,
-    dateTo,
-    destination: generatePointDestinationId(allDestinations),
-    id: generatePointId(),
-    offers,
-    type,
+    'base_price': generateBasePrice(),
+    'date_from': dateFrom,
+    'date_to': dateTo,
+    'destination': generateDestinationId(allDestinations),
+    'id': String(generatePointId()),
+    'offers': offers,
+    'type': type,
   };
 };
 

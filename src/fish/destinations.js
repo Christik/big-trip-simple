@@ -5,11 +5,12 @@ const getDestinationId = createCounter();
 
 const generateDestinations = () => {
   const destinations = [];
-  const length = getRandomInteger(1, 5);
+  const quantity = getRandomInteger(1, 5);
 
-  for (let i = 0; i < length; i++) {
-    const descriptionId = getDestinationId();
-    const destination = generateDestination(descriptionId);
+  for (let i = 0; i < quantity; i++) {
+    const id = getDestinationId();
+    const destination = generateDestination(id);
+
     destinations.push(destination);
   }
 
@@ -17,7 +18,6 @@ const generateDestinations = () => {
 };
 
 const allDestinations = generateDestinations();
-
 const getDestinations = () => allDestinations;
 
 export { getDestinations };

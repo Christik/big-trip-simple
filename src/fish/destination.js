@@ -15,17 +15,22 @@ const cities = [
   'Hong Kong',
 ];
 
-const generateDescription = (descriptionList) => getRandomArrayElement(descriptionList);
+const generateDescription = (items) => getRandomArrayElement(items);
+const generateShortDescription = (items) => {
+  const description = getRandomArrayElement(items);
+
+  return `${description.slice(0, 20)}...`;
+};
 const generateCity = (nameList) => getRandomArrayElement(nameList);
 
 const generatePictures = () => {
   const pictures = [];
-  const picturesLength = getRandomInteger(1, 5);
+  const quantity = getRandomInteger(1, 5);
 
-  for (let i = 0; i < picturesLength; i++) {
+  for (let i = 0; i < quantity; i++) {
     const picture = {
       src: `http://picsum.photos/300/200?r=${Math.random()}`,
-      description: generateDescription(cities),
+      description: generateShortDescription(descriptions),
     };
 
     pictures.push(picture);

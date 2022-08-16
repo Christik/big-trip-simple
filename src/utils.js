@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 const getRandomInteger = (from, to) => {
   if (to <= from) {
     throw new Error('Начальная точка диапазона должна быть меньше конечной точки диапазона');
@@ -52,6 +54,10 @@ const getOffersByIds = (offers, ids) => offers.filter((offer) => ids.includes(of
 
 const getDestinationById = (destinations, id) => destinations.find((destination) => (destination.id === id));
 
+const humanizeTime = (time) => dayjs(time).format('HH:mm');
+
+const machinizeTime = (time) => dayjs(time).format('YYYY-MM-DDTHH:mm');
+
 export {
   getRandomInteger,
   getRandomArrayElement,
@@ -60,5 +66,7 @@ export {
   capitalizeFirstLetter,
   getOffersByType,
   getOffersByIds,
-  getDestinationById
+  getDestinationById,
+  humanizeTime,
+  machinizeTime,
 };

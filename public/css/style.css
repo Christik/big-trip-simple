@@ -773,6 +773,9 @@ main {
       flex-wrap: wrap;
   margin-bottom: -6px; }
 
+.event__offer {
+  display: block; }
+
 .event__offer::first-letter {
   text-transform: capitalize; }
 

@@ -1,30 +1,72 @@
 import TripRouteView from '../view/trip-route-view.js';
-import TripPointView from '../view/trip-point-view';
-import TripNewPointView from '../view/trip-new-point-view';
-import TripPointEditorView from '../view/trip-point-editor-view';
+import TripPointView from '../view/trip-point-view.js';
+import PointOfferView from '../view/point-offer-view.js';
+import RouteModel from '../model/points-model.js';
+import dayjs from 'dayjs';
+import { humanizeTime, machinizeTime } from '../utils.js';
+
+/**
+ * Создает DOM-элемент оффера
+ * @param {Object} offer
+ * @returns {PointOfferView}
+ */
+const createOfferElement = (offer) => (
+  new PointOfferView()
+    .setTitle(offer.title)
+    .setPrice(offer.price)
+);
+
+/**
+ * Создает массив с DOM-элементами офферов
+ * @param {Object[]} offers
+ * @return {HTMLElement[]}
+ */
+const createOfferElements = (offers) => offers.map((offer) => createOfferElement(offer));
+
+/**
+ * Создает DOM-элемент точки маршрута
+ * @param {Object} point
+ * @returns {PointOfferView}
+ */
+const createPointElement = (point) => {
+  const element = new TripPointView();
+  const title = `${point.type} ${point.destination.name}`;
+  const dateForHuman = dayjs(point.dateFrom).format('MMM D');
+  const dateForMachine = dayjs(point.dateFrom).format('YYYY-MM-DD');
+  const startTimeForHuman = humanizeTime(point.dateFrom);
+  const startTimeForMachine = machinizeTime(point.dateFrom);
+  const endTimeForHuman = humanizeTime(point.dateTo);
+  const endTimeForMachine = machinizeTime(point.dateTo);
+  const offerElements = createOfferElements(point.offers);
+
+  return element
+    .setTitle(title)
+    .setIcon(point.type)
+    .setDate(dateForHuman, dateForMachine)
+    .setStartTime(startTimeForHuman, startTimeForMachine)
+    .setEndTime(endTimeForHuman, endTimeForMachine)
+    .setPrice(point.basePrice)
+    .insertOffers(offerElements);
+};
 
 export default class RoutePresenter {
-  routeElement = new TripRouteView();
+  /**
+   * Отрисовывает все точки маршрута
+   * @param {HTMLElement} containerElement
+   */
+  init(containerElement) {
+    const model = new RouteModel();
+    const points = model.get();
+    const routeElement = new TripRouteView();
+    const fragment = document.createDocumentFragment();
 
-  init(containerElement, pointsModel) {
-    // this.containerElement = containerElement;
-    // this.pointsModel = pointsModel;
-    // this.points = [...this.pointsModel.getPoints()];
-    // this.offers = [...this.pointsModel.getOffers()];
-    // this.destinations = [...this.pointsModel.getDestinations()];
+    points.forEach((point) => {
+      const pointElement = createPointElement(point);
 
-    // const newPointElement = new TripNewPointView();
-    // const pointEditorElement = new TripPointEditorView(this.points[0], this.offers, this.destinations);
+      fragment.append(pointElement);
+    });
 
-    // this.routeElement.append(newPointElement);
-    // this.routeElement.append(pointEditorElement);
-
-    // for (let i = 0; i < this.points.length; i++) {
-    //   const pointElement = new TripPointView(this.points[i], this.offers, this.destinations);
-
-    //   this.routeElement.append(pointElement);
-    // }
-
-    // containerElement.append(this.routeElement);
+    routeElement.append(fragment);
+    containerElement.append(routeElement);
   }
 }

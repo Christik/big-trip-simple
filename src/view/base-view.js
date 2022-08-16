@@ -2,9 +2,9 @@
  * Базовое представление
  */
 export default class BaseView extends HTMLElement {
-  constructor(...args) {
+  constructor() {
     super();
-    this.insertAdjacentHTML(this.adjacentHtmlPosition, this.createAdjacentHtml(...args));
+    this.insertAdjacentHTML(this.adjacentHtmlPosition, this.createAdjacentHtml());
   }
 
   /**
@@ -16,8 +16,29 @@ export default class BaseView extends HTMLElement {
 
   /**
    * Создает дополнительную html-разметку
+   * @return {string}
    */
   createAdjacentHtml() {
     return '';
+  }
+
+  /**
+   * Устанавливает новые или обновляет существующие свойства внутреннего элемента
+   * @param {string} selector
+   * @param {string | Object} properties
+   * @return {BaseView}
+   */
+  set(selector, properties) {
+    const element = this.querySelector(selector);
+    const isString = (typeof properties === 'string');
+    const isNumber = Number.isFinite(properties);
+
+    if (isString || isNumber) {
+      properties = { textContent: properties };
+    }
+
+    Object.assign(element, properties);
+
+    return this;
   }
 }

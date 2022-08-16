@@ -1,4 +1,4 @@
-const createAdjacentHtmlNewPoint = () => /*html*/ `
+export const createNewPointTemplate = () => /*html*/ `
   <form class="event event--edit" action="#" method="post">
     <header class="event__header">
       <div class="event__type-wrapper">
@@ -139,5 +139,3 @@ const createAdjacentHtmlNewPoint = () => /*html*/ `
     </section>
   </form>
 `;
-
-export { createAdjacentHtmlNewPoint };

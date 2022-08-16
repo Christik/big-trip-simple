@@ -1,5 +1,5 @@
-import TripRouteView from '../view/trip-route-view.js';
-import TripPointView from '../view/trip-point-view.js';
+import RouteView from '../view/route-view.js';
+import PointView from '../view/point-view.js';
 import PointOfferView from '../view/point-offer-view.js';
 import RouteModel from '../model/points-model.js';
 import dayjs from 'dayjs';
@@ -29,7 +29,7 @@ const createOfferElements = (offers) => offers.map((offer) => createOfferElement
  * @returns {PointOfferView}
  */
 const createPointElement = (point) => {
-  const element = new TripPointView();
+  const element = new PointView();
   const title = `${point.type} ${point.destination.name}`;
   const dateForHuman = dayjs(point.dateFrom).format('MMM D');
   const dateForMachine = dayjs(point.dateFrom).format('YYYY-MM-DD');
@@ -49,6 +49,9 @@ const createPointElement = (point) => {
     .insertOffers(offerElements);
 };
 
+/**
+ * Презентер для маршрута со списком точке остановки
+ */
 export default class RoutePresenter {
   /**
    * Отрисовывает все точки маршрута
@@ -57,7 +60,7 @@ export default class RoutePresenter {
   init(containerElement) {
     const model = new RouteModel();
     const points = model.get();
-    const routeElement = new TripRouteView();
+    const routeElement = new RouteView();
     const fragment = document.createDocumentFragment();
 
     points.forEach((point) => {

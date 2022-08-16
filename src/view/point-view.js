@@ -1,17 +1,21 @@
 import BaseView from './base-view.js';
-import { createAdjacentHtmlPoint } from './trip-point-template.js';
+import { createPointTemplate } from './point-template.js';
 
-export default class TripPointView extends BaseView {
+/**
+ * Представление точки маршрута
+ */
+export default class PointView extends BaseView {
   /**
    * @override
    */
-  createAdjacentHtml() {
-    return createAdjacentHtmlPoint();
+  createTemplate() {
+    return createPointTemplate();
   }
 
   /**
    * Устанавливает заголовок
    * @param {string} title
+   * @return {PointView}
    */
   setTitle(title) {
     return this.set('.event__title', title);
@@ -20,6 +24,7 @@ export default class TripPointView extends BaseView {
   /**
    * Устанавливает имя иконки
    * @param {string} name
+   * @return {PointView}
    */
   setIcon(name) {
     const url = `img/icons/${name}.png`;
@@ -34,6 +39,7 @@ export default class TripPointView extends BaseView {
    * Устанавливает дату
    * @param {string} dateForHuman
    * @param {string} dateForMachine
+   * @return {PointView}
    */
   setDate(dateForHuman, dateForMachine) {
     const properties = {
@@ -48,6 +54,7 @@ export default class TripPointView extends BaseView {
    * Устанавливает время начала
    * @param {string} timeForHuman
    * @param {string} timeForMachine
+   * @return {PointView}
    */
   setStartTime(timeForHuman, timeForMachine) {
     const properties = {
@@ -62,6 +69,7 @@ export default class TripPointView extends BaseView {
    * Устанавливает время окончания
    * @param {string} timeForHuman
    * @param {string} timeForMachine
+   * @return {PointView}
    */
   setEndTime(timeForHuman, timeForMachine) {
     const properties = {
@@ -75,6 +83,7 @@ export default class TripPointView extends BaseView {
   /**
    * Устанавливает цену
    * @param {number | string} price
+   * @return {PointView}
    */
   setPrice(price) {
     return this.set('.event__price-value', price);
@@ -83,6 +92,7 @@ export default class TripPointView extends BaseView {
   /**
    * Добавляет DOM-элементы оферов
    * @param {HTMLElement[]} offerElements
+   * @return {PointView}
    */
   insertOffers(offerElements) {
     const containerElement = this.querySelector('.event__selected-offers');
@@ -95,4 +105,4 @@ export default class TripPointView extends BaseView {
   }
 }
 
-customElements.define('trip-point', TripPointView);
+customElements.define('trip-point', PointView);

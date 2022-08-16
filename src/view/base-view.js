@@ -4,13 +4,13 @@
 export default class BaseView extends HTMLElement {
   constructor() {
     super();
-    this.insertAdjacentHTML(this.adjacentHtmlPosition, this.createAdjacentHtml());
+    this.insertAdjacentHTML(this.insertionPosition, this.createTemplate());
   }
 
   /**
    * Позиция дополнительной html-разметки
    */
-  get adjacentHtmlPosition() {
+  get insertionPosition() {
     return 'beforeend';
   }
 
@@ -18,14 +18,14 @@ export default class BaseView extends HTMLElement {
    * Создает дополнительную html-разметку
    * @return {string}
    */
-  createAdjacentHtml() {
+  createTemplate() {
     return '';
   }
 
   /**
    * Устанавливает новые или обновляет существующие свойства внутреннего элемента
    * @param {string} selector
-   * @param {string | Object} properties
+   * @param {number | string | Object} properties
    * @return {BaseView}
    */
   set(selector, properties) {

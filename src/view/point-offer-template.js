@@ -1,5 +1,5 @@
 export const createPointOfferTemplate = () => /*html*/ `
-  <span class="event__offer-title">Order Uber</span>
+  <span class="event__offer-title">Title</span>
   &plus;&euro;&nbsp;
-  <span class="event__offer-price">20</span>
+  <span class="event__offer-price">0</span>
 `;

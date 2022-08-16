@@ -144,7 +144,7 @@ const createDestinationTemplate = (destination) => /*html*/ `
   </section>
 `;
 
-const createAdjacentHtmlPointEditor = (point, allTypeOffers, destinations) => {
+export const createPointEditorTemplate = (point, allTypeOffers, destinations) => {
   const {
     basePrice,
     dateFrom,
@@ -183,5 +183,3 @@ const createAdjacentHtmlPointEditor = (point, allTypeOffers, destinations) => {
     </form>
   `;
 };
-
-export { createAdjacentHtmlPointEditor };

@@ -1,6 +1,9 @@
 import BaseView from './base-view.js';
 import { createPointOfferTemplate } from './point-offer-template.js';
 
+/**
+ * Представление оффера в точке маршрута
+ */
 export default class PointOfferView extends BaseView {
   constructor() {
     super();
@@ -10,7 +13,7 @@ export default class PointOfferView extends BaseView {
   /**
    * @override
    */
-  createAdjacentHtml() {
+  createTemplate() {
     return createPointOfferTemplate();
   }
 

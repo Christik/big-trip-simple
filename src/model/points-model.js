@@ -1,6 +1,6 @@
 import { generatePoint } from '../fish/point.js';
 import OffersModel from './offers-model.js';
-import { getDestinations } from '../fish/destinations.js';
+import DestinationsModel from './destinations-model.js';
 import { getOffersByType, getOffersByIds, getDestinationById } from '../utils.js';
 
 export default class PointsModel {
@@ -8,8 +8,10 @@ export default class PointsModel {
     const points = Array.from({length: 20}, generatePoint);
     const offersModel = new OffersModel();
     const offerGroups = offersModel.get();
-    const destinations = getDestinations();
-    const aggregatePoints = points.map((point) => {
+    const destinationsModel = new DestinationsModel();
+    const destinations = destinationsModel.get();
+
+    return points.map((point) => {
       const aggregatePoint = {
         basePrice: point.base_price,
         dateFrom: point.date_from,
@@ -26,7 +28,5 @@ export default class PointsModel {
 
       return aggregatePoint;
     });
-
-    return aggregatePoints;
   }
 }

@@ -19,9 +19,8 @@ export default class PointEditorView extends BaseView {
    */
   setIcon(name) {
     const element = this.querySelector('.event__type-icon');
-    const url = `img/icons/${name}.png`;
 
-    element.src = url;
+    element.src = `img/icons/${name}.png`;
 
     return this;
   }

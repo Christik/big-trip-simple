@@ -56,7 +56,9 @@ const getDestinationById = (destinations, id) => destinations.find((destination)
 
 const humanizeTime = (time) => dayjs(time).format('HH:mm');
 
-const machinizeTime = (time) => dayjs(time).format('YYYY-MM-DDTHH:mm');
+const machinizeTime = (time) => dayjs(time).format('YYYY-MM-[DD]T[HH]:mm');
+
+export const humanizeDate = (date) => dayjs(date).format('DD/MM/YY');
 
 export {
   getRandomInteger,

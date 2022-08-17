@@ -1,12 +1,13 @@
 import { generatePoint } from '../fish/point.js';
-import { getOfferGroups } from '../fish/offerGroups.js';
+import OffersModel from './offers-model.js';
 import { getDestinations } from '../fish/destinations.js';
 import { getOffersByType, getOffersByIds, getDestinationById } from '../utils.js';
 
-export default class RouteModel {
+export default class PointsModel {
   get() {
     const points = Array.from({length: 20}, generatePoint);
-    const offerGroups = getOfferGroups();
+    const offersModel = new OffersModel();
+    const offerGroups = offersModel.get();
     const destinations = getDestinations();
     const aggregatePoints = points.map((point) => {
       const aggregatePoint = {

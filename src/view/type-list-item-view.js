@@ -20,26 +20,33 @@ export default class TypeListItemView extends BaseView {
   /**
    * Устанавливает id и значение инпута
    * @param {string} type
+   * @param {boolean} isChecked
    * @return {TypeListItemView}
    */
   setInput(type, isChecked) {
-    const properties = {
-      id: `event-type-${type}-1`,
-      value: type,
-      checked: isChecked,
-    };
+    const element = this.querySelector('.event__type-input');
 
-    return this.set('.event__type-input', properties);
+    element.id = `event-type-${type}-1`;
+    element.value = type;
+    element.checked = isChecked;
+
+    return this;
   }
 
+  /**
+   * Устанавливает заголовок
+   * @param {string} type
+   * @param {string} title
+   * @return {TypeListItemView}
+   */
   setLabel(type, title) {
-    const properties = {
-      className: `event__type-label event__type-label--${type}`,
-      for: `event-type-${type}-1`,
-      textContent: title,
-    };
+    const element = this.querySelector('.event__type-label');
 
-    return this.set('.event__type-label', properties);
+    element.className = `event__type-label event__type-label--${type}`;
+    element.htmlFor = `event-type-${type}-1`;
+    element.textContent = title;
+
+    return this;
   }
 }
 

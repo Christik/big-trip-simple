@@ -18,12 +18,12 @@ export default class PointEditorView extends BaseView {
    * @return {PointEditorView}
    */
   setIcon(name) {
+    const element = this.querySelector('.event__type-icon');
     const url = `img/icons/${name}.png`;
-    const properties = {
-      src: url,
-    };
 
-    return this.set('.event__type-icon', properties);
+    element.src = url;
+
+    return this;
   }
 
   /**
@@ -36,7 +36,6 @@ export default class PointEditorView extends BaseView {
     const fragment = document.createDocumentFragment();
 
     typeElements.forEach((element) => fragment.append(element));
-
     containerElement.append(fragment);
 
     return this;
@@ -48,59 +47,63 @@ export default class PointEditorView extends BaseView {
    * @return {PointEditorView}
    */
   setTypeName(type) {
-    return this.set('.event__type-output', type);
+    const element = this.querySelector('.event__type-output');
+
+    element.textContent = type;
+
+    return this;
   }
 
   /**
    * Устанавливает город назначения
-   * @param {string} value
+   * @param {string} destination
    * @return {PointEditorView}
    */
-  setDestinationInput(value) {
-    const properties = {
-      value
-    };
+  setDestinationInput(destination) {
+    const element = this.querySelector('.event__input--destination');
 
-    return this.set('.event__input--destination', properties);
+    element.value = destination;
+
+    return this;
   }
 
   /**
    * Устанавливает время начала
-   * @param {string} value
+   * @param {string} time
    * @return {PointEditorView}
    */
-  setStartTime(value) {
-    const properties = {
-      value,
-    };
+  setStartTime(time) {
+    const element = this.querySelector('[name="event-start-time"]');
 
-    return this.set('[name="event-start-time"]', properties);
+    element.value = time;
+
+    return this;
   }
 
   /**
    * Устанавливает время окончания
-   * @param {string} value
+   * @param {string} time
    * @return {PointEditorView}
    */
-  setEndTime(value) {
-    const properties = {
-      value,
-    };
+  setEndTime(time) {
+    const element = this.querySelector('[name="event-end-time"]');
 
-    return this.set('[name="event-end-time"]', properties);
+    element.value = time;
+
+    return this;
   }
 
   /**
    * Устанавливает цену
-   * @param {number | string} value
+   * @param {number | string} price
    * @return {PointEditorView}
    */
-  setPrice(value) {
-    const properties = {
-      value,
-    };
+  setPrice(price) {
+    const element = this.querySelector('.event__input--price');
 
-    return this.set('.event__input--price', properties);
+    element.value = price;
+
+    return this;
   }
 
   /**
@@ -131,7 +134,11 @@ export default class PointEditorView extends BaseView {
    * @return {PointEditorView}
    */
   setDestinationDescription(description) {
-    return this.set('.event__destination-description', description);
+    const element = this.querySelector('.event__destination-description');
+
+    element.textContent = description;
+
+    return this;
   }
 }
 

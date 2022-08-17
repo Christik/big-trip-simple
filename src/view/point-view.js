@@ -18,7 +18,11 @@ export default class PointView extends BaseView {
    * @return {PointView}
    */
   setTitle(title) {
-    return this.set('.event__title', title);
+    const element = this.querySelector('.event__title');
+
+    element.textContent = title;
+
+    return this;
   }
 
   /**
@@ -27,12 +31,12 @@ export default class PointView extends BaseView {
    * @return {PointView}
    */
   setIcon(name) {
+    const element = this.querySelector('.event__type-icon');
     const url = `img/icons/${name}.png`;
-    const properties = {
-      src: url,
-    };
 
-    return this.set('.event__type-icon', properties);
+    element.src = url;
+
+    return this;
   }
 
   /**
@@ -42,12 +46,12 @@ export default class PointView extends BaseView {
    * @return {PointView}
    */
   setDate(dateForHuman, dateForMachine) {
-    const properties = {
-      textContent: dateForHuman,
-      datetime: dateForMachine,
-    };
+    const element = this.querySelector('.event__date');
 
-    return this.set('.event__date', properties);
+    element.textContent = dateForHuman;
+    element.datetime = dateForMachine;
+
+    return this;
   }
 
   /**
@@ -57,12 +61,12 @@ export default class PointView extends BaseView {
    * @return {PointView}
    */
   setStartTime(timeForHuman, timeForMachine) {
-    const properties = {
-      textContent: timeForHuman,
-      datetime: timeForMachine,
-    };
+    const element = this.querySelector('.event__start-time');
 
-    return this.set('.event__start-time', properties);
+    element.textContent = timeForHuman;
+    element.datetime = timeForMachine;
+
+    return this;
   }
 
   /**
@@ -72,12 +76,12 @@ export default class PointView extends BaseView {
    * @return {PointView}
    */
   setEndTime(timeForHuman, timeForMachine) {
-    const properties = {
-      textContent: timeForHuman,
-      datetime: timeForMachine,
-    };
+    const element = this.querySelector('.event__end-time');
 
-    return this.set('.event__end-time', properties);
+    element.textContent = timeForHuman;
+    element.datetime = timeForMachine;
+
+    return this;
   }
 
   /**
@@ -86,7 +90,11 @@ export default class PointView extends BaseView {
    * @return {PointView}
    */
   setPrice(price) {
-    return this.set('.event__price-value', price);
+    const element = this.querySelector('.event__price-value');
+
+    element.textContent = price;
+
+    return this;
   }
 
   /**

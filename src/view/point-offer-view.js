@@ -23,7 +23,11 @@ export default class PointOfferView extends BaseView {
    * @returns {PointOfferView}
    */
   setTitle(title) {
-    return this.set('.event__offer-title', title);
+    const element = this.querySelector('.event__offer-title');
+
+    element.textContent = title;
+
+    return this;
   }
 
   /**
@@ -32,7 +36,11 @@ export default class PointOfferView extends BaseView {
    * @returns {PointOfferView}
    */
   setPrice(price) {
-    return this.set('.event__offer-price', price);
+    const element = this.querySelector('.event__offer-price');
+
+    element.textContent = price;
+
+    return this;
   }
 }
 

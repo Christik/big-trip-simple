@@ -14,29 +14,50 @@ export default class OfferSelectorView extends BaseView {
     return createOfferSelectorTemplate();
   }
 
+  /**
+   * Устанавливает значения для input[type=checkbox]
+   * @param {number | string} id
+   * @param {string} type
+   * @param {boolean} isChecked
+   * @return {OfferSelectorView}
+   */
   setInput(id, type, isChecked) {
+    const inputElement = this.querySelector('.event__offer-checkbox');
+    const labelElement = this.querySelector('.event__offer-label');
     const uniqueName = `event-offer-${type}-${id}`;
-    const inputProperties = {
-      id: uniqueName,
-      name: uniqueName,
-      checked: isChecked,
-    };
-    const labelProperties = {
-      htmlFor: uniqueName,
-    };
 
-    this.set('.event__offer-checkbox', inputProperties);
-    this.set('.event__offer-label', labelProperties);
+    inputElement.id = uniqueName;
+    inputElement.name = uniqueName;
+    inputElement.checked = isChecked;
+    labelElement.htmlFor = uniqueName;
 
     return this;
   }
 
+  /**
+   * Устанавливает название оффера
+   * @param {string} title
+   * @return {OfferSelectorView}
+   */
   setTitle(title) {
-    return this.set('.event__offer-title', title);
+    const element = this.querySelector('.event__offer-title');
+
+    element.textContent = title;
+
+    return this;
   }
 
+  /**
+   * Устанавливает цену
+   * @param {number | string} price
+   * @return {OfferSelectorView}
+   */
   setPrice(price) {
-    return this.set('.event__offer-price', price);
+    const element = this.querySelector('.event__offer-price');
+
+    element.textContent = price;
+
+    return this;
   }
 }
 

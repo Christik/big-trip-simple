@@ -45,7 +45,7 @@ export default class PointEditorView extends BaseView {
 
   /**
    * Устанавливает название типа
-   * @param {PointType} type
+   * @param {string} type
    */
   setTypeName(type) {
     const view = this.querySelector('.event__type-output');

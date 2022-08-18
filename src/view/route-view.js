@@ -1,18 +1,15 @@
 import BaseView from './base-view.js';
+import { createRouteView } from './route-template.js';
 
 /**
  * Представление маршрута со списком точек остановки
  */
 export default class RouteView extends BaseView {
-  constructor() {
-    super();
-    this.classList.add('trip-events__list');
-  }
-
-  connectedCallback() {
-    [...this.children].forEach((view) => {
-      view.classList.add('trip-events__item');
-    });
+  /**
+   * @override
+   */
+  createView() {
+    return createRouteView();
   }
 }
 

@@ -1,5 +1,6 @@
 import RouteModel from '../model/route-model.js';
 import RouteView from '../view/route-view.js';
+import PointListView from '../view/point-list-view.js';
 import PointOfferView from '../view/point-offer-view.js';
 import PointView from '../view/point-view.js';
 import TypeListItemView from '../view/type-list-item-view.js';
@@ -149,21 +150,23 @@ export default class RoutePresenter {
 
   /**
    * Отрисовывает все точки маршрута
-   * @param {HTMLElement} containerView
+   * @param {Element} containerView
    */
   init(containerView) {
     const points = this.model.points;
     const routeView = new RouteView();
+    const pointListView = new PointListView();
 
     this.updatePointEditorView(points[0]);
-    routeView.append(this.pointEditorView);
+    pointListView.append(this.pointEditorView);
 
     points.forEach((point) => {
       const pointView = this.createPointView(point);
 
-      routeView.append(pointView);
+      pointListView.append(pointView);
     });
 
+    routeView.append(pointListView);
     containerView.append(routeView);
   }
 }

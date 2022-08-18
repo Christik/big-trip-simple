@@ -61,6 +61,14 @@ export default class RoutePresenter {
       .setPrice(price)
       .replaceOffers(...offerViews);
 
+    pointView.addEventListener('expand', () => {
+      this.pointEditorView.close();
+      this.updatePointEditorView(point);
+      this.pointEditorView
+        .link(pointView)
+        .open();
+    });
+
     return pointView;
   }
 
@@ -156,9 +164,6 @@ export default class RoutePresenter {
     const points = this.model.points;
     const routeView = new RouteView();
     const pointListView = new PointListView();
-
-    this.updatePointEditorView(points[0]);
-    pointListView.append(this.pointEditorView);
 
     points.forEach((point) => {
       const pointView = this.createPointView(point);

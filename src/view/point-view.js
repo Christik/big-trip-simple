@@ -7,6 +7,13 @@ import { createPointView } from './point-template.js';
 export default class PointView extends BaseView {
   constructor() {
     super();
+
+    const expandButtonView = this.querySelector('.event__rollup-btn');
+
+    expandButtonView.addEventListener('click', () => {
+      const expandEvent = new CustomEvent('expand');
+      this.dispatchEvent(expandEvent);
+    });
   }
 
   /**

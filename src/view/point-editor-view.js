@@ -1,12 +1,23 @@
 import BaseView from './base-view.js';
 import { createPointEditorView } from './point-editor-template.js';
+import { isKeyEscape } from '../utils.js';
 
 /**
  * Представление формы редактирования точки маршрута
  */
 export default class PointEditorView extends BaseView {
+  #linked = null;
+  bodyView = this.querySelector('.event__details');
+  offersContainerView = this.querySelector('.event__section--offers');
+
   constructor() {
     super();
+
+    const expandButtonView = this.querySelector('.event__rollup-btn');
+
+    expandButtonView.addEventListener('click', () => {
+      this.close();
+    });
   }
 
   /**
@@ -14,6 +25,36 @@ export default class PointEditorView extends BaseView {
    */
   createView() {
     return createPointEditorView();
+  }
+
+  /**
+   * Создает связь между текущей формой и точкой маршрута
+   * @param {HTMLElement} view
+   */
+  link(view) {
+    this.#linked = view;
+
+    return this;
+  }
+
+  /**
+   * Отрисовывает форму вместо точки маршрута
+   */
+  open() {
+    this.#linked.replaceWith(this);
+    document.addEventListener('keydown', this);
+
+    return this;
+  }
+
+  /**
+   * Закрывает форму и отрисовывает точку маршрута
+   */
+  close() {
+    this.replaceWith(this.#linked);
+    document.removeEventListener('keydown', this);
+
+    return this;
   }
 
   /**
@@ -120,12 +161,18 @@ export default class PointEditorView extends BaseView {
    * @param {HTMLElement[]} offerViews
    */
   replaceOffers(...offerViews) {
-    const containerView = this.querySelector('.event__section--offers');
+    const areOffersEmpty = (offerViews.length === 0);
 
-    if (offerViews.length === 0) {
-      containerView.remove();
+    if (areOffersEmpty) {
+      this.offersContainerView?.remove();
 
       return this;
+    }
+
+    const isOffersContainerNotExist = !this.bodyView.contains(this.offersContainerView);
+
+    if (isOffersContainerNotExist) {
+      this.bodyView.prepend(this.offersContainerView);
     }
 
     const listView = this.querySelector('.event__available-offers');
@@ -145,6 +192,15 @@ export default class PointEditorView extends BaseView {
     view.textContent = description;
 
     return this;
+  }
+
+  /**
+   * Обработчик нажатия клавиши Escape
+   */
+  handleEvent(event) {
+    if (isKeyEscape(event)) {
+      this.close();
+    }
   }
 }
 

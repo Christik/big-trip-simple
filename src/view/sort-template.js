@@ -1,4 +1,4 @@
-const createAdjacentHtmlSort = () => /*html*/ `
+export const createSortTemplate = () => /*html*/ `
   <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
     <div class="trip-sort__item  trip-sort__item--day">
       <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day">
@@ -22,5 +22,3 @@ const createAdjacentHtmlSort = () => /*html*/ `
     </div>
   </form>
 `;
-
-export { createAdjacentHtmlSort };

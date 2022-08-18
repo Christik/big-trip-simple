@@ -1,21 +1,32 @@
-import TripRouteView from '../view/trip-route-view.js';
-import TripPointView from '../view/trip-point-view';
-import TripNewPointView from '../view/trip-new-point-view';
-import TripPointEditorView from '../view/trip-point-editor-view';
+import RouteView from '../view/route-view.js';
+import { createPointEditorElement } from './point-editor-element.js';
+import { createPointElement } from './point-element.js';
+import PointsModel from '../model/points-model.js';
 
+/**
+ * Презентер для маршрута со списком точек остановки
+ */
 export default class RoutePresenter {
-  routeElement = new TripRouteView();
-
+  /**
+   * Отрисовывает все точки маршрута
+   * @param {HTMLElement} containerElement
+   */
   init(containerElement) {
-    this.containerElement = containerElement;
+    const pointsModel = new PointsModel();
+    const points = pointsModel.get();
+    const routeElement = new RouteView();
+    const pointEditorElement = createPointEditorElement(points[0]);
+    const fragment = document.createDocumentFragment();
 
-    this.routeElement.append(new TripNewPointView());
-    this.routeElement.append(new TripPointEditorView());
+    fragment.append(pointEditorElement);
 
-    for (let i = 0; i < 3; i++) {
-      this.routeElement.append(new TripPointView());
-    }
+    points.forEach((point) => {
+      const pointElement = createPointElement(point);
 
-    containerElement.append(this.routeElement);
+      fragment.append(pointElement);
+    });
+
+    routeElement.append(fragment);
+    containerElement.append(routeElement);
   }
 }

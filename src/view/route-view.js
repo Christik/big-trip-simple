@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createRouteView } from './route-template.js';
+import { createRouteView } from './templates/route-template.js';
 
 /**
  * Представление маршрута со списком точек остановки

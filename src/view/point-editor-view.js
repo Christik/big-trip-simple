@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createPointEditorView } from './point-editor-template.js';
+import { createPointEditorView } from './templates/point-editor-template.js';
 import { isKeyEscape } from '../utils.js';
 
 /**
@@ -7,6 +7,7 @@ import { isKeyEscape } from '../utils.js';
  */
 export default class PointEditorView extends BaseView {
   #linked = null;
+
   bodyView = this.querySelector('.event__details');
   offersContainerView = this.querySelector('.event__section--offers');
 

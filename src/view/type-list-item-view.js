@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createTypeListItemView } from './type-list-item-template.js';
+import { createTypeListItemView } from './templates/type-list-item-template.js';
 
 /**
  * Представление пункта из списка типов

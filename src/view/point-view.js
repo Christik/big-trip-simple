@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createPointView } from './point-template.js';
+import { createPointView } from './templates/point-template.js';
 
 /**
  * Представление точки маршрута

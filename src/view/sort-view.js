@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createSortView } from './sort-template.js';
+import { createSortView } from './templates/sort-template.js';
 
 export default class SortView extends BaseView {
   /**

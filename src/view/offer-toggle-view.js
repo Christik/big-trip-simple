@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createOfferToggleView } from './offer-toggle-template.js';
+import { createOfferToggleView } from './templates/offer-toggle-template.js';
 
 /**
  * Представление для чекбокса офера в форме точки маршрута

@@ -31,6 +31,8 @@ export default class RouteModel {
   get points() {
     const points = Array.from({length: 20}, generatePoint);
 
+    // return [];
+
     return points.map((point) => {
       /**
        * @type {AggregatedPoint}

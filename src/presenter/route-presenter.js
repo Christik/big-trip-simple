@@ -1,5 +1,7 @@
 import RouteModel from '../model/route-model.js';
 import RouteView from '../view/route-view.js';
+import RouteEmptyView from '../view/route-empty-view.js';
+import SortView from '../view/sort-view.js';
 import PointListView from '../view/point-list-view.js';
 import PointOfferView from '../view/point-offer-view.js';
 import PointView from '../view/point-view.js';
@@ -163,15 +165,23 @@ export default class RoutePresenter {
   init(containerView) {
     const points = this.model.points;
     const routeView = new RouteView();
+    const routeEmptyView = new RouteEmptyView();
+    const sortView = new SortView();
     const pointListView = new PointListView();
 
-    points.forEach((point) => {
-      const pointView = this.createPointView(point);
+    if (points.length === 0) {
+      routeView.append(routeEmptyView);
+    } else {
+      points.forEach((point) => {
+        const pointView = this.createPointView(point);
 
-      pointListView.append(pointView);
-    });
+        pointListView.append(pointView);
+      });
 
-    routeView.append(pointListView);
+      routeView.append(sortView);
+      routeView.append(pointListView);
+    }
+
     containerView.append(routeView);
   }
 }

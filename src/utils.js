@@ -44,14 +44,6 @@ export const capitalizeFirstLetter = (text) => {
   return `${firstLetter}${restText}`;
 };
 
-export const getOffersByType = (offerGroups, type) => {
-  const typeOffer = offerGroups.find((offerGroup) => (offerGroup.type === type));
-
-  return typeOffer.offers;
-};
-
-export const getOffersByIds = (offers, ids) => offers.filter((offer) => ids.includes(offer.id));
-
-export const getDestinationById = (destinations, id) => destinations.find((destination) => (destination.id === id));
-
 export const formatDate = (date, format) => dayjs(date).format(format);
+
+export const isKeyEscape = (event) => (event.key === 'Escape' || event.key === 'Esc');

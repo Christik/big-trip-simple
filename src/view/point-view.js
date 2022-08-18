@@ -1,39 +1,51 @@
 import BaseView from './base-view.js';
-import { createPointTemplate } from './point-template.js';
+import { createPointView } from './templates/point-template.js';
 
 /**
  * Представление точки маршрута
  */
 export default class PointView extends BaseView {
+  constructor() {
+    super();
+
+    const expandButtonView = this.querySelector('.event__rollup-btn');
+
+    expandButtonView.addEventListener('click', () => {
+      const expandEvent = new CustomEvent('expand');
+      this.dispatchEvent(expandEvent);
+    });
+  }
+
   /**
    * @override
    */
-  createTemplate() {
-    return createPointTemplate();
+  createView() {
+    return createPointView();
   }
 
   /**
    * Устанавливает заголовок
    * @param {string} title
-   * @return {PointView}
    */
   setTitle(title) {
-    const element = this.querySelector('.event__title');
+    const view = this.querySelector('.event__title');
 
-    element.textContent = title;
+    view.textContent = title;
 
     return this;
   }
 
   /**
    * Устанавливает имя иконки
-   * @param {string} name
-   * @return {PointView}
+   * @param {PointType} name
    */
   setIcon(name) {
-    const element = this.querySelector('.event__type-icon');
+    /**
+     * @type {HTMLImageElement}
+     */
+    const view = this.querySelector('.event__type-icon');
 
-    element.src = `img/icons/${name}.png`;
+    view.src = `img/icons/${name}.png`;
 
     return this;
   }
@@ -42,13 +54,15 @@ export default class PointView extends BaseView {
    * Устанавливает дату
    * @param {string} dateForHuman
    * @param {string} dateForMachine
-   * @return {PointView}
    */
   setDate(dateForHuman, dateForMachine) {
-    const element = this.querySelector('.event__date');
+    /**
+     * @type {HTMLTimeElement}
+     */
+    const view = this.querySelector('.event__date');
 
-    element.textContent = dateForHuman;
-    element.datetime = dateForMachine;
+    view.textContent = dateForHuman;
+    view.dateTime = dateForMachine;
 
     return this;
   }
@@ -57,13 +71,15 @@ export default class PointView extends BaseView {
    * Устанавливает время начала
    * @param {string} timeForHuman
    * @param {string} timeForMachine
-   * @return {PointView}
    */
   setStartTime(timeForHuman, timeForMachine) {
-    const element = this.querySelector('.event__start-time');
+    /**
+     * @type {HTMLTimeElement}
+     */
+    const view = this.querySelector('.event__start-time');
 
-    element.textContent = timeForHuman;
-    element.datetime = timeForMachine;
+    view.textContent = timeForHuman;
+    view.dateTime = timeForMachine;
 
     return this;
   }
@@ -72,41 +88,39 @@ export default class PointView extends BaseView {
    * Устанавливает время окончания
    * @param {string} timeForHuman
    * @param {string} timeForMachine
-   * @return {PointView}
    */
   setEndTime(timeForHuman, timeForMachine) {
-    const element = this.querySelector('.event__end-time');
+    /**
+     * @type {HTMLTimeElement}
+     */
+    const view = this.querySelector('.event__end-time');
 
-    element.textContent = timeForHuman;
-    element.datetime = timeForMachine;
+    view.textContent = timeForHuman;
+    view.dateTime = timeForMachine;
 
     return this;
   }
 
   /**
    * Устанавливает цену
-   * @param {number | string} price
-   * @return {PointView}
+   * @param {string} price
    */
   setPrice(price) {
-    const element = this.querySelector('.event__price-value');
+    const view = this.querySelector('.event__price-value');
 
-    element.textContent = price;
+    view.textContent = price;
 
     return this;
   }
 
   /**
    * Добавляет DOM-элементы оферов
-   * @param {HTMLElement[]} offerElements
-   * @return {PointView}
+   * @param {...HTMLElement} offerViews
    */
-  insertOffers(offerElements) {
-    const containerElement = this.querySelector('.event__selected-offers');
-    const fragment = document.createDocumentFragment();
+  replaceOffers(...offerViews) {
+    const view = this.querySelector('.event__selected-offers');
 
-    offerElements.forEach((offerElement) => fragment.append(offerElement));
-    containerElement.append(fragment);
+    view.replaceChildren(...offerViews);
 
     return this;
   }

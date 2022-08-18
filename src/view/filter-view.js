@@ -1,12 +1,12 @@
 import BaseView from './base-view.js';
-import { createFilterTemplate } from './filter-template.js';
+import { createFilterView } from './templates/filter-template.js';
 
 export default class FilterView extends BaseView {
   /**
    * @override
    */
-  createTemplate() {
-    return createFilterTemplate();
+  createView() {
+    return createFilterView();
   }
 }
 

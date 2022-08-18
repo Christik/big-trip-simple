@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createTypeListItemTemplate } from './type-list-item-template.js';
+import { createTypeListItemView } from './templates/type-list-item-template.js';
 
 /**
  * Представление пункта из списка типов
@@ -13,38 +13,42 @@ export default class TypeListItemView extends BaseView {
   /**
    * @override
    */
-  createTemplate() {
-    return createTypeListItemTemplate();
+  createView() {
+    return createTypeListItemView();
   }
 
   /**
-   * Устанавливает id и значение инпута
-   * @param {string} type
+   * Устанавливает id и значение у input
+   * @param {PointType} type
    * @param {boolean} isChecked
-   * @return {TypeListItemView}
    */
   setInput(type, isChecked) {
-    const element = this.querySelector('.event__type-input');
+    /**
+     * @type {HTMLInputElement}
+     */
+    const view = this.querySelector('.event__type-input');
 
-    element.id = `event-type-${type}-1`;
-    element.value = type;
-    element.checked = isChecked;
+    view.id = `event-type-${type}-1`;
+    view.value = type;
+    view.checked = isChecked;
 
     return this;
   }
 
   /**
    * Устанавливает заголовок
-   * @param {string} type
+   * @param {PointType} type
    * @param {string} title
-   * @return {TypeListItemView}
    */
   setLabel(type, title) {
-    const element = this.querySelector('.event__type-label');
+    /**
+     * @type {HTMLLabelElement}
+     */
+    const view = this.querySelector('.event__type-label');
 
-    element.className = `event__type-label event__type-label--${type}`;
-    element.htmlFor = `event-type-${type}-1`;
-    element.textContent = title;
+    view.className = `event__type-label event__type-label--${type}`;
+    view.htmlFor = `event-type-${type}-1`;
+    view.textContent = title;
 
     return this;
   }

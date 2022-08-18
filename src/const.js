@@ -1,3 +1,6 @@
+/**
+ * @type {PointType[]}
+ */
 const POINT_TYPES = [
   'taxi',
   'bus',

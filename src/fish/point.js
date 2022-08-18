@@ -2,8 +2,7 @@ import {
   getRandomInteger,
   getRandomArrayElement,
   createRandomizerOfUniqueInteger,
-  createCounter,
-  getOffersByType } from '../utils.js';
+  createCounter } from '../utils.js';
 import { POINT_TYPES } from '../const.js';
 import { getOfferGroups } from './offerGroups.js';
 import { getDestinations } from './destinations.js';
@@ -12,6 +11,12 @@ import dayjs from 'dayjs';
 const offerGroups = getOfferGroups();
 const allDestinations = getDestinations();
 const generatePointId = createCounter();
+
+const getOffersByType = (type) => {
+  const typeOffer = offerGroups.find((offerGroup) => (offerGroup.type === type));
+
+  return typeOffer.offers;
+};
 
 const generateBasePrice = () => {
   const randomNumber = getRandomInteger(1, 30);
@@ -36,7 +41,7 @@ const generateDateTo = (dateFrom) => {
 const generateType = (types) => getRandomArrayElement(types);
 
 const generatePointOffers = (type) => {
-  const allOffers = getOffersByType(offerGroups, type);
+  const allOffers = getOffersByType(type);
 
   if (allOffers.length === 0) {
     return [];

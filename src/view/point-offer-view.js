@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createPointOfferTemplate } from './point-offer-template.js';
+import { createPointOfferView } from './templates/point-offer-template.js';
 
 /**
  * Представление оффера в точке маршрута
@@ -13,32 +13,30 @@ export default class PointOfferView extends BaseView {
   /**
    * @override
    */
-  createTemplate() {
-    return createPointOfferTemplate();
+  createView() {
+    return createPointOfferView();
   }
 
   /**
    * Устанавливает заголовок
    * @param {string} title
-   * @returns {PointOfferView}
    */
   setTitle(title) {
-    const element = this.querySelector('.event__offer-title');
+    const view = this.querySelector('.event__offer-title');
 
-    element.textContent = title;
+    view.textContent = title;
 
     return this;
   }
 
   /**
    * Устанавливает цену
-   * @param {number | string} price
-   * @returns {PointOfferView}
+   * @param {number} price
    */
   setPrice(price) {
-    const element = this.querySelector('.event__offer-price');
+    const view = this.querySelector('.event__offer-price');
 
-    element.textContent = price;
+    view.textContent = String(price);
 
     return this;
   }

@@ -1,4 +1,4 @@
-export const createPointEditorTemplate = () => /*html*/ `
+export const createPointEditorView = () => /*html*/ `
   <form class="event event--edit" action="#" method="post">
     <header class="event__header">
       <div class="event__type-wrapper">

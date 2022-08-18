@@ -17,6 +17,9 @@ const generateDestinations = () => {
   return destinations;
 };
 
+/**
+ * @type {Destination[]}
+ */
 const allDestinations = generateDestinations();
 const getDestinations = () => allDestinations;
 

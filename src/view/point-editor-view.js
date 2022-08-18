@@ -1,67 +1,71 @@
 import BaseView from './base-view.js';
-import { createPointEditorTemplate } from './point-editor-template.js';
+import { createPointEditorView } from './point-editor-template.js';
 
 /**
  * Представление формы редактирования точки маршрута
  */
 export default class PointEditorView extends BaseView {
+  constructor() {
+    super();
+  }
+
   /**
    * @override
    */
-  createTemplate() {
-    return createPointEditorTemplate();
+  createView() {
+    return createPointEditorView();
   }
 
   /**
    * Устанавливает имя иконки
-   * @param {string} name
-   * @return {PointEditorView}
+   * @param {PointType} name
    */
   setIcon(name) {
-    const element = this.querySelector('.event__type-icon');
+    /**
+     * @type {HTMLImageElement}
+     */
+    const view = this.querySelector('.event__type-icon');
 
-    element.src = `img/icons/${name}.png`;
+    view.src = `img/icons/${name}.png`;
 
     return this;
   }
 
   /**
    * Отрисовывает выпадающий список типов
-   * @param {HTMLElement[]} typeElements
-   * @return {PointEditorView}
+   * @param {HTMLElement[]} typeViews
    */
-  insertTypeList(typeElements) {
-    const containerElement = this.querySelector('.event__type-group');
-    const fragment = document.createDocumentFragment();
+  replaceTypeList(...typeViews) {
+    const listView = this.querySelector('.event__type-group');
 
-    typeElements.forEach((element) => fragment.append(element));
-    containerElement.append(fragment);
+    listView.replaceChildren(...typeViews);
 
     return this;
   }
 
   /**
    * Устанавливает название типа
-   * @param {string} type
-   * @return {PointEditorView}
+   * @param {PointType} type
    */
   setTypeName(type) {
-    const element = this.querySelector('.event__type-output');
+    const view = this.querySelector('.event__type-output');
 
-    element.textContent = type;
+    view.textContent = type;
 
     return this;
   }
 
   /**
-   * Устанавливает город назначения
+   * Устанавливает пункт назначения
    * @param {string} destination
-   * @return {PointEditorView}
    */
   setDestinationInput(destination) {
-    const element = this.querySelector('.event__input--destination');
+    /**
+     * @type {HTMLInputElement}
+     */
+    const view = this.querySelector('.event__input--destination');
 
-    element.value = destination;
+    view.value = destination;
 
     return this;
   }
@@ -69,12 +73,14 @@ export default class PointEditorView extends BaseView {
   /**
    * Устанавливает время начала
    * @param {string} time
-   * @return {PointEditorView}
    */
   setStartTime(time) {
-    const element = this.querySelector('[name="event-start-time"]');
+    /**
+     * @type {HTMLInputElement}
+     */
+    const view = this.querySelector('[name="event-start-time"]');
 
-    element.value = time;
+    view.value = time;
 
     return this;
   }
@@ -82,47 +88,49 @@ export default class PointEditorView extends BaseView {
   /**
    * Устанавливает время окончания
    * @param {string} time
-   * @return {PointEditorView}
    */
   setEndTime(time) {
-    const element = this.querySelector('[name="event-end-time"]');
+    /**
+     * @type {HTMLInputElement}
+     */
+    const view = this.querySelector('[name="event-end-time"]');
 
-    element.value = time;
+    view.value = time;
 
     return this;
   }
 
   /**
    * Устанавливает цену
-   * @param {number | string} price
-   * @return {PointEditorView}
+   * @param {number} price
    */
   setPrice(price) {
-    const element = this.querySelector('.event__input--price');
+    /**
+     * @type {HTMLInputElement}
+     */
+    const view = this.querySelector('.event__input--price');
 
-    element.value = price;
+    view.value = String(price);
 
     return this;
   }
 
   /**
    * Отрисовывает список офферов
-   * @param {HTMLElement[]} offerElements
-   * @return {PointEditorView}
+   * @param {HTMLElement[]} offerViews
    */
-  insertOffers(offerElements) {
-    const containerElement = this.querySelector('.event__section--offers');
+  replaceOffers(...offerViews) {
+    const containerView = this.querySelector('.event__section--offers');
 
-    if (offerElements.length === 0) {
-      containerElement.remove();
+    if (offerViews.length === 0) {
+      containerView.remove();
+
       return this;
     }
 
-    const listElement = this.querySelector('.event__available-offers');
-    const fragment = document.createDocumentFragment();
+    const listView = this.querySelector('.event__available-offers');
 
-    offerElements.forEach((element) => fragment.append(element));
-    listElement.append(fragment);
+    listView.replaceChildren(...offerViews);
 
     return this;
   }
@@ -130,12 +138,11 @@ export default class PointEditorView extends BaseView {
   /**
    * Устанавливает описание города
    * @param {string} description
-   * @return {PointEditorView}
    */
   setDestinationDescription(description) {
-    const element = this.querySelector('.event__destination-description');
+    const view = this.querySelector('.event__destination-description');
 
-    element.textContent = description;
+    view.textContent = description;
 
     return this;
   }

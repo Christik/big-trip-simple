@@ -1,20 +1,17 @@
 import BaseView from './base-view.js';
-import { createRouteTemplate } from './templates/route-template.js';
 
 /**
  * Представление маршрута со списком точек остановки
  */
 export default class RouteView extends BaseView {
-  constructor() {
-    super();
-    this.classList.add('trip-events');
-  }
-
   /**
-   * @override
+   * Отрисовывает новое содержимое маршрута
+   * @param {...HTMLElement} views
    */
-  createTemplate() {
-    return createRouteTemplate();
+  replaceContent(...views) {
+    this.replaceChildren(...views);
+
+    return this;
   }
 }
 

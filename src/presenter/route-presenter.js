@@ -170,7 +170,7 @@ export default class RoutePresenter {
     const pointListView = new PointListView();
 
     if (points.length === 0) {
-      routeView.append(routeEmptyView);
+      routeView.replaceContent(routeEmptyView);
     } else {
       points.forEach((point) => {
         const pointView = this.createPointView(point);
@@ -178,8 +178,7 @@ export default class RoutePresenter {
         pointListView.append(pointView);
       });
 
-      routeView.append(sortView);
-      routeView.append(pointListView);
+      routeView.replaceContent(sortView, pointListView);
     }
 
     containerView.append(routeView);

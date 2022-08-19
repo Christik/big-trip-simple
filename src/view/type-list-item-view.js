@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createTypeListItemView } from './templates/type-list-item-template.js';
+import { createTypeListItemTemplate } from './templates/type-list-item-template.js';
 
 /**
  * Представление пункта из списка типов
@@ -13,8 +13,8 @@ export default class TypeListItemView extends BaseView {
   /**
    * @override
    */
-  createView() {
-    return createTypeListItemView();
+  createTemplate() {
+    return createTypeListItemTemplate();
   }
 
   /**

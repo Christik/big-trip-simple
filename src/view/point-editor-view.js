@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createPointEditorView } from './templates/point-editor-template.js';
+import { createPointEditorTemplate } from './templates/point-editor-template.js';
 import { isKeyEscape } from '../utils.js';
 
 /**
@@ -24,8 +24,8 @@ export default class PointEditorView extends BaseView {
   /**
    * @override
    */
-  createView() {
-    return createPointEditorView();
+  createTemplate() {
+    return createPointEditorTemplate();
   }
 
   /**

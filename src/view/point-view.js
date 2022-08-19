@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createPointView } from './templates/point-template.js';
+import { createPointTemplate } from './templates/point-template.js';
 
 /**
  * Представление точки маршрута
@@ -19,8 +19,8 @@ export default class PointView extends BaseView {
   /**
    * @override
    */
-  createView() {
-    return createPointView();
+  createTemplate() {
+    return createPointTemplate();
   }
 
   /**

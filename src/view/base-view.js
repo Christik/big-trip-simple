@@ -4,7 +4,7 @@
 export default class BaseView extends HTMLElement {
   constructor() {
     super();
-    this.insertAdjacentHTML(this.insertPosition, this.createView());
+    this.insertAdjacentHTML(this.insertPosition, this.createTemplate());
   }
 
   /**
@@ -18,7 +18,7 @@ export default class BaseView extends HTMLElement {
    * Создает дополнительную html-разметку
    * @return {string}
    */
-  createView() {
+  createTemplate() {
     return '';
   }
 }

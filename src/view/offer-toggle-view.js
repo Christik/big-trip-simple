@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createOfferToggleView } from './templates/offer-toggle-template.js';
+import { createOfferToggleTemplate } from './templates/offer-toggle-template.js';
 
 /**
  * Представление для чекбокса офера в форме точки маршрута
@@ -13,8 +13,8 @@ export default class OfferToggleView extends BaseView {
   /**
    * @override
    */
-  createView() {
-    return createOfferToggleView();
+  createTemplate() {
+    return createOfferToggleTemplate();
   }
 
   /**

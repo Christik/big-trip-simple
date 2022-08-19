@@ -1,4 +1,4 @@
-export const createPointView = () => /*html*/ `
+export const createPointTemplate = () => /*html*/ `
   <div class="event">
     <time class="event__date" datetime="2000-01-01">DEC 00</time>
     <div class="event__type">

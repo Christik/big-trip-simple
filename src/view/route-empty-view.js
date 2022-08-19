@@ -1,5 +1,5 @@
 import BaseView from './base-view.js';
-import { createRouteEmptyView } from './templates/route-empty-template.js';
+import { createRouteEmptyTemplate } from './templates/route-empty-template.js';
 
 /**
  * Представление маршрута, когда список пуст
@@ -8,8 +8,8 @@ export default class RouteEmptyView extends BaseView {
   /**
    * @override
    */
-  createView() {
-    return createRouteEmptyView();
+  createTemplate() {
+    return createRouteEmptyTemplate();
   }
 }
 

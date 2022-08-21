@@ -9,6 +9,7 @@ export default class BaseView extends HTMLElement {
 
   /**
    * Позиция дополнительной html-разметки
+   * @type {any}
    */
   get insertPosition() {
     return 'beforeend';
@@ -16,7 +17,6 @@ export default class BaseView extends HTMLElement {
 
   /**
    * Создает дополнительную html-разметку
-   * @return {string}
    */
   createTemplate() {
     return '';

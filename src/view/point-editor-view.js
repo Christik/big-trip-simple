@@ -10,13 +10,13 @@ export default class PointEditorView extends BaseView {
 
   bodyView = this.querySelector('.event__details');
   offersContainerView = this.querySelector('.event__section--offers');
+  offerListView = this.querySelector('.event__available-offers');
+  expandButtonView = this.querySelector('.event__rollup-btn');
 
   constructor() {
     super();
 
-    const expandButtonView = this.querySelector('.event__rollup-btn');
-
-    expandButtonView.addEventListener('click', () => {
+    this.expandButtonView.addEventListener('click', () => {
       this.close();
     });
   }
@@ -113,6 +113,25 @@ export default class PointEditorView extends BaseView {
   }
 
   /**
+   * Отрисовывает список пунктов назначения
+   * @param  {...string} names
+   */
+  replaceDestinationList(...names) {
+    const listView = this.querySelector('datalist');
+
+    listView.innerHTML = '';
+
+    names.forEach((name) => {
+      const optionView = document.createElement('option');
+
+      optionView.value = name;
+      listView.append(optionView);
+    });
+
+    return this;
+  }
+
+  /**
    * Устанавливает время начала
    * @param {string} time
    */
@@ -163,6 +182,7 @@ export default class PointEditorView extends BaseView {
    */
   replaceOffers(...offerViews) {
     const areOffersEmpty = (offerViews.length === 0);
+    const isOffersContainerNotExist = !this.bodyView.contains(this.offersContainerView);
 
     if (areOffersEmpty) {
       this.offersContainerView?.remove();
@@ -170,15 +190,11 @@ export default class PointEditorView extends BaseView {
       return this;
     }
 
-    const isOffersContainerNotExist = !this.bodyView.contains(this.offersContainerView);
-
     if (isOffersContainerNotExist) {
       this.bodyView.prepend(this.offersContainerView);
     }
 
-    const listView = this.querySelector('.event__available-offers');
-
-    listView.replaceChildren(...offerViews);
+    this.offerListView.replaceChildren(...offerViews);
 
     return this;
   }

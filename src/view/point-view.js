@@ -5,12 +5,12 @@ import { createPointTemplate } from './templates/point-template.js';
  * Представление точки маршрута
  */
 export default class PointView extends BaseView {
+  expandButtonView = this.querySelector('.event__rollup-btn');
+
   constructor() {
     super();
 
-    const expandButtonView = this.querySelector('.event__rollup-btn');
-
-    expandButtonView.addEventListener('click', () => {
+    this.expandButtonView.addEventListener('click', () => {
       const expandEvent = new CustomEvent('expand');
       this.dispatchEvent(expandEvent);
     });

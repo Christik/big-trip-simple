@@ -15,7 +15,12 @@ import {POINT_TYPES} from '../const.js';
  * Презентер для маршрута со списком точек остановки
  */
 export default class RoutePresenter {
-  constructor() {
+  model = null;
+  pointEditorView = null;
+  containerView = null;
+
+  constructor(containerView) {
+    this.containerView = containerView;
     this.model = new RouteModel();
     this.pointEditorView = new PointEditorView();
   }
@@ -80,10 +85,10 @@ export default class RoutePresenter {
    * @param {boolean} isChecked
    */
   createTypeListItemView(type, isChecked = false) {
-    const element = new TypeListItemView();
+    const view = new TypeListItemView();
     const title = capitalizeFirstLetter(type);
 
-    return element
+    return view
       .setInput(type, isChecked)
       .setLabel(type, title);
   }
@@ -107,9 +112,9 @@ export default class RoutePresenter {
    * @param {PointType} type
    */
   createOfferToggleView(offer, isChecked = false, type) {
-    const element = new OfferToggleView();
+    const view = new OfferToggleView();
 
-    return element
+    return view
       .setInput(offer.id, type, isChecked)
       .setTitle(offer.title)
       .setPrice(offer.price);
@@ -146,11 +151,14 @@ export default class RoutePresenter {
     const endTime = formatDate(point.dateTo, 'HH:mm');
     const endDateTime = `${endDate} ${endTime}`;
 
+    const destinationNames = this.model.destinations.map((destination) => destination.name);
+
     return this.pointEditorView
       .setIcon(point.type)
       .replaceTypeList(...typeListItemViews)
       .setTypeName(typeTitle)
       .setDestinationInput(point.destination.name)
+      .replaceDestinationList(...destinationNames)
       .setStartTime(startDateTime)
       .setEndTime(endDateTime)
       .setPrice(point.basePrice)
@@ -160,16 +168,16 @@ export default class RoutePresenter {
 
   /**
    * Отрисовывает все точки маршрута
-   * @param {Element} containerView
    */
-  init(containerView) {
+  init() {
     const points = this.model.points;
     const routeView = new RouteView();
     const routeEmptyView = new RouteEmptyView();
     const sortView = new SortView();
     const pointListView = new PointListView();
+    const isRouteEmpty = (points.length === 0);
 
-    if (points.length === 0) {
+    if (isRouteEmpty) {
       routeView.replaceContent(routeEmptyView);
     } else {
       points.forEach((point) => {
@@ -181,6 +189,6 @@ export default class RoutePresenter {
       routeView.replaceContent(sortView, pointListView);
     }
 
-    containerView.append(routeView);
+    this.containerView.append(routeView);
   }
 }

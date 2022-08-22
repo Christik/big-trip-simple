@@ -1,13 +1,7 @@
-import BaseView from './base-view.js';
+import ComponentView from './component-view.js';
 
-/**
- * Представление маршрута со списком точек остановки
- */
-export default class RouteView extends BaseView {
-  /**
-   * Отрисовывает новое содержимое маршрута
-   * @param {...HTMLElement} views
-   */
+export default class RouteView extends ComponentView {
+  /** @param {...HTMLElement} views */
   replaceContent(...views) {
     this.replaceChildren(...views);
 
@@ -15,4 +9,6 @@ export default class RouteView extends BaseView {
   }
 }
 
-customElements.define('trip-route', RouteView);
+document.querySelector(String(RouteView));
+
+customElements.define(String(RouteView), RouteView);

@@ -749,6 +749,10 @@ main {
   font-size: 23px;
   line-height: 27px; }
 
+.event__section {
+  display: block; }
+.event__section[hidden] {
+  display: none; }
 .event__section:not(:last-child) {
   margin-bottom: 28px; }
 

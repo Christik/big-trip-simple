@@ -1,7 +1,12 @@
 import ComponentView, { html } from './component-view.js';
+import PointOffersView from './point/point-offers-view.js';
+import { getIconUrl } from '../utils.js';
 
 export default class PointView extends ComponentView {
   expandButtonView = this.querySelector('.event__rollup-btn');
+
+  /** @type {PointOffersView} */
+  pointOffersView = this.querySelector(String(PointOffersView));
 
   constructor() {
     super();
@@ -32,8 +37,7 @@ export default class PointView extends ComponentView {
           &euro;&nbsp;<span class="event__price-value">0</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
-        <div class="event__selected-offers">
-        </div>
+        ${PointOffersView}
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
         </button>
@@ -55,7 +59,7 @@ export default class PointView extends ComponentView {
     /** @type {HTMLImageElement} */
     const view = this.querySelector('.event__type-icon');
 
-    view.src = `img/icons/${name}.png`;
+    view.src = getIconUrl(name);
 
     return this;
   }
@@ -107,15 +111,6 @@ export default class PointView extends ComponentView {
     const view = this.querySelector('.event__price-value');
 
     view.textContent = price;
-
-    return this;
-  }
-
-  /** @param {...PointOfferView} offerViews */
-  replaceOffers(...offerViews) {
-    const view = this.querySelector('.event__selected-offers');
-
-    view.replaceChildren(...offerViews);
 
     return this;
   }

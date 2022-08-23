@@ -3,9 +3,7 @@ import RouteView from '../view/route-view.js';
 import RouteEmptyView from '../view/route-empty-view.js';
 import SortView from '../view/sort-view.js';
 import PointListView from '../view/point-list-view.js';
-import PointOfferView from '../view/point/point-offer-view.js';
 import PointView from '../view/point-view.js';
-import OfferOptionView from '../view/form/offer-option-view.js';
 import PointEditorView from '../view/point-editor-view.js';
 import { capitalizeFirstLetter, formatDate } from '../utils.js';
 import {POINT_TYPES} from '../const.js';
@@ -19,39 +17,24 @@ export default class RoutePresenter {
     this.containerView = containerView;
   }
 
-  /**
-  * Создает DOM-элемент оффера
-  * @param {Offer} offer
-  */
-  createPointOfferView(offer) {
-    return new PointOfferView()
-      .setTitle(offer.title)
-      .setPrice(offer.price);
-  }
-
-  /**
-   * Создает массив с DOM-элементами офферов
-   * @param {Offer[]} offers
-   */
-  createPointOfferViews(offers) {
-    return offers.map(this.createPointOfferView);
-  }
-
   /** @param {PointAdapter} point */
   createPointView(point) {
-    const destination = this.model.getDestinationById(point.destinationId);
-    const offers = this.model.getOffers(point.type, point.offerIds);
-
     const view = new PointView();
+    const destination = this.model.getDestinationById(point.destinationId);
     const title = `${point.type} ${destination.name}`;
+    const price = String(point.basePrice);
+
     const dateForHuman = formatDate(point.startDate, 'MMM D');
     const dateForMachine = formatDate(point.startDate, 'YYYY-MM-DD');
     const startTimeForHuman = formatDate(point.startDate, 'HH:mm');
+
     const startTimeForMachine = formatDate(point.startDate, 'YYYY-MM-[DD]T[HH]:mm');
     const endTimeForHuman = formatDate(point.endDate, 'HH:mm');
     const endTimeForMachine = formatDate(point.endDate, 'YYYY-MM-[DD]T[HH]:mm');
-    const price = String(point.basePrice);
-    const offerViews = this.createPointOfferViews(offers);
+
+    const offers = this.model.getOffers(point.type, point.offerIds);
+    /** @type {[string, number][]} */
+    const offersOptions = offers.map((offer) => [offer.title, offer.price]);
 
     view
       .setTitle(title)
@@ -59,8 +42,9 @@ export default class RoutePresenter {
       .setDate(dateForHuman, dateForMachine)
       .setStartTime(startTimeForHuman, startTimeForMachine)
       .setEndTime(endTimeForHuman, endTimeForMachine)
-      .setPrice(price)
-      .replaceOffers(...offerViews);
+      .setPrice(price);
+
+    view.pointOffersView.setOptions(offersOptions);
 
     view.addEventListener('expand', () => {
       this.pointEditorView.close();
@@ -71,35 +55,6 @@ export default class RoutePresenter {
     });
 
     return view;
-  }
-
-  /**
-   * Создает DOM-элемент для переключателя оффера
-   * @param {Offer} offer
-   * @param {boolean} isChecked
-   * @param {PointType} type
-   */
-  createOfferToggleView(offer, isChecked = false, type) {
-    const view = new OfferOptionView();
-
-    return view
-      .setInput(offer.id, type, isChecked)
-      .setTitle(offer.title)
-      .setPrice(offer.price);
-  }
-
-  /**
-   * Создает массив с DOM-элементами всех переключателей офферов
-   * @param {Offer[]} checkedOffers
-   * @param {PointType} type
-   */
-  createOfferToggleViews(checkedOffers, type) {
-    const allOffers = this.model.getAvailableOffers(type);
-
-    return allOffers.map((offer) => {
-      const isChecked = checkedOffers.find((checkedOffer) => (checkedOffer.id === offer.id));
-      return this.createOfferToggleView(offer, Boolean(isChecked), type);
-    });
   }
 
   /** @param {PointAdapter} point */

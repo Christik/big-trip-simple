@@ -1,12 +1,12 @@
 import ComponentView, {html} from '../component-view.js';
 import TypeOptionView from './type-option-view.js';
+import { getIconUrl } from '../../utils.js';
 
 export default class TypeSelectView extends ComponentView {
   constructor() {
     super(...arguments);
 
     this.classList.add('event__type-wrapper');
-
     this.addEventListener('change', this.onChange);
   }
 
@@ -34,7 +34,7 @@ export default class TypeSelectView extends ComponentView {
     /** @type {HTMLImageElement} */
     const view = this.querySelector('.event__type-icon');
 
-    view.src = `img/icons/${type}.png`;
+    view.src = getIconUrl(type);
 
     return this;
   }
@@ -49,14 +49,14 @@ export default class TypeSelectView extends ComponentView {
     return this;
   }
 
-  /** @param {PointType} type */
+  /** @param {string} type */
   select(type) {
     /** @type {HTMLInputElement} */
     const inputView = this.querySelector(`[value="${type}"]`);
     const imgView = this.querySelector('img');
 
     inputView.checked = true;
-    imgView.src = `img/icons/${type}.png`;
+    imgView.src = getIconUrl(type);
 
     return this.expand(false);
   }
@@ -67,9 +67,7 @@ export default class TypeSelectView extends ComponentView {
     return this;
   }
 
-  /**
-   * @param {Event & {target: HTMLInputElement}} event
-   */
+  /** @param {Event & {target: HTMLInputElement}} event */
   onChange(event) {
     const { type, value, checked } = event.target;
 

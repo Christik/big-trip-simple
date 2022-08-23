@@ -2,35 +2,18 @@ import ComponentView, { html } from '../component-view.js';
 
 export default class PointOfferView extends ComponentView {
   constructor() {
-    super();
+    super(...arguments);
+
     this.classList.add('event__offer');
   }
 
   /** @override */
-  createTemplate() {
+  createTemplate(title, price) {
     return html`
-      <span class="event__offer-title">Title</span>
+      <span class="event__offer-title">${title}</span>
       &plus;&euro;&nbsp;
-      <span class="event__offer-price">0</span>
+      <span class="event__offer-price">${price}</span>
     `;
-  }
-
-  /** @param {string} title */
-  setTitle(title) {
-    const view = this.querySelector('.event__offer-title');
-
-    view.textContent = title;
-
-    return this;
-  }
-
-  /** @param {number} price */
-  setPrice(price) {
-    const view = this.querySelector('.event__offer-price');
-
-    view.textContent = String(price);
-
-    return this;
   }
 }
 

@@ -1,32 +1,51 @@
-import BaseView from './base-view.js';
-import { createPointView } from './templates/point-template.js';
+import ComponentView, { html } from './component-view.js';
+import PointOffersView from './point/point-offers-view.js';
+import { getIconUrl } from '../utils.js';
 
-/**
- * Представление точки маршрута
- */
-export default class PointView extends BaseView {
+export default class PointView extends ComponentView {
+  expandButtonView = this.querySelector('.event__rollup-btn');
+
+  /** @type {PointOffersView} */
+  pointOffersView = this.querySelector(String(PointOffersView));
+
   constructor() {
     super();
 
-    const expandButtonView = this.querySelector('.event__rollup-btn');
-
-    expandButtonView.addEventListener('click', () => {
+    this.expandButtonView.addEventListener('click', () => {
       const expandEvent = new CustomEvent('expand');
       this.dispatchEvent(expandEvent);
     });
   }
 
-  /**
-   * @override
-   */
-  createView() {
-    return createPointView();
+  /** @override */
+  createTemplate() {
+    return html`
+      <div class="event">
+        <time class="event__date" datetime="2000-01-01">DEC 00</time>
+        <div class="event__type">
+          <img class="event__type-icon" width="42" height="42" src="img/icons/name.png" alt="Event type icon">
+        </div>
+        <h3 class="event__title">Type City</h3>
+        <div class="event__schedule">
+          <p class="event__time">
+            <time class="event__start-time" datetime="2000-01-01T00:00">00:00</time>
+            &mdash;
+            <time class="event__end-time" datetime="2000-01-01T00:00">00:00</time>
+          </p>
+        </div>
+        <p class="event__price">
+          &euro;&nbsp;<span class="event__price-value">0</span>
+        </p>
+        <h4 class="visually-hidden">Offers:</h4>
+        ${PointOffersView}
+        <button class="event__rollup-btn" type="button">
+          <span class="visually-hidden">Open event</span>
+        </button>
+      </div>
+    `;
   }
 
-  /**
-   * Устанавливает заголовок
-   * @param {string} title
-   */
+  /** @param {string} title */
   setTitle(title) {
     const view = this.querySelector('.event__title');
 
@@ -35,30 +54,22 @@ export default class PointView extends BaseView {
     return this;
   }
 
-  /**
-   * Устанавливает имя иконки
-   * @param {PointType} name
-   */
+  /** @param {PointType} name */
   setIcon(name) {
-    /**
-     * @type {HTMLImageElement}
-     */
+    /** @type {HTMLImageElement} */
     const view = this.querySelector('.event__type-icon');
 
-    view.src = `img/icons/${name}.png`;
+    view.src = getIconUrl(name);
 
     return this;
   }
 
   /**
-   * Устанавливает дату
    * @param {string} dateForHuman
    * @param {string} dateForMachine
    */
   setDate(dateForHuman, dateForMachine) {
-    /**
-     * @type {HTMLTimeElement}
-     */
+    /** @type {HTMLTimeElement} */
     const view = this.querySelector('.event__date');
 
     view.textContent = dateForHuman;
@@ -68,14 +79,11 @@ export default class PointView extends BaseView {
   }
 
   /**
-   * Устанавливает время начала
    * @param {string} timeForHuman
    * @param {string} timeForMachine
    */
   setStartTime(timeForHuman, timeForMachine) {
-    /**
-     * @type {HTMLTimeElement}
-     */
+    /** @type {HTMLTimeElement} */
     const view = this.querySelector('.event__start-time');
 
     view.textContent = timeForHuman;
@@ -85,14 +93,11 @@ export default class PointView extends BaseView {
   }
 
   /**
-   * Устанавливает время окончания
    * @param {string} timeForHuman
    * @param {string} timeForMachine
    */
   setEndTime(timeForHuman, timeForMachine) {
-    /**
-     * @type {HTMLTimeElement}
-     */
+    /** @type {HTMLTimeElement} */
     const view = this.querySelector('.event__end-time');
 
     view.textContent = timeForHuman;
@@ -101,10 +106,7 @@ export default class PointView extends BaseView {
     return this;
   }
 
-  /**
-   * Устанавливает цену
-   * @param {string} price
-   */
+  /** @param {string} price */
   setPrice(price) {
     const view = this.querySelector('.event__price-value');
 
@@ -112,18 +114,6 @@ export default class PointView extends BaseView {
 
     return this;
   }
-
-  /**
-   * Добавляет DOM-элементы оферов
-   * @param {...HTMLElement} offerViews
-   */
-  replaceOffers(...offerViews) {
-    const view = this.querySelector('.event__selected-offers');
-
-    view.replaceChildren(...offerViews);
-
-    return this;
-  }
 }
 
-customElements.define('trip-point', PointView);
+customElements.define(String(PointView), PointView);

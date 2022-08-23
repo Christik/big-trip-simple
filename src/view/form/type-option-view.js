@@ -1,22 +1,37 @@
-import BaseView from './base-view.js';
-import { createTypeListItemView } from './templates/type-list-item-template.js';
+import ComponentView, { html } from '../component-view.js';
 
-/**
- * Представление пункта из списка типов
- */
-export default class TypeListItemView extends BaseView {
+export default class TypeOptionView extends ComponentView {
   constructor() {
-    super();
+    super(...arguments);
+
     this.classList.add('event__type-item');
   }
 
   /**
    * @override
+   * @param {string} label
+   * @param {PointType} value
    */
-  createView() {
-    return createTypeListItemView();
+  createTemplate(label, value, isChecked) {
+    return html`
+      <input 
+        id="event-type-${value}-1" 
+        class="event__type-input  visually-hidden" 
+        type="radio" 
+        name="event-type" 
+        value="${value}"
+        ${isChecked ? 'checked' : ''}
+      >
+      <label 
+        class="event__type-label event__type-label--${value}" 
+        for="event-type-${value}-1"
+      >
+        ${label}
+      </label>
+    `;
   }
 
+  //TODO: убрать методы
   /**
    * Устанавливает id и значение у input
    * @param {PointType} type
@@ -54,4 +69,4 @@ export default class TypeListItemView extends BaseView {
   }
 }
 
-customElements.define('trip-type-list-item', TypeListItemView);
+customElements.define(String(TypeOptionView), TypeOptionView);

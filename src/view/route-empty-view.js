@@ -1,16 +1,12 @@
-import BaseView from './base-view.js';
-import { createRouteEmptyView } from './templates/route-empty-template.js';
+import ComponentView, { html } from './component-view.js';
 
-/**
- * Представление маршрута, когда список пуст
- */
-export default class RouteEmptyView extends BaseView {
-  /**
-   * @override
-   */
-  createView() {
-    return createRouteEmptyView();
+export default class RouteEmptyView extends ComponentView {
+  /** @override */
+  createTemplate() {
+    return html`
+      <p class="trip-events__msg">Click New Event to create your first point</p>
+    `;
   }
 }
 
-customElements.define('trip-route-empty', RouteEmptyView);
+customElements.define(String(RouteEmptyView), RouteEmptyView);

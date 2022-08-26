@@ -1,21 +1,24 @@
 import RouteModel from '../model/route-model.js';
 import RouteView from '../view/route-view.js';
-import RouteEmptyView from '../view/route-empty-view.js';
-import SortView from '../view/sort-view.js';
-import PointListView from '../view/point-list-view.js';
 import PointView from '../view/point-view.js';
 import PointEditorView from '../view/point-editor-view.js';
 import { capitalizeFirstLetter, formatDate } from '../utils.js';
 import {POINT_TYPES} from '../const.js';
 
 export default class RoutePresenter {
-  constructor(containerView) {
+  constructor() {
     this.model = new RouteModel();
-    this.pointEditorView = new PointEditorView();
-    this.containerView = containerView;
+    this.editorView = new PointEditorView();
+
+    /**
+     * @type {RouteView}
+     */
+    this.view = document.querySelector(String(RouteView));
   }
 
-  /** @param {PointAdapter} point */
+  /**
+   * @param {PointAdapter} point
+   */
   createPointView(point) {
     const view = new PointView();
     const destination = this.model.getDestinationById(point.destinationId);
@@ -31,7 +34,10 @@ export default class RoutePresenter {
     const endTimeForMachine = formatDate(point.endDate, 'YYYY-MM-[DD]T[HH]:mm');
 
     const offers = this.model.getOffers(point.type, point.offerIds);
-    /** @type {[string, number][]} */
+
+    /**
+     * @type {[string, number][]}
+     */
     const offersOptions = offers.map((offer) => [offer.title, offer.price]);
 
     view
@@ -45,9 +51,9 @@ export default class RoutePresenter {
     view.pointOffersView.setOptions(offersOptions);
 
     view.addEventListener('expand', () => {
-      this.pointEditorView.close();
+      this.editorView.close();
       this.updatePointEditorView(point);
-      this.pointEditorView
+      this.editorView
         .link(view)
         .open();
     });
@@ -55,7 +61,9 @@ export default class RoutePresenter {
     return view;
   }
 
-  /** @param {PointAdapter} point */
+  /**
+   * @param {PointAdapter} point
+   */
   updatePointEditorView(point) {
     const typeTitle = capitalizeFirstLetter(point.type);
     const destination = this.model.getDestinationById(point.destinationId);
@@ -68,7 +76,9 @@ export default class RoutePresenter {
     const endTime = formatDate(point.endDate, 'HH:mm');
     const endDateTime = `${endDate} ${endTime}`;
 
-    /** @type {[string, PointType, boolean][]} */
+    /**
+     * @type {[string, PointType, boolean][]}
+     */
     const typeSelectOptions = POINT_TYPES.map((type) => {
       const label = capitalizeFirstLetter(type);
       const isChecked = (type === point.type);
@@ -76,12 +86,16 @@ export default class RoutePresenter {
       return [label, type, isChecked];
     });
 
-    /** @type {[string, string][]} */
+    /**
+     * @type {[string, string][]}
+     */
     const destinationInputOptions = this.model.getDestinations().map(
       (item) => ['', item.name]
     );
 
-    /** @type {[number, string, number, boolean][]} */
+    /**
+     * @type {[number, string, number, boolean][]}
+     */
     const offerSelectOptions = this.model
       .getAvailableOffers(point.type)
       .map((offer) => {
@@ -90,48 +104,56 @@ export default class RoutePresenter {
         return [offer.id, offer.title, offer.price, isChecked];
       });
 
-    this.pointEditorView.typeSelectView
+    const {
+      typeSelectView,
+      destinationInputView,
+      datePickerView,
+      priceInputView,
+      offerSelectView,
+      destinationDetailsView
+    } = this.editorView;
+
+    typeSelectView
       .setIcon(point.type)
       .setOptions(typeSelectOptions);
 
-    this.pointEditorView.destinationInputView
+    destinationInputView
       .setLabel(typeTitle)
       .setValue(destination.name)
       .setOptions(destinationInputOptions);
 
-    this.pointEditorView.datePickerView.setStartDate(startDateTime);
-    this.pointEditorView.datePickerView.setEndDate(endDateTime);
-    this.pointEditorView.priceInputView.setValue(point.basePrice);
-    this.pointEditorView.offerSelectView.setOptions(offerSelectOptions);
+    datePickerView
+      .setStartDate(startDateTime)
+      .setEndDate(endDateTime);
 
-    this.pointEditorView.destinationDetailsView
+    priceInputView.setValue(point.basePrice);
+    offerSelectView.setOptions(offerSelectOptions);
+
+    destinationDetailsView
       .setDescription(destination.description);
 
-    return this.pointEditorView;
+    return this.editorView;
   }
 
   async init() {
     await this.model.ready();
 
     const points = this.model.getPoints();
-    const routeView = new RouteView();
-    const routeEmptyView = new RouteEmptyView();
-    const sortView = new SortView();
-    const pointListView = new PointListView();
     const isRouteEmpty = (points.length === 0);
 
     if (isRouteEmpty) {
-      routeView.replaceContent(routeEmptyView);
-    } else {
-      points.forEach((point) => {
-        const pointView = this.createPointView(point);
+      this.view.showPlaceholder('Click New Event to create your first point');
 
-        pointListView.append(pointView);
-      });
-
-      routeView.replaceContent(sortView, pointListView);
+      return;
     }
 
-    this.containerView.append(routeView);
+    /**
+     * @type {PointView[]}
+     */
+    const pointViews = points.map((point) => this.createPointView(point));
+
+    this.view
+      .hidePlaceholder()
+      .setPoints(...pointViews);
   }
 }

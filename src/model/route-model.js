@@ -24,7 +24,7 @@ export default class RouteModel {
   /**
    * @type {OfferGroup[]}
    */
-  #offers = null;
+  #offerGroups = null;
 
   async ready() {
     if (this.#points) {
@@ -35,7 +35,7 @@ export default class RouteModel {
 
     this.#points = Array.from({length: 20}, generatePoint);
     this.#destinations = getDestinations();
-    this.#offers = getOfferGroups();
+    this.#offerGroups = getOfferGroups();
   }
 
   getPoints() {
@@ -52,7 +52,7 @@ export default class RouteModel {
   }
 
   getOfferGroups() {
-    return clone(this.#offers);
+    return clone(this.#offerGroups);
   }
 
   /**

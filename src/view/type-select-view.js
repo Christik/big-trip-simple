@@ -85,7 +85,7 @@ export default class TypeSelectView extends ComponentView {
 
     if (type === 'checkbox') {
       this.dispatchEvent(
-        new CustomEvent(':expand', {
+        new CustomEvent('type-expand', {
           detail: checked
         })
       );
@@ -95,7 +95,7 @@ export default class TypeSelectView extends ComponentView {
 
     if (type === 'radio') {
       this.select(value).dispatchEvent(
-        new CustomEvent(':change', {
+        new CustomEvent('type-change', {
           detail: value
         })
       );

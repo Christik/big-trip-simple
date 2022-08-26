@@ -10,7 +10,7 @@ import PointAdapter from '../adapter/point-adapter.js';
  */
 const clone = (target) => JSON.parse(JSON.stringify(target));
 
-export default class RouteModel {
+export default class RouteModel extends EventTarget {
   /**
    * @type {Point[]}
    */

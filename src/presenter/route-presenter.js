@@ -2,7 +2,6 @@
 
 import RouteView from '../view/route-view.js';
 import PointView from '../view/point-view.js';
-import PointEditorView from '../view/point-editor-view.js';
 import Type from '../enum/type.js';
 import TypeLabel from '../enum/type-label.js';
 import { formatDate } from '../utils.js';
@@ -11,14 +10,14 @@ export default class RoutePresenter {
   /**
    * @param {RouteModel} model
    */
-  constructor(model) {
+  constructor(model, editorView) {
     this.model = model;
 
     /**
      * @type {RouteView}
      */
     this.view = document.querySelector(String(RouteView));
-    this.editorView = new PointEditorView();
+    this.editorView = editorView;
 
     this.model.ready().then(() => {
       const points = this.model.getPoints();

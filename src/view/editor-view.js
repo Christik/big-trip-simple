@@ -9,7 +9,7 @@ import PriceInputView from './price-input-view.js';
 import DatePickerView from './date-picker-view.js';
 import { isKeyEscape } from '../utils.js';
 
-export default class PointEditorView extends ComponentView {
+export default class EditorView extends ComponentView {
   #linked = null;
 
   constructor() {
@@ -110,4 +110,4 @@ export default class PointEditorView extends ComponentView {
   }
 }
 
-customElements.define(String(PointEditorView), PointEditorView);
+customElements.define(String(EditorView), EditorView);

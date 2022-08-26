@@ -9,6 +9,4 @@ export default class RouteView extends ComponentView {
   }
 }
 
-document.querySelector(String(RouteView));
-
 customElements.define(String(RouteView), RouteView);

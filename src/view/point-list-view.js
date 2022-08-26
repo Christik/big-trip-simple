@@ -6,6 +6,7 @@ import ComponentView from './component-view.js';
 export default class PointListView extends ComponentView {
   constructor() {
     super();
+
     this.classList.add('trip-events__list');
   }
 

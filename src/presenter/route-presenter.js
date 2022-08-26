@@ -9,11 +9,9 @@ import { capitalizeFirstLetter, formatDate } from '../utils.js';
 import {POINT_TYPES} from '../const.js';
 
 export default class RoutePresenter {
-  model = new RouteModel();
-  pointEditorView = new PointEditorView();
-  containerView = null;
-
   constructor(containerView) {
+    this.model = new RouteModel();
+    this.pointEditorView = new PointEditorView();
     this.containerView = containerView;
   }
 

@@ -10,31 +10,31 @@ import { isKeyEscape } from '../utils.js';
 export default class PointEditorView extends ComponentView {
   #linked = null;
 
-  bodyView = this.querySelector('.event__details');
-  offersContainerView = this.querySelector('.event__section--offers');
-  offerListView = this.querySelector('.event__available-offers');
-  expandButtonView = this.querySelector('.event__rollup-btn');
-
-  /** @type {TypeSelectView} */
-  typeSelectView = this.querySelector(String(TypeSelectView));
-
-  /** @type {DestinationInputView} */
-  destinationInputView = this.querySelector(String(DestinationInputView));
-
-  /** @type {PriceInputView} */
-  priceInputView = this.querySelector(String(PriceInputView));
-
-  /** @type {DatePickerView} */
-  datePickerView = this.querySelector(String(DatePickerView));
-
-  /** @type {OfferSelectView} */
-  offerSelectView = this.querySelector(String(OfferSelectView));
-
-  /** @type {DestinationDetailsView} */
-  destinationDetailsView = this.querySelector(String(DestinationDetailsView));
-
   constructor() {
     super();
+
+    this.bodyView = this.querySelector('.event__details');
+    this.offersContainerView = this.querySelector('.event__section--offers');
+    this.offerListView = this.querySelector('.event__available-offers');
+    this.expandButtonView = this.querySelector('.event__rollup-btn');
+
+    /** @type {TypeSelectView} */
+    this.typeSelectView = this.querySelector(String(TypeSelectView));
+
+    /** @type {DestinationInputView} */
+    this.destinationInputView = this.querySelector(String(DestinationInputView));
+
+    /** @type {PriceInputView} */
+    this.priceInputView = this.querySelector(String(PriceInputView));
+
+    /** @type {DatePickerView} */
+    this.datePickerView = this.querySelector(String(DatePickerView));
+
+    /** @type {OfferSelectView} */
+    this.offerSelectView = this.querySelector(String(OfferSelectView));
+
+    /** @type {DestinationDetailsView} */
+    this.destinationDetailsView = this.querySelector(String(DestinationDetailsView));
 
     this.expandButtonView.addEventListener('click', () => {
       this.close();

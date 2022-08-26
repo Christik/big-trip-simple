@@ -3,15 +3,15 @@ import PointOffersView from './point/point-offers-view.js';
 import { getIconUrl } from '../utils.js';
 
 export default class PointView extends ComponentView {
-  expandButtonView = this.querySelector('.event__rollup-btn');
-
-  /** @type {PointOffersView} */
-  pointOffersView = this.querySelector(String(PointOffersView));
-
   constructor() {
     super();
 
-    this.expandButtonView.addEventListener('click', () => {
+    /** @type {PointOffersView} */
+    this.pointOffersView = this.querySelector(String(PointOffersView));
+
+    const expandButtonView = this.querySelector('.event__rollup-btn');
+
+    expandButtonView.addEventListener('click', () => {
       const expandEvent = new CustomEvent('expand');
       this.dispatchEvent(expandEvent);
     });

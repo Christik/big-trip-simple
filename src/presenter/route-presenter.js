@@ -77,7 +77,7 @@ export default class RoutePresenter {
     });
 
     /** @type {[string, string][]} */
-    const destinationInputOptions = this.model.destinations.map(
+    const destinationInputOptions = this.model.getDestinations().map(
       (item) => ['', item.name]
     );
 
@@ -110,8 +110,10 @@ export default class RoutePresenter {
     return this.pointEditorView;
   }
 
-  init() {
-    const points = this.model.points;
+  async init() {
+    await this.model.ready();
+
+    const points = this.model.getPoints();
     const routeView = new RouteView();
     const routeEmptyView = new RouteEmptyView();
     const sortView = new SortView();

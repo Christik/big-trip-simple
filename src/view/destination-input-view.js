@@ -1,10 +1,34 @@
 import ComponentView, {html} from './component-view.js';
 
 export default class DestinationInputView extends ComponentView {
+  #options = null;
+
   constructor() {
     super(...arguments);
 
     this.classList.add('event__field-group', 'event__field-group--destination');
+
+    /**
+     * @type {HTMLInputElement}
+     */
+    this.inputView = this.querySelector('.event__input--destination');
+    this.datalistView = this.querySelector('datalist');
+
+    /**
+     * @param {Event & { target: HTMLInputElement}} event
+     */
+    const onInputChange = (event) => {
+      const value = event.target.value;
+      const isValueExist = this.#options.find((option) => (option[1] === value));
+
+      if (isValueExist) {
+        this.dispatchEvent(
+          new CustomEvent('destination-change', { detail: value })
+        );
+      }
+    };
+
+    this.inputView.addEventListener('change', onInputChange);
   }
 
   /**
@@ -43,10 +67,7 @@ export default class DestinationInputView extends ComponentView {
    * @param {string} value
    */
   setValue(value) {
-    /** @type {HTMLInputElement} */
-    const view = this.querySelector('.event__input--destination');
-
-    view.value = value;
+    this.inputView.value = value;
 
     return this;
   }
@@ -57,7 +78,8 @@ export default class DestinationInputView extends ComponentView {
   setOptions(states) {
     const views = states.map((state) => new Option(...state));
 
-    this.querySelector('datalist').replaceChildren(...views);
+    this.datalistView.replaceChildren(...views);
+    this.#options = states;
 
     return this;
   }

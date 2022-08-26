@@ -3,6 +3,7 @@
 
 import Type from '../enum/type.js';
 import TypeLabel from '../enum/type-label.js';
+import { getOfferSelectOptions } from '../utils.js';
 
 export default class EditorPresenter {
   /**
@@ -16,6 +17,7 @@ export default class EditorPresenter {
     this.model.ready().then(() => {
 
       this.view.typeSelectView.addEventListener('type-change', this);
+      this.view.destinationInputView.addEventListener('destination-change', this);
 
     });
   }
@@ -24,8 +26,16 @@ export default class EditorPresenter {
     if (event.type === 'type-change') {
       const type = event.detail;
       const typeLabel = TypeLabel[Type.findKey(type)];
+      const offerSelectOptions = getOfferSelectOptions(
+        this.model.getAvailableOffers(type)
+      );
 
       this.view.destinationInputView.setLabel(typeLabel);
+      this.view.offerSelectView.setOptions(offerSelectOptions);
+    }
+
+    if (event.type === 'destination-change') {
+      // console.log(event.detail);
     }
   }
 }

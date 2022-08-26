@@ -1,14 +1,16 @@
 /** @typedef {import('../model/route-model').default} RouteModel */
+/** @typedef {import('../view/editor-view').default} EditorView */
 
 import RouteView from '../view/route-view.js';
 import PointView from '../view/point-view.js';
 import Type from '../enum/type.js';
 import TypeLabel from '../enum/type-label.js';
-import { formatDate } from '../utils.js';
+import { formatDate, getOfferSelectOptions } from '../utils.js';
 
 export default class RoutePresenter {
   /**
    * @param {RouteModel} model
+   * @param {EditorView} model
    */
   constructor(model, editorView) {
     this.model = model;
@@ -123,13 +125,10 @@ export default class RoutePresenter {
     /**
      * @type {[number, string, number, boolean][]}
      */
-    const offerSelectOptions = this.model
-      .getAvailableOffers(point.type)
-      .map((offer) => {
-        const isChecked = (point.offerIds.includes(offer.id));
-
-        return [offer.id, offer.title, offer.price, isChecked];
-      });
+    const offerSelectOptions = getOfferSelectOptions(
+      this.model.getAvailableOffers(point.type),
+      point.offerIds
+    );
 
     const {
       typeSelectView,

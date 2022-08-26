@@ -1,6 +1,6 @@
+import Type from '../enum/type.js';
 import { generateOffer } from './offer.js';
 import { getRandomInteger } from '../utils';
-import { POINT_TYPES } from '../const.js';
 
 const generateOffersOfType = (quantity) => {
   const offers = [];
@@ -15,7 +15,7 @@ const generateOffersOfType = (quantity) => {
 const generateOfferGroups = () => {
   const groups = [];
 
-  for (const type of POINT_TYPES) {
+  for (const type of Object.values(Type)) {
     const quantity = getRandomInteger(0, 5);
     const group = {
       type: type,

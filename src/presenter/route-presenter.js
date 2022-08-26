@@ -3,8 +3,9 @@
 import RouteView from '../view/route-view.js';
 import PointView from '../view/point-view.js';
 import PointEditorView from '../view/point-editor-view.js';
-import { capitalizeFirstLetter, formatDate } from '../utils.js';
-import {POINT_TYPES} from '../const.js';
+import Type from '../enum/type.js';
+import TypeLabel from '../enum/type-label.js';
+import { formatDate } from '../utils.js';
 
 export default class RoutePresenter {
   /**
@@ -91,7 +92,7 @@ export default class RoutePresenter {
    * @param {PointAdapter} point
    */
   updatePointEditorView(point) {
-    const typeTitle = capitalizeFirstLetter(point.type);
+    const typeTitle = TypeLabel[Type.findKey(point.type)];
     const destination = this.model.getDestinationById(point.destinationId);
 
     const startDate = formatDate(point.startDate, this.dateFormat);
@@ -105,8 +106,9 @@ export default class RoutePresenter {
     /**
      * @type {[string, PointType, boolean][]}
      */
-    const typeSelectOptions = POINT_TYPES.map((type) => {
-      const label = capitalizeFirstLetter(type);
+    const typeSelectOptions = Object.values(Type).map((type) => {
+      const key = Type.findKey(type);
+      const label = TypeLabel[key];
       const isChecked = (type === point.type);
 
       return [label, type, isChecked];

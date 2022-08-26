@@ -37,13 +37,6 @@ export const createCounter = () => {
   return () => ++count;
 };
 
-export const capitalizeFirstLetter = (text) => {
-  const firstLetter = text[0].toUpperCase();
-  const restText = text.slice(1);
-
-  return `${firstLetter}${restText}`;
-};
-
 export const formatDate = (date, format) => dayjs(date).format(format);
 
 export const isKeyEscape = (event) => (event.key === 'Escape' || event.key === 'Esc');

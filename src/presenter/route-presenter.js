@@ -36,6 +36,18 @@ export default class RoutePresenter {
     });
   }
 
+  get dateFormat() {
+    return 'DD/MM/YY';
+  }
+
+  get shortDateFormat() {
+    return 'MMM D';
+  }
+
+  get timeFormat() {
+    return 'HH:mm';
+  }
+
   /**
    * @param {PointAdapter} point
    */
@@ -44,15 +56,9 @@ export default class RoutePresenter {
     const destination = this.model.getDestinationById(point.destinationId);
     const title = `${point.type} ${destination.name}`;
     const price = String(point.basePrice);
-
-    const dateForHuman = formatDate(point.startDate, 'MMM D');
-    const dateForMachine = formatDate(point.startDate, 'YYYY-MM-DD');
-    const startTimeForHuman = formatDate(point.startDate, 'HH:mm');
-
-    const startTimeForMachine = formatDate(point.startDate, 'YYYY-MM-[DD]T[HH]:mm');
-    const endTimeForHuman = formatDate(point.endDate, 'HH:mm');
-    const endTimeForMachine = formatDate(point.endDate, 'YYYY-MM-[DD]T[HH]:mm');
-
+    const dateForHuman = formatDate(point.startDate, this.shortDateFormat);
+    const startTimeForHuman = formatDate(point.startDate, this.timeFormat);
+    const endTimeForHuman = formatDate(point.endDate, this.timeFormat);
     const offers = this.model.getOffers(point.type, point.offerIds);
 
     /**
@@ -63,9 +69,9 @@ export default class RoutePresenter {
     view
       .setTitle(title)
       .setIcon(point.type)
-      .setDate(dateForHuman, dateForMachine)
-      .setStartTime(startTimeForHuman, startTimeForMachine)
-      .setEndTime(endTimeForHuman, endTimeForMachine)
+      .setDate(dateForHuman, point.startDate)
+      .setStartTime(startTimeForHuman, point.startDate)
+      .setEndTime(endTimeForHuman, point.endDate)
       .setPrice(price);
 
     view.pointOffersView.setOptions(offersOptions);
@@ -88,12 +94,12 @@ export default class RoutePresenter {
     const typeTitle = capitalizeFirstLetter(point.type);
     const destination = this.model.getDestinationById(point.destinationId);
 
-    const startDate = formatDate(point.startDate, 'DD/MM/YY');
-    const startTime = formatDate(point.startDate, 'HH:mm');
+    const startDate = formatDate(point.startDate, this.dateFormat);
+    const startTime = formatDate(point.startDate, this.timeFormat);
     const startDateTime = `${startDate} ${startTime}`;
 
-    const endDate = formatDate(point.endDate, 'DD/MM/YY');
-    const endTime = formatDate(point.endDate, 'HH:mm');
+    const endDate = formatDate(point.endDate, this.dateFormat);
+    const endTime = formatDate(point.endDate, this.timeFormat);
     const endDateTime = `${endDate} ${endTime}`;
 
     /**

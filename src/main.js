@@ -1,6 +1,7 @@
 import './view/filter-view.js';
 import RoutePresenter from './presenter/route-presenter.js';
+import RouteModel from './model/route-model.js';
 
-const routePresenter = new RoutePresenter();
+const routeModel = new RouteModel();
 
-routePresenter.init();
+new RoutePresenter(routeModel);

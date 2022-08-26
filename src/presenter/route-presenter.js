@@ -1,4 +1,5 @@
-import RouteModel from '../model/route-model.js';
+/** @typedef {import('../model/route-model').default} RouteModel */
+
 import RouteView from '../view/route-view.js';
 import PointView from '../view/point-view.js';
 import PointEditorView from '../view/point-editor-view.js';
@@ -6,14 +7,33 @@ import { capitalizeFirstLetter, formatDate } from '../utils.js';
 import {POINT_TYPES} from '../const.js';
 
 export default class RoutePresenter {
-  constructor() {
-    this.model = new RouteModel();
-    this.editorView = new PointEditorView();
+  /**
+   * @param {RouteModel} model
+   */
+  constructor(model) {
+    this.model = model;
 
     /**
      * @type {RouteView}
      */
     this.view = document.querySelector(String(RouteView));
+    this.editorView = new PointEditorView();
+
+    this.model.ready().then(() => {
+      const points = this.model.getPoints();
+      const pointViews = points.map((point) => this.createPointView(point));
+      const isRouteEmpty = (points.length === 0);
+
+      if (isRouteEmpty) {
+        this.view.showPlaceholder('Click New Event to create your first point');
+
+        return;
+      }
+
+      this.view
+        .hidePlaceholder()
+        .setPoints(...pointViews);
+    });
   }
 
   /**
@@ -133,27 +153,5 @@ export default class RoutePresenter {
       .setDescription(destination.description);
 
     return this.editorView;
-  }
-
-  async init() {
-    await this.model.ready();
-
-    const points = this.model.getPoints();
-    const isRouteEmpty = (points.length === 0);
-
-    if (isRouteEmpty) {
-      this.view.showPlaceholder('Click New Event to create your first point');
-
-      return;
-    }
-
-    /**
-     * @type {PointView[]}
-     */
-    const pointViews = points.map((point) => this.createPointView(point));
-
-    this.view
-      .hidePlaceholder()
-      .setPoints(...pointViews);
   }
 }

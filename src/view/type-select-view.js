@@ -1,6 +1,6 @@
-import ComponentView, {html} from '../component-view.js';
+import ComponentView, {html} from './component-view.js';
 import TypeOptionView from './type-option-view.js';
-import { getIconUrl } from '../../utils.js';
+import { getIconUrl } from '../utils.js';
 
 export default class TypeSelectView extends ComponentView {
   constructor() {
@@ -23,7 +23,7 @@ export default class TypeSelectView extends ComponentView {
       <div class="event__type-list">
         <fieldset class="event__type-group">
           <legend class="visually-hidden">Event type</legend>
-          
+
         </fieldset>
       </div>
     `;

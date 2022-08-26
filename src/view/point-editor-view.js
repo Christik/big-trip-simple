@@ -1,10 +1,10 @@
 import ComponentView, { html } from './component-view.js';
-import TypeSelectView from './form/type-select-view.js';
-import DestinationInputView from './form/destination-input-view.js';
-import OfferSelectView from './form/offer-select-view.js';
-import DestinationDetailsView from './form/destination-details-view.js';
-import PriceInputView from './form/price-input-view.js';
-import DatePickerView from './form/date-picker-view.js';
+import TypeSelectView from './type-select-view.js';
+import DestinationInputView from './destination-input-view.js';
+import OfferSelectView from './offer-select-view.js';
+import DestinationDetailsView from './destination-details-view.js';
+import PriceInputView from './price-input-view.js';
+import DatePickerView from './date-picker-view.js';
 import { isKeyEscape } from '../utils.js';
 
 export default class PointEditorView extends ComponentView {

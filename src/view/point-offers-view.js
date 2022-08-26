@@ -1,4 +1,4 @@
-import ComponentView from '../component-view.js';
+import ComponentView from './component-view.js';
 import PointOfferView from './point-offer-view.js';
 
 export default class PointOffersView extends ComponentView {

@@ -1,4 +1,4 @@
-import ComponentView, {html} from '../component-view.js';
+import ComponentView, {html} from './component-view.js';
 
 export default class DestinationInputView extends ComponentView {
   constructor() {
@@ -12,16 +12,16 @@ export default class DestinationInputView extends ComponentView {
    */
   createTemplate() {
     return html`
-      <label 
-        class="event__label  event__type-output" 
+      <label
+        class="event__label  event__type-output"
         for="event-destination-1"
       ></label>
-      <input 
-        class="event__input event__input--destination" 
-        id="event-destination-1" 
-        type="text" 
-        name="event-destination" 
-        value="" 
+      <input
+        class="event__input event__input--destination"
+        id="event-destination-1"
+        type="text"
+        name="event-destination"
+        value=""
         list="destination-list-1"
       >
       <datalist id="destination-list-1"></datalist>

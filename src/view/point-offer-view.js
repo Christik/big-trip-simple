@@ -7,7 +7,9 @@ export default class PointOfferView extends ComponentView {
     this.classList.add('event__offer');
   }
 
-  /** @override */
+  /**
+   * @override
+   */
   createTemplate(title, price) {
     return html`
       <span class="event__offer-title">${title}</span>

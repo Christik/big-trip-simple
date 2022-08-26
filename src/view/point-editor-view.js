@@ -1,3 +1,5 @@
+/** @typedef {import('./point-view').default} PointView */
+
 import ComponentView, { html } from './component-view.js';
 import TypeSelectView from './type-select-view.js';
 import DestinationInputView from './destination-input-view.js';
@@ -18,22 +20,34 @@ export default class PointEditorView extends ComponentView {
     this.offerListView = this.querySelector('.event__available-offers');
     this.expandButtonView = this.querySelector('.event__rollup-btn');
 
-    /** @type {TypeSelectView} */
+    /**
+     * @type {TypeSelectView}
+     */
     this.typeSelectView = this.querySelector(String(TypeSelectView));
 
-    /** @type {DestinationInputView} */
+    /**
+     * @type {DestinationInputView}
+     */
     this.destinationInputView = this.querySelector(String(DestinationInputView));
 
-    /** @type {PriceInputView} */
+    /**
+     * @type {PriceInputView}
+     */
     this.priceInputView = this.querySelector(String(PriceInputView));
 
-    /** @type {DatePickerView} */
+    /**
+     * @type {DatePickerView}
+     */
     this.datePickerView = this.querySelector(String(DatePickerView));
 
-    /** @type {OfferSelectView} */
+    /**
+     * @type {OfferSelectView}
+     */
     this.offerSelectView = this.querySelector(String(OfferSelectView));
 
-    /** @type {DestinationDetailsView} */
+    /**
+     * @type {DestinationDetailsView}
+     */
     this.destinationDetailsView = this.querySelector(String(DestinationDetailsView));
 
     this.expandButtonView.addEventListener('click', () => {
@@ -41,7 +55,9 @@ export default class PointEditorView extends ComponentView {
     });
   }
 
-  /** @override */
+  /**
+   * @override
+   */
   createTemplate() {
     return html`
       <form class="event event--edit" action="#" method="post">
@@ -64,7 +80,9 @@ export default class PointEditorView extends ComponentView {
     `;
   }
 
-  /** @param {HTMLElement} view */
+  /**
+   * @param {PointView} view
+   */
   link(view) {
     this.#linked = view;
 

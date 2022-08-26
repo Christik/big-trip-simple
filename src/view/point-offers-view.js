@@ -8,7 +8,9 @@ export default class PointOffersView extends ComponentView {
     this.classList.add('event__selected-offers');
   }
 
-  /** @param {[string, number][]} states */
+  /**
+   * @param {[string, number][]} states
+   */
   setOptions(states) {
     const views = states.map((state) => new PointOfferView(...state));
 

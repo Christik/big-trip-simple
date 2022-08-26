@@ -26,9 +26,13 @@ export default class PriceInputView extends ComponentView {
     `;
   }
 
-  /** @param {number} value */
+  /**
+   * @param {number} value
+   */
   setValue(value) {
-    /** @type {HTMLInputElement} */
+    /**
+     * @type {HTMLInputElement}
+     */
     const view = this.querySelector('.event__input--price');
 
     view.value = String(value);

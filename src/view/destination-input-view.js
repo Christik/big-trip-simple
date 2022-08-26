@@ -28,7 +28,9 @@ export default class DestinationInputView extends ComponentView {
     `;
   }
 
-  /** @param {string} label */
+  /**
+   * @param {string} label
+   */
   setLabel(label) {
     const view = this.querySelector('.event__type-output');
 
@@ -37,7 +39,9 @@ export default class DestinationInputView extends ComponentView {
     return this;
   }
 
-  /** @param {string} value */
+  /**
+   * @param {string} value
+   */
   setValue(value) {
     /** @type {HTMLInputElement} */
     const view = this.querySelector('.event__input--destination');
@@ -47,7 +51,9 @@ export default class DestinationInputView extends ComponentView {
     return this;
   }
 
-  /** @param {[string, string][]} states */
+  /**
+   * @param {[string, string][]} states
+   */
   setOptions(states) {
     const views = states.map((state) => new Option(...state));
 

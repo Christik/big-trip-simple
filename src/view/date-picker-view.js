@@ -7,7 +7,9 @@ export default class DatePickerView extends ComponentView {
     this.classList.add('event__field-group', 'event__field-group--time');
   }
 
-  /** @override */
+  /**
+   * @override
+   */
   createTemplate() {
     return html`
       <label class="visually-hidden" for="event-start-time-1">From</label>
@@ -30,7 +32,9 @@ export default class DatePickerView extends ComponentView {
     `;
   }
 
-  /** @param {string} value */
+  /**
+   * @param {string} value
+   */
   setStartDate(value) {
     /** @type {HTMLInputElement} */
     const view = this.querySelector('[name="event-start-time"]');
@@ -40,7 +44,9 @@ export default class DatePickerView extends ComponentView {
     return this;
   }
 
-  /** @param {string} value */
+  /**
+   * @param {string} value
+   */
   setEndDate(value) {
     /** @type {HTMLInputElement} */
     const view = this.querySelector('[name="event-end-time"]');

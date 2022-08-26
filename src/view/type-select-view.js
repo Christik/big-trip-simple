@@ -29,9 +29,13 @@ export default class TypeSelectView extends ComponentView {
     `;
   }
 
-  /** @param {PointType} type */
+  /**
+   * @param {PointType} type
+   */
   setIcon(type) {
-    /** @type {HTMLImageElement} */
+    /**
+     * @type {HTMLImageElement}
+     */
     const view = this.querySelector('.event__type-icon');
 
     view.src = getIconUrl(type);
@@ -39,7 +43,9 @@ export default class TypeSelectView extends ComponentView {
     return this;
   }
 
-  /** @param {[string, PointType, boolean][]} states */
+  /**
+   * @param {[string, PointType, boolean][]} states
+   */
   setOptions(states) {
     const views = states.map((state) => new TypeOptionView(...state));
 
@@ -49,9 +55,13 @@ export default class TypeSelectView extends ComponentView {
     return this;
   }
 
-  /** @param {string} type */
+  /**
+   * @param {string} type
+   */
   select(type) {
-    /** @type {HTMLInputElement} */
+    /**
+     * @type {HTMLInputElement}
+     */
     const inputView = this.querySelector(`[value="${type}"]`);
     const imgView = this.querySelector('img');
 
@@ -67,7 +77,9 @@ export default class TypeSelectView extends ComponentView {
     return this;
   }
 
-  /** @param {Event & {target: HTMLInputElement}} event */
+  /**
+   * @param {Event & {target: HTMLInputElement}} event
+   */
   onChange(event) {
     const { type, value, checked } = event.target;
 

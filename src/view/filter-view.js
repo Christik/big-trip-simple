@@ -1,7 +1,9 @@
 import ComponentView, { html } from './component-view.js';
 
 export default class FilterView extends ComponentView {
-  /** @override */
+  /**
+   * @override
+   */
   createTemplate() {
     return html`
     <form class="trip-filters" action="#" method="get">

@@ -1,9 +1,9 @@
+import Type from '../enum/type.js';
 import {
   getRandomInteger,
   getRandomArrayElement,
   createRandomizerOfUniqueInteger,
   createCounter } from '../utils.js';
-import { POINT_TYPES } from '../const.js';
 import { getOfferGroups } from './offerGroups.js';
 import { getDestinations } from './destinations.js';
 import dayjs from 'dayjs';
@@ -81,7 +81,7 @@ const generateDestinationId = (destinations) => {
 };
 
 const generatePoint = () => {
-  const type = generateType(POINT_TYPES);
+  const type = generateType(Object.values(Type));
   const offers = generatePointOffers(type);
   const dateFrom = generateDateFrom();
   const dateTo = generateDateTo(dateFrom);

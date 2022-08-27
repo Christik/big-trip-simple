@@ -1,23 +1,27 @@
 import ComponentView, { html } from './component-view.js';
-import PointOffersView from './point/point-offers-view.js';
+import PointOffersView from './point-offers-view.js';
 import { getIconUrl } from '../utils.js';
 
 export default class PointView extends ComponentView {
-  expandButtonView = this.querySelector('.event__rollup-btn');
-
-  /** @type {PointOffersView} */
-  pointOffersView = this.querySelector(String(PointOffersView));
-
   constructor() {
     super();
 
-    this.expandButtonView.addEventListener('click', () => {
+    /**
+     * @type {PointOffersView}
+     */
+    this.pointOffersView = this.querySelector(String(PointOffersView));
+
+    const expandButtonView = this.querySelector('.event__rollup-btn');
+
+    expandButtonView.addEventListener('click', () => {
       const expandEvent = new CustomEvent('expand');
       this.dispatchEvent(expandEvent);
     });
   }
 
-  /** @override */
+  /**
+   * @override
+   */
   createTemplate() {
     return html`
       <div class="event">
@@ -45,7 +49,9 @@ export default class PointView extends ComponentView {
     `;
   }
 
-  /** @param {string} title */
+  /**
+   * @param {string} title
+   */
   setTitle(title) {
     const view = this.querySelector('.event__title');
 
@@ -54,9 +60,13 @@ export default class PointView extends ComponentView {
     return this;
   }
 
-  /** @param {PointType} name */
+  /**
+   * @param {PointType} name
+   */
   setIcon(name) {
-    /** @type {HTMLImageElement} */
+    /**
+     * @type {HTMLImageElement}
+     */
     const view = this.querySelector('.event__type-icon');
 
     view.src = getIconUrl(name);
@@ -69,7 +79,9 @@ export default class PointView extends ComponentView {
    * @param {string} dateForMachine
    */
   setDate(dateForHuman, dateForMachine) {
-    /** @type {HTMLTimeElement} */
+    /**
+     * @type {HTMLTimeElement}
+     */
     const view = this.querySelector('.event__date');
 
     view.textContent = dateForHuman;
@@ -83,7 +95,9 @@ export default class PointView extends ComponentView {
    * @param {string} timeForMachine
    */
   setStartTime(timeForHuman, timeForMachine) {
-    /** @type {HTMLTimeElement} */
+    /**
+     * @type {HTMLTimeElement}
+     */
     const view = this.querySelector('.event__start-time');
 
     view.textContent = timeForHuman;
@@ -97,7 +111,9 @@ export default class PointView extends ComponentView {
    * @param {string} timeForMachine
    */
   setEndTime(timeForHuman, timeForMachine) {
-    /** @type {HTMLTimeElement} */
+    /**
+     * @type {HTMLTimeElement}
+     */
     const view = this.querySelector('.event__end-time');
 
     view.textContent = timeForHuman;
@@ -106,7 +122,9 @@ export default class PointView extends ComponentView {
     return this;
   }
 
-  /** @param {string} price */
+  /**
+   * @param {string} price
+   */
   setPrice(price) {
     const view = this.querySelector('.event__price-value');
 

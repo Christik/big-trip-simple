@@ -10,36 +10,60 @@ import PointAdapter from '../adapter/point-adapter.js';
  */
 const clone = (target) => JSON.parse(JSON.stringify(target));
 
-export default class RouteModel {
-  /** @type {Point[]} */
-  #pointCache = Array.from({length: 20}, generatePoint);
+export default class RouteModel extends EventTarget {
+  /**
+   * @type {Point[]}
+   */
+  #points = null;
 
-  /** @type {Destination[]} */
-  #destinationCache = getDestinations();
+  /**
+   * @type {Destination[]}
+   */
+  #destinations = null;
 
-  /** @type {OfferGroup[]} */
-  #offerCache = getOfferGroups();
+  /**
+   * @type {OfferGroup[]}
+   */
+  #offerGroups = null;
 
-  get points() {
-    return this.#pointCache.map((point) => new PointAdapter(point));
+  async ready() {
+    if (this.#points) {
+      return;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    this.#points = Array.from({length: 20}, generatePoint);
+    this.#destinations = getDestinations();
+    this.#offerGroups = getOfferGroups();
   }
 
-  /** @param {string} id */
+  getPoints() {
+    return this.#points.map((point) => new PointAdapter(point));
+  }
+
+  /**
+   * @param {string} id
+   */
   getPointById(id) {
-    const point = this.#pointCache.find((item) => (item.id === id));
+    const point = this.#points.find((item) => (item.id === id));
 
-    return new PointAdapter(point);
+    return clone(new PointAdapter(point));
   }
 
-  get offerGroups() {
-    return getOfferGroups();
+  getOfferGroups() {
+    return clone(this.#offerGroups);
   }
 
-  /** @param {PointType} type */
+  /**
+   * @param {PointType} type
+   */
   getAvailableOffers(type) {
-    return this.offerGroups
+    const availableOffers = this.getOfferGroups()
       .find((offerGroup) => (offerGroup.type === type))
       .offers;
+
+    return clone(availableOffers);
   }
 
   /**
@@ -47,18 +71,22 @@ export default class RouteModel {
    * @param {number[]} ids
    */
   getOffers(type, ids) {
-    return this
+    const offers = this
       .getAvailableOffers(type)
       .filter((item) => ids.includes(item.id));
+
+    return clone(offers);
   }
 
-  get destinations() {
-    return clone(this.#destinationCache);
+  getDestinations() {
+    return clone(this.#destinations);
   }
 
-  /** @param {number} id */
+  /**
+   * @param {number} id
+   */
   getDestinationById(id) {
-    const destination = this.#destinationCache.find((item) => (item.id === id));
+    const destination = this.#destinations.find((item) => (item.id === id));
 
     return clone(destination);
   }

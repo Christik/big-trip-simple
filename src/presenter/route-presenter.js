@@ -130,6 +130,13 @@ export default class RoutePresenter {
       point.offerIds
     );
 
+    /**
+     * @type {[string, string][]}
+     */
+    const pictureOptions = destination.pictures.map(
+      ({ src, description }) => [ src, description ]
+    );
+
     const {
       typeSelectView,
       destinationInputView,
@@ -156,7 +163,8 @@ export default class RoutePresenter {
     offerSelectView.setOptions(offerSelectOptions);
 
     destinationDetailsView
-      .setDescription(destination.description);
+      .setDescription(destination.description)
+      .setPictures(pictureOptions);
 
     return this.editorView;
   }

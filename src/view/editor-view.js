@@ -15,6 +15,8 @@ export default class EditorView extends ComponentView {
   constructor() {
     super();
 
+    this.classList.add('trip-events__item');
+
     this.bodyView = this.querySelector('.event__details');
     this.offersContainerView = this.querySelector('.event__section--offers');
     this.offerListView = this.querySelector('.event__available-offers');

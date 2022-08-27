@@ -11,6 +11,7 @@ export default class TypeOptionView extends ComponentView {
    * @override
    * @param {string} label
    * @param {PointType} value
+   * @param {boolean} isChecked
    */
   createTemplate(label, value, isChecked) {
     return html`

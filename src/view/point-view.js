@@ -3,20 +3,19 @@ import PointOffersView from './point-offers-view.js';
 import { getIconUrl } from '../utils.js';
 
 export default class PointView extends ComponentView {
-  constructor() {
+  #id = null;
+
+  constructor(id) {
     super();
+
+    this.#id = id;
 
     /**
      * @type {PointOffersView}
      */
     this.pointOffersView = this.querySelector(String(PointOffersView));
 
-    const expandButtonView = this.querySelector('.event__rollup-btn');
-
-    expandButtonView.addEventListener('click', () => {
-      const expandEvent = new CustomEvent('expand');
-      this.dispatchEvent(expandEvent);
-    });
+    this.addEventListener('click', this.onClick);
   }
 
   /**
@@ -131,6 +130,21 @@ export default class PointView extends ComponentView {
     view.textContent = price;
 
     return this;
+  }
+
+  onClick(event) {
+    if (!event.target.closest('.event__rollup-btn')) {
+      return;
+    }
+
+    event.preventDefault();
+
+    this.dispatchEvent(
+      new CustomEvent('point-edit', {
+        detail: this.#id,
+        bubbles: true,
+      })
+    );
   }
 }
 

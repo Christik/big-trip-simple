@@ -9,7 +9,6 @@ import { formatDate } from '../utils.js';
 export default class RoutePresenter {
   /**
    * @param {RouteModel} model
-   * @param {EditorView} model
    */
   constructor(model) {
     this.model = model;

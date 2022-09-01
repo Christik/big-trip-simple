@@ -34,21 +34,8 @@ export default class EditorPresenter {
   /**
    * @param {PointAdapter} point
    */
-  updateView(point) {
-    const typeTitle = TypeLabel[Type.findKey(point.type)];
-    const destination = this.model.getDestinationById(point.destinationId);
-
-    const startDate = formatDate(point.startDate, this.dateFormat);
-    const startTime = formatDate(point.startDate, this.timeFormat);
-    const startDateTime = `${startDate} ${startTime}`;
-
-    const endDate = formatDate(point.endDate, this.dateFormat);
-    const endTime = formatDate(point.endDate, this.timeFormat);
-    const endDateTime = `${endDate} ${endTime}`;
-
-    /**
-     * @type {[string, PointType, boolean][]}
-     */
+  updateTypeSelectView(point) {
+    /** @type {[string, PointType, boolean][]} */
     const typeSelectOptions = Object.values(Type).map((type) => {
       const key = Type.findKey(type);
       const label = TypeLabel[key];
@@ -57,56 +44,85 @@ export default class EditorPresenter {
       return [label, type, isChecked];
     });
 
-    /**
-     * @type {[string, string][]}
-     */
+    this.view.typeSelectView
+      .setIcon(point.type)
+      .setOptions(typeSelectOptions);
+  }
+
+  /**
+   * @param {PointAdapter} point
+   */
+  updateDestinationInputView(point) {
+    const typeTitle = TypeLabel[Type.findKey(point.type)];
+    const destination = this.model.getDestinationById(point.destinationId);
+
+    /** @type {[string, string][]} */
     const destinationInputOptions = this.model.getDestinations().map(
       (item) => ['', item.name]
     );
 
-    /**
-     * @type {[number, string, number, boolean][]}
-     */
+    this.view.destinationInputView
+      .setLabel(typeTitle)
+      .setValue(destination.name)
+      .setOptions(destinationInputOptions);
+  }
+
+  /**
+   * @param {PointAdapter} point
+   */
+  updateDatePickerView(point) {
+    const startDate = formatDate(point.startDate, this.dateFormat);
+    const startTime = formatDate(point.startDate, this.timeFormat);
+    const startDateTime = `${startDate} ${startTime}`;
+
+    const endDate = formatDate(point.endDate, this.dateFormat);
+    const endTime = formatDate(point.endDate, this.timeFormat);
+    const endDateTime = `${endDate} ${endTime}`;
+
+    this.view.datePickerView
+      .setStartDate(startDateTime)
+      .setEndDate(endDateTime);
+  }
+
+  /**
+   * @param {PointAdapter} point
+   */
+  updateOfferSelectView(point) {
+    /** @type {[number, string, number, boolean][]} */
     const offerSelectOptions = getOfferSelectOptions(
       this.model.getAvailableOffers(point.type),
       point.offerIds
     );
 
-    /**
-     * @type {[string, string][]}
-     */
+    this.view.offerSelectView.setOptions(offerSelectOptions);
+  }
+
+  /**
+   * @param {PointAdapter} point
+   */
+  updateDestinationDetailsView(point) {
+    const destination = this.model.getDestinationById(point.destinationId);
+
+    /** @type {[string, string][]} */
     const pictureOptions = destination.pictures.map(
       ({ src, description }) => [ src, description ]
     );
 
-    const {
-      typeSelectView,
-      destinationInputView,
-      datePickerView,
-      priceInputView,
-      offerSelectView,
-      destinationDetailsView
-    } = this.view;
-
-    typeSelectView
-      .setIcon(point.type)
-      .setOptions(typeSelectOptions);
-
-    destinationInputView
-      .setLabel(typeTitle)
-      .setValue(destination.name)
-      .setOptions(destinationInputOptions);
-
-    datePickerView
-      .setStartDate(startDateTime)
-      .setEndDate(endDateTime);
-
-    priceInputView.setValue(point.basePrice);
-    offerSelectView.setOptions(offerSelectOptions);
-
-    destinationDetailsView
+    this.view.destinationDetailsView
       .setDescription(destination.description)
       .setPictures(pictureOptions);
+  }
+
+  /**
+   * @param {PointAdapter} point
+   */
+  updateView(point) {
+    this.updateTypeSelectView(point);
+    this.updateDestinationInputView(point);
+    this.updateDatePickerView(point);
+    this.view.priceInputView.setValue(point.basePrice);
+    this.updateOfferSelectView(point);
+    this.updateDestinationDetailsView(point);
 
     return this.view;
   }
@@ -120,7 +136,6 @@ export default class EditorPresenter {
       .link(event.target)
       .open();
   }
-
 
   handleEvent(event) {
     if (event.type === 'type-change') {

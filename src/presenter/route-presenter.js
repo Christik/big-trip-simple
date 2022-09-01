@@ -5,6 +5,7 @@
 import RouteView from '../view/route-view.js';
 import PointView from '../view/point-view.js';
 import { formatDate } from '../utils.js';
+import FormatDate from '../enum/format-date.js';
 
 export default class RoutePresenter {
   /**
@@ -33,18 +34,6 @@ export default class RoutePresenter {
       .setPoints(...pointViews);
   }
 
-  get dateFormat() {
-    return 'DD/MM/YY';
-  }
-
-  get shortDateFormat() {
-    return 'MMM D';
-  }
-
-  get timeFormat() {
-    return 'HH:mm';
-  }
-
   /**
    * @param {PointAdapter} point
    */
@@ -53,9 +42,9 @@ export default class RoutePresenter {
     const destination = this.model.getDestinationById(point.destinationId);
     const title = `${point.type} ${destination.name}`;
     const price = String(point.basePrice);
-    const dateForHuman = formatDate(point.startDate, this.shortDateFormat);
-    const startTimeForHuman = formatDate(point.startDate, this.timeFormat);
-    const endTimeForHuman = formatDate(point.endDate, this.timeFormat);
+    const dateForHuman = formatDate(point.startDate, FormatDate.POINT_DATE);
+    const startTimeForHuman = formatDate(point.startDate, FormatDate.TIME);
+    const endTimeForHuman = formatDate(point.endDate, FormatDate.TIME);
     const offers = this.model.getOffers(point.type, point.offerIds);
 
     /**

@@ -4,6 +4,7 @@
 import EditorView from '../view/editor-view.js';
 import Type from '../enum/type.js';
 import TypeLabel from '../enum/type-label.js';
+import FormatDate from '../enum/format-date.js';
 import { getOfferSelectOptions, formatDate } from '../utils.js';
 
 export default class EditorPresenter {
@@ -17,18 +18,6 @@ export default class EditorPresenter {
     document.addEventListener('point-edit', this.onPointEdit.bind(this));
     this.view.addEventListener('type-change', this.onTypeChange.bind(this), true);
     this.view.addEventListener('destination-change', this.onDestinationChange.bind(this), true);
-  }
-
-  get dateFormat() {
-    return 'DD/MM/YY';
-  }
-
-  get shortDateFormat() {
-    return 'MMM D';
-  }
-
-  get timeFormat() {
-    return 'HH:mm';
   }
 
   /**
@@ -73,12 +62,12 @@ export default class EditorPresenter {
    * @param {string} endDate
    */
   updateDatePickerView(startDate, endDate) {
-    const startDateFormatted = formatDate(startDate, this.dateFormat);
-    const startTimeFormatted = formatDate(startDate, this.timeFormat);
+    const startDateFormatted = formatDate(startDate, FormatDate.DATE);
+    const startTimeFormatted = formatDate(startDate, FormatDate.TIME);
     const startDateTime = `${startDateFormatted} ${startTimeFormatted}`;
 
-    const endDateFormatted = formatDate(endDate, this.dateFormat);
-    const endTimeFormatted = formatDate(endDate, this.timeFormat);
+    const endDateFormatted = formatDate(endDate, FormatDate.DATE);
+    const endTimeFormatted = formatDate(endDate, FormatDate.TIME);
     const endDateTime = `${endDateFormatted} ${endTimeFormatted}`;
 
     this.view.datePickerView

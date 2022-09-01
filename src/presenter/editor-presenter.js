@@ -32,29 +32,30 @@ export default class EditorPresenter {
   }
 
   /**
-   * @param {PointAdapter} point
+   * @param {PointType} type
    */
-  updateTypeSelectView(point) {
+  updateTypeSelectView(type) {
     /** @type {[string, PointType, boolean][]} */
-    const typeSelectOptions = Object.values(Type).map((type) => {
-      const key = Type.findKey(type);
+    const typeSelectOptions = Object.values(Type).map((value) => {
+      const key = Type.findKey(value);
       const label = TypeLabel[key];
-      const isChecked = (type === point.type);
+      const isChecked = (value === type);
 
-      return [label, type, isChecked];
+      return [label, value, isChecked];
     });
 
     this.view.typeSelectView
-      .setIcon(point.type)
+      .setIcon(type)
       .setOptions(typeSelectOptions);
   }
 
   /**
-   * @param {PointAdapter} point
+   * @param {PointType} type
+   * @param {number} destinationId
    */
-  updateDestinationInputView(point) {
-    const typeTitle = TypeLabel[Type.findKey(point.type)];
-    const destination = this.model.getDestinationById(point.destinationId);
+  updateDestinationSelectView(type, destinationId) {
+    const typeTitle = TypeLabel[Type.findKey(type)];
+    const destination = this.model.getDestinationById(destinationId);
 
     /** @type {[string, string][]} */
     const destinationInputOptions = this.model.getDestinations().map(
@@ -68,16 +69,17 @@ export default class EditorPresenter {
   }
 
   /**
-   * @param {PointAdapter} point
+   * @param {string} startDate
+   * @param {string} endDate
    */
-  updateDatePickerView(point) {
-    const startDate = formatDate(point.startDate, this.dateFormat);
-    const startTime = formatDate(point.startDate, this.timeFormat);
-    const startDateTime = `${startDate} ${startTime}`;
+  updateDatePickerView(startDate, endDate) {
+    const startDateFormatted = formatDate(startDate, this.dateFormat);
+    const startTimeFormatted = formatDate(startDate, this.timeFormat);
+    const startDateTime = `${startDateFormatted} ${startTimeFormatted}`;
 
-    const endDate = formatDate(point.endDate, this.dateFormat);
-    const endTime = formatDate(point.endDate, this.timeFormat);
-    const endDateTime = `${endDate} ${endTime}`;
+    const endDateFormatted = formatDate(endDate, this.dateFormat);
+    const endTimeFormatted = formatDate(endDate, this.timeFormat);
+    const endDateTime = `${endDateFormatted} ${endTimeFormatted}`;
 
     this.view.datePickerView
       .setStartDate(startDateTime)
@@ -98,10 +100,10 @@ export default class EditorPresenter {
   }
 
   /**
-   * @param {PointAdapter} point
+   * @param {number} destinationId
    */
-  updateDestinationDetailsView(point) {
-    const destination = this.model.getDestinationById(point.destinationId);
+  updateDestinationDetailsView(destinationId) {
+    const destination = this.model.getDestinationById(destinationId);
 
     /** @type {[string, string][]} */
     const pictureOptions = destination.pictures.map(
@@ -117,12 +119,12 @@ export default class EditorPresenter {
    * @param {PointAdapter} point
    */
   updateView(point) {
-    this.updateTypeSelectView(point);
-    this.updateDestinationInputView(point);
-    this.updateDatePickerView(point);
+    this.updateTypeSelectView(point.type);
+    this.updateDestinationSelectView(point.type, point.destinationId);
+    this.updateDatePickerView(point.startDate, point.endDate);
     this.view.priceInputView.setValue(point.basePrice);
     this.updateOfferSelectView(point);
-    this.updateDestinationDetailsView(point);
+    this.updateDestinationDetailsView(point.destinationId);
 
     return this.view;
   }
@@ -148,7 +150,11 @@ export default class EditorPresenter {
     this.view.offerSelectView.setOptions(offerSelectOptions);
   }
 
-  onDestinationChange() {
-    // console.log(event);
+  onDestinationChange(event) {
+    const destinationSelectView = event.target;
+    const destinationName = destinationSelectView.getValue();
+    const destination = this.model.getDestinationByName(destinationName);
+
+    this.updateDestinationDetailsView(destination.id);
   }
 }

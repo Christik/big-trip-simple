@@ -82,4 +82,10 @@ export default class RouteModel extends EventTarget {
 
     return clone(destination);
   }
+
+  getDestinationByName(name) {
+    const destination = this.#destinations.find((item) => (item.name === name));
+
+    return clone(destination);
+  }
 }

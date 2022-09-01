@@ -3,10 +3,14 @@
 import Enum from './enum.js';
 
 export default class FilterPredicate extends Enum {
-  static EVERYTHING = () => true;
+  /**
+   * @param {PointAdapter[]} points
+   */
+  static EVERYTHING = (points) => !(points.length > 0);
 
   /**
-   * @param {PointAdapter} point
+   * @param {PointAdapter[]} points
    */
-  static FUTURE = (point) => (Date.parse(point.endDate) > Date.now());
+  static FUTURE = (points) =>
+    !points.find((point) => (Date.parse(point.endDate) > Date.now()));
 }

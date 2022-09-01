@@ -149,6 +149,6 @@ export default class EditorPresenter {
   }
 
   onDestinationChange() {
-    // console.log(event.detail);
+    // console.log(event);
   }
 }

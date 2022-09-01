@@ -15,8 +15,8 @@ export default class EditorPresenter {
     this.view = new EditorView();
 
     document.addEventListener('point-edit', this.onPointEdit.bind(this));
-    this.view.typeSelectView.addEventListener('type-change', this);
-    this.view.destinationInputView.addEventListener('destination-change', this);
+    this.view.addEventListener('type-change', this.onTypeChange.bind(this), true);
+    this.view.addEventListener('destination-change', this.onDestinationChange.bind(this), true);
   }
 
   get dateFormat() {
@@ -137,20 +137,18 @@ export default class EditorPresenter {
       .open();
   }
 
-  handleEvent(event) {
-    if (event.type === 'type-change') {
-      const type = event.detail;
-      const typeLabel = TypeLabel[Type.findKey(type)];
-      const offerSelectOptions = getOfferSelectOptions(
-        this.model.getAvailableOffers(type)
-      );
+  onTypeChange(event) {
+    const type = event.detail;
+    const typeLabel = TypeLabel[Type.findKey(type)];
+    const offerSelectOptions = getOfferSelectOptions(
+      this.model.getAvailableOffers(type)
+    );
 
-      this.view.destinationInputView.setLabel(typeLabel);
-      this.view.offerSelectView.setOptions(offerSelectOptions);
-    }
+    this.view.destinationInputView.setLabel(typeLabel);
+    this.view.offerSelectView.setOptions(offerSelectOptions);
+  }
 
-    if (event.type === 'destination-change') {
-      // console.log(event.detail);
-    }
+  onDestinationChange() {
+    // console.log(event.detail);
   }
 }

@@ -37,12 +37,11 @@ export default class RouteView extends ComponentView {
     /** @type {[string, string][]} */
     const options = Object.keys(Sort).map((key) => [SortLabel[key], Sort[key]]);
     const optionsDisabled = Object.values(SortDisabled);
-    const prefix = 'sort-';
 
     this.sortSelectView
       .setOptions(options)
       .setOptionsDisabled(optionsDisabled)
-      .setValue(`${prefix}${Sort.DAY}`);
+      .setValue(Sort.DAY);
   }
 
   hidePlaceholder() {

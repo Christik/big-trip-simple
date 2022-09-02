@@ -1,8 +1,11 @@
 /** @typedef {import('./point-view').default} PointView */
 
 import ComponentView from './component-view.js';
-import SortView from './sort-view.js';
+import SortSelectView from './sort-select-view.js';
 import { html } from '../utils.js';
+import Sort from '../enum/sort.js';
+import SortLabel from '../enum/sort-label.js';
+import SortDisabled from '../enum/sort-disabled.js';
 
 export default class RouteView extends ComponentView {
   constructor() {
@@ -10,9 +13,11 @@ export default class RouteView extends ComponentView {
 
     this.classList.add('trip-events');
 
-    this.sortView = new SortView();
+    this.sortSelectView = new SortSelectView();
     this.placeholderView = this.querySelector('.trip-events__msg');
     this.listView = this.querySelector('.trip-events__list');
+
+    this.buildSortView();
   }
 
   /**
@@ -28,8 +33,19 @@ export default class RouteView extends ComponentView {
     `;
   }
 
+  buildSortView() {
+    /** @type {[string, string][]} */
+    const options = Object.keys(Sort).map((key) => [SortLabel[key], Sort[key]]);
+    const optionsDisabled = Object.values(SortDisabled);
+
+    this.sortSelectView
+      .setOptions(options)
+      .setOptionsDisabled(optionsDisabled)
+      .setValue(`sort-${Sort.DAY}`);
+  }
+
   hidePlaceholder() {
-    this.placeholderView.replaceWith(this.sortView);
+    this.placeholderView.replaceWith(this.sortSelectView);
 
     return this;
   }
@@ -39,7 +55,7 @@ export default class RouteView extends ComponentView {
    */
   showPlaceholder(text) {
     this.placeholderView.textContent = text;
-    this.sortView.replaceWith(this.placeholderView);
+    this.sortSelectView.replaceWith(this.placeholderView);
 
     return this;
   }

@@ -4,8 +4,8 @@
 
 import RouteView from '../view/route-view.js';
 import PointView from '../view/point-view.js';
-import { formatDate } from '../utils.js';
 import FormatDate from '../enum/format-date.js';
+import { formatDate } from '../utils.js';
 
 export default class RoutePresenter {
   /**

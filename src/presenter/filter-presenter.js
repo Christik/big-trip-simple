@@ -1,7 +1,7 @@
 /** @typedef {import('../model/route-model').default} RouteModel */
 
 import FilterLabel from '../enum/filter-label.js';
-import FilterPredicate from '../enum/filter-predicate.js';
+import FilterDisabled from '../enum/filter-disabled.js';
 import Filter from '../enum/filter.js';
 import FilterSelectView from '../view/filter-select-view.js';
 
@@ -22,7 +22,7 @@ export default class FilterPresenter {
 
     /** @type {boolean[]} */
     const optionsDisabled = Object.keys(Filter).map(
-      (key) => FilterPredicate[key](points)
+      (key) => FilterDisabled[key](points)
     );
 
     this.view = new FilterSelectView();

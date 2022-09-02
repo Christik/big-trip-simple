@@ -42,7 +42,6 @@ export default class TypeSelectView extends RadioGroupView {
   setOptions(states) {
     const views = states.map((state) => new TypeOptionView(...state));
 
-    this.querySelectorAll('legend ~ *').forEach((view) => view.remove());
     this.querySelector('legend').after(...views);
 
     return this;

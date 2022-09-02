@@ -20,7 +20,6 @@ export default class EditorView extends ComponentView {
     this.bodyView = this.querySelector('.event__details');
     this.offersContainerView = this.querySelector('.event__section--offers');
     this.offerListView = this.querySelector('.event__available-offers');
-    this.expandButtonView = this.querySelector('.event__rollup-btn');
 
     /**
      * @type {TypeSelectView}
@@ -52,9 +51,7 @@ export default class EditorView extends ComponentView {
      */
     this.destinationDetailsView = this.querySelector(String(DestinationDetailsView));
 
-    this.expandButtonView.addEventListener('click', () => {
-      this.close();
-    });
+    this.addEventListener('click', this.onClick);
   }
 
   /**
@@ -93,21 +90,34 @@ export default class EditorView extends ComponentView {
 
   open() {
     this.#linked.replaceWith(this);
-    document.addEventListener('keydown', this);
+    document.addEventListener('keydown', this.onDocumentKeydown);
 
     return this;
   }
 
   close() {
     this.replaceWith(this.#linked);
-    document.removeEventListener('keydown', this);
+    document.removeEventListener('keydown', this.onDocumentKeydown);
 
     return this;
   }
 
-  handleEvent(event) {
-    if (isKeyEscape(event)) {
+  onClick(event) {
+    if (event.target.closest('.event__rollup-btn')) {
       this.close();
+    }
+  }
+
+  /**
+   * @this {Document}
+   * @param {KeyboardEvent} event
+   */
+  onDocumentKeydown(event) {
+    if (isKeyEscape(event)) {
+      /** @type {EditorView} */
+      const editorView = this.querySelector(String(EditorView));
+
+      editorView.close();
     }
   }
 }

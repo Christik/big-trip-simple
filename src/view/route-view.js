@@ -2,10 +2,10 @@
 
 import ComponentView from './component-view.js';
 import SortSelectView from './sort-select-view.js';
-import { html } from '../utils.js';
 import Sort from '../enum/sort.js';
 import SortLabel from '../enum/sort-label.js';
 import SortDisabled from '../enum/sort-disabled.js';
+import { html } from '../utils.js';
 
 export default class RouteView extends ComponentView {
   constructor() {
@@ -37,11 +37,12 @@ export default class RouteView extends ComponentView {
     /** @type {[string, string][]} */
     const options = Object.keys(Sort).map((key) => [SortLabel[key], Sort[key]]);
     const optionsDisabled = Object.values(SortDisabled);
+    const prefix = 'sort-';
 
     this.sortSelectView
       .setOptions(options)
       .setOptionsDisabled(optionsDisabled)
-      .setValue(`sort-${Sort.DAY}`);
+      .setValue(`${prefix}${Sort.DAY}`);
   }
 
   hidePlaceholder() {

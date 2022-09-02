@@ -30,7 +30,7 @@ export default class EditorView extends ComponentView {
     /**
      * @type {DestinationSelectView}
      */
-    this.destinationInputView = this.querySelector(String(DestinationSelectView));
+    this.destinationSelectView = this.querySelector(String(DestinationSelectView));
 
     /**
      * @type {PriceInputView}

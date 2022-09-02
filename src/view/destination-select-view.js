@@ -105,7 +105,6 @@ export default class DestinationSelectView extends ComponentView {
 
   onChange() {
     this.replaceValueWithPlaceholder();
-    this.dispatchEvent(new CustomEvent('destination-change'));
   }
 
   onKeydown(event) {

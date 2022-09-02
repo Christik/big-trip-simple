@@ -29,22 +29,15 @@ export default class TypeSelectView extends ComponentView {
     `;
   }
 
-  /**
-   * @param {PointType} type
-   */
-  setIcon(type) {
-    /**
-     * @type {HTMLImageElement}
-     */
-    const view = this.querySelector('.event__type-icon');
+  getValue() {
+    /** @type {HTMLInputElement} */
+    const checkedInputView = this.querySelector('[type="radio"]:checked');
 
-    view.src = getIconUrl(type);
-
-    return this;
+    return checkedInputView.value;
   }
 
   /**
-   * @param {[string, PointType, boolean][]} states
+   * @param {[string, PointType][]} states
    */
   setOptions(states) {
     const views = states.map((state) => new TypeOptionView(...state));
@@ -58,10 +51,8 @@ export default class TypeSelectView extends ComponentView {
   /**
    * @param {string} type
    */
-  select(type) {
-    /**
-     * @type {HTMLInputElement}
-     */
+  setValue(type) {
+    /** @type {HTMLInputElement} */
     const inputView = this.querySelector(`[value="${type}"]`);
     const imgView = this.querySelector('img');
 
@@ -77,28 +68,19 @@ export default class TypeSelectView extends ComponentView {
     return this;
   }
 
-  /**
-   * @param {Event & {target: HTMLInputElement}} event
-   */
   onChange(event) {
-    const { type, value, checked } = event.target;
+    const { type, value } = event.target;
 
     if (type === 'checkbox') {
-      this.dispatchEvent(
-        new CustomEvent('type-expand', {
-          detail: checked
-        })
-      );
+      event.stopPropagation();
 
       return;
     }
 
     if (type === 'radio') {
-      this.select(value).dispatchEvent(
-        new CustomEvent('type-change', {
-          detail: value
-        })
-      );
+      this
+        .setValue(value)
+        .expand(false);
     }
   }
 }

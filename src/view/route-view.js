@@ -1,7 +1,8 @@
 /** @typedef {import('./point-view').default} PointView */
 
-import ComponentView, { html } from './component-view.js';
+import ComponentView from './component-view.js';
 import SortView from './sort-view.js';
+import { html } from '../utils.js';
 
 export default class RouteView extends ComponentView {
   constructor() {

@@ -1,5 +1,6 @@
-import ComponentView, {html} from './component-view.js';
+import ComponentView from './component-view.js';
 import OfferOptionView from './offer-option-view';
+import { html } from '../utils.js';
 
 export default class OfferSelectView extends ComponentView {
   constructor() {

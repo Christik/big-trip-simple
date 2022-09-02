@@ -1,6 +1,6 @@
-import ComponentView, {html} from './component-view.js';
+import ComponentView from './component-view.js';
 import TypeOptionView from './type-option-view.js';
-import { getIconUrl } from '../utils.js';
+import { html, getIconUrl } from '../utils.js';
 
 export default class TypeSelectView extends ComponentView {
   constructor() {

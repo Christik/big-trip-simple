@@ -1,6 +1,6 @@
-import ComponentView, { html } from './component-view.js';
+import ComponentView from './component-view.js';
 import PointOffersView from './point-offers-view.js';
-import { getIconUrl } from '../utils.js';
+import { html, getIconUrl } from '../utils.js';
 
 export default class PointView extends ComponentView {
   #id = null;

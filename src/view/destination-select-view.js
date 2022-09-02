@@ -1,5 +1,6 @@
 import './destination-select-view.css';
-import ComponentView, { html } from './component-view.js';
+import ComponentView from './component-view.js';
+import { html } from '../utils.js';
 
 export default class DestinationSelectView extends ComponentView {
   #options = null;

@@ -29,7 +29,7 @@ export default class FilterPresenter {
     this.view
       .setOptions(options)
       .setOptionsDisabled(optionsDisabled)
-      .select(Filter.EVERYTHING);
+      .setValue(Filter.EVERYTHING);
 
     filterContainerView.append(this.view);
   }

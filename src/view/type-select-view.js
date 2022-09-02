@@ -1,8 +1,8 @@
-import ComponentView from './component-view.js';
+import RadioGroupView from './radio-group-view.js';
 import TypeOptionView from './type-option-view.js';
 import { html, getIconUrl } from '../utils.js';
 
-export default class TypeSelectView extends ComponentView {
+export default class TypeSelectView extends RadioGroupView {
   constructor() {
     super(...arguments);
 
@@ -52,11 +52,10 @@ export default class TypeSelectView extends ComponentView {
    * @param {string} type
    */
   setValue(type) {
-    /** @type {HTMLInputElement} */
-    const inputView = this.querySelector(`[value="${type}"]`);
+    super.setValue(type);
+
     const imgView = this.querySelector('img');
 
-    inputView.checked = true;
     imgView.src = getIconUrl(type);
 
     return this.expand(false);

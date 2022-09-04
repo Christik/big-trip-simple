@@ -11,19 +11,13 @@ import PointAdapter from '../adapter/point-adapter.js';
 const clone = (target) => JSON.parse(JSON.stringify(target));
 
 export default class RouteModel extends EventTarget {
-  /**
-   * @type {Point[]}
-   */
+  /** @type {Point[]} */
   #points = null;
 
-  /**
-   * @type {Destination[]}
-   */
+  /** @type {Destination[]} */
   #destinations = null;
 
-  /**
-   * @type {OfferGroup[]}
-   */
+  /** @type {OfferGroup[]} */
   #offerGroups = null;
 
   async ready() {
@@ -39,24 +33,26 @@ export default class RouteModel extends EventTarget {
   }
 
   getPoints() {
-    return this.#points.map((point) => new PointAdapter(point));
+    return this.#points.map((point) => new PointAdapter(clone(point)));
   }
 
   /**
-   * @param {string} id
+   * @param {number} id
    */
   getPointById(id) {
-    const point = this.#points.find((item) => (item.id === id));
-
-    return clone(new PointAdapter(point));
+    return this.getPoints().find((item) => (item.id === id));
   }
 
+  /**
+   * @returns {OfferGroup[]}
+   */
   getOfferGroups() {
     return clone(this.#offerGroups);
   }
 
   /**
-   * @param {PointType} type
+   * @param {string} type
+   * @returns {Offer[]}
    */
   getAvailableOffers(type) {
     const availableOffers = this.getOfferGroups()
@@ -69,6 +65,7 @@ export default class RouteModel extends EventTarget {
   /**
    * @param {PointType} type
    * @param {number[]} ids
+   * @returns {Offer[]}
    */
   getOffers(type, ids) {
     const offers = this
@@ -78,15 +75,29 @@ export default class RouteModel extends EventTarget {
     return clone(offers);
   }
 
+  /**
+   * @returns {Destination[]}
+   */
   getDestinations() {
     return clone(this.#destinations);
   }
 
   /**
    * @param {number} id
+   * @returns {Destination}
    */
   getDestinationById(id) {
     const destination = this.#destinations.find((item) => (item.id === id));
+
+    return clone(destination);
+  }
+
+  /**
+   * @param {string} name
+   * @returns {Destination}
+   */
+  getDestinationByName(name) {
+    const destination = this.#destinations.find((item) => (item.name === name));
 
     return clone(destination);
   }

@@ -4,8 +4,6 @@
 import EditorView from '../view/editor-view.js';
 import Type from '../enum/type.js';
 import TypeLabel from '../enum/type-label.js';
-import FormatDate from '../enum/format-date.js';
-import { formatDate } from '../utils.js';
 
 export default class EditorPresenter {
   /** @type {RouteModel} */
@@ -72,17 +70,9 @@ export default class EditorPresenter {
   }
 
   updateDatePickerView() {
-    const startDate = formatDate(this.#point.startDate, FormatDate.DATE);
-    const startTime = formatDate(this.#point.startDate, FormatDate.TIME);
-    const startDateTime = `${startDate} ${startTime}`;
-
-    const endDate = formatDate(this.#point.endDate, FormatDate.DATE);
-    const endTime = formatDate(this.#point.endDate, FormatDate.TIME);
-    const endDateTime = `${endDate} ${endTime}`;
-
     this.view.datePickerView
-      .setStartDate(startDateTime)
-      .setEndDate(endDateTime);
+      .setStartDate(this.#point.startDate)
+      .setEndDate(this.#point.endDate);
   }
 
   updatePriceInput() {

@@ -22,3 +22,30 @@
 /**
  * @typedef {'taxi' | 'bus' | 'train' | 'ship' | 'drive' | 'flight' | 'check-in' | 'sightseeing' | 'restaurant'} PointType
  */
+
+/**
+ * @typedef Destination
+ * @prop {number} id
+ * @prop {string} description
+ * @prop {string} name
+ * @prop {Picture[]} pictures
+ */
+
+/**
+ * @typedef Picture
+ * @prop {string} src
+ * @prop {string} description
+ */
+
+/**
+ * @typedef OfferGroup
+ * @prop {PointType} type
+ * @prop {Offer[]} offers
+ */
+
+/**
+ * @typedef Offer
+ * @prop {number} id
+ * @prop {string} title
+ * @prop {number} price
+ */

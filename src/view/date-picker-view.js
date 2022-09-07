@@ -1,8 +1,7 @@
 import 'flatpickr/dist/flatpickr.min.css';
 
 import flatpickr from 'flatpickr';
-import ComponentView from './component-view.js';
-import { html } from '../utils.js';
+import ComponentView, {html} from './component-view.js';
 
 const DATE_FORMAT = 'd/m/y H:i';
 

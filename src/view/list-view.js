@@ -1,5 +1,7 @@
 import ComponentView from './component-view.js';
 
+export * from './component-view.js';
+
 export default class ListView extends ComponentView {
   constructor() {
     super(...arguments);

@@ -1,11 +1,10 @@
 /** @typedef {import('./point-view').default} PointView */
 
-import ComponentView from './component-view.js';
+import ComponentView, {html} from './component-view.js';
 import SortSelectView from './sort-select-view.js';
 import Sort from '../enum/sort.js';
 import SortLabel from '../enum/sort-label.js';
 import SortDisabled from '../enum/sort-disabled.js';
-import { html } from '../utils.js';
 
 export default class RouteView extends ComponentView {
   constructor() {

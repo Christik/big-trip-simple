@@ -1,6 +1,5 @@
-import ListItemView from './list-item-view.js';
+import ListItemView, {html} from './list-item-view.js';
 import OfferView from './offer-view.js';
-import { html } from '../utils.js';
 
 /**
  * @typedef PointState

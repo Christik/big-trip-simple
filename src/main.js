@@ -9,6 +9,7 @@ import OfferGroupAdapter from './adapter/offer-group-adapter.js';
 import ApplicationModel from './model/application-model.js';
 import PointListPresenter from './presenter/point-list-presenter.js';
 import PointListView from './view/point-list-view.js';
+import EditorView from './view/editor-view.js';
 
 const BASE_URL = 'https://18.ecmascript.pages.academy/big-trip';
 const POINTS_URL = `${BASE_URL}/points`;
@@ -47,4 +48,5 @@ const pointListView = document.querySelector(String(PointListView));
 
 applicationModel.ready().then(() => {
   new PointListPresenter(applicationModel, pointListView);
+  new EditorPresenter(applicationModel, new EditorView());
 });

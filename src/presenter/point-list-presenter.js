@@ -1,6 +1,8 @@
 import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
 import { formatDate } from '../utils.js';
+import Type from '../enum/type.js';
+import TypeLabel from '../enum/type-label.js';
 
 /**
  * @template {ApplicationModel} Model
@@ -23,6 +25,8 @@ export default class PointListPresenter extends Presenter {
     const states = points.map((point) => {
       const {startDate, endDate} = point;
       const destination = this.model.destinations.findById(point.destinationId);
+      const typeLabel = TypeLabel[Type.findKey(point.type)];
+      const title = `${typeLabel} ${destination.name}`;
       const offerGroup = this.model.offerGroups.findById(point.type);
 
       const offerStates = offerGroup.items.reduce((result, offer) => {
@@ -37,7 +41,7 @@ export default class PointListPresenter extends Presenter {
         type: point.type,
         startIsoDate: startDate,
         endIsoDate: endDate,
-        title: destination.name,
+        title,
         icon: point.type,
         startDate: formatDate(startDate, DateFormat.CALENDAR_DATE),
         startTime: formatDate(startDate, DateFormat.TIME),

@@ -1,6 +1,6 @@
 import ListItemView from './list-item-view.js';
 import OfferView from './offer-view.js';
-import { html, getIconUrl } from '../utils.js';
+import { html } from '../utils.js';
 
 /**
  * @typedef PointState
@@ -71,90 +71,6 @@ export default class PointView extends ListItemView {
         </button>
       </div>
     `;
-  }
-
-  /**
-   * @param {string} title
-   */
-  setTitle(title) {
-    const view = this.querySelector('.event__title');
-
-    view.textContent = title;
-
-    return this;
-  }
-
-  /**
-   * @param {PointType} name
-   */
-  setIcon(name) {
-    /**
-     * @type {HTMLImageElement}
-     */
-    const view = this.querySelector('.event__type-icon');
-
-    view.src = getIconUrl(name);
-
-    return this;
-  }
-
-  /**
-   * @param {string} dateForHuman
-   * @param {string} dateForMachine
-   */
-  setDate(dateForHuman, dateForMachine) {
-    /**
-     * @type {HTMLTimeElement}
-     */
-    const view = this.querySelector('.event__date');
-
-    view.textContent = dateForHuman;
-    view.dateTime = dateForMachine;
-
-    return this;
-  }
-
-  /**
-   * @param {string} timeForHuman
-   * @param {string} timeForMachine
-   */
-  setStartTime(timeForHuman, timeForMachine) {
-    /**
-     * @type {HTMLTimeElement}
-     */
-    const view = this.querySelector('.event__start-time');
-
-    view.textContent = timeForHuman;
-    view.dateTime = timeForMachine;
-
-    return this;
-  }
-
-  /**
-   * @param {string} timeForHuman
-   * @param {string} timeForMachine
-   */
-  setEndTime(timeForHuman, timeForMachine) {
-    /**
-     * @type {HTMLTimeElement}
-     */
-    const view = this.querySelector('.event__end-time');
-
-    view.textContent = timeForHuman;
-    view.dateTime = timeForMachine;
-
-    return this;
-  }
-
-  /**
-   * @param {string} price
-   */
-  setPrice(price) {
-    const view = this.querySelector('.event__price-value');
-
-    view.textContent = price;
-
-    return this;
   }
 
   /**

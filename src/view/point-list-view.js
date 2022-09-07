@@ -6,7 +6,7 @@ export default class PointListView extends ListView {
    * @param {PointState[]} states
    */
   setItems(states) {
-    const views = states.map((state) => new PointView(state));
+    const views = states.map((state) => new PointView(state).setOffers(state.offers));
 
     this.replaceChildren(...views);
 

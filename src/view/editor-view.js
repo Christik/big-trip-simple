@@ -1,21 +1,17 @@
-/** @typedef {import('./point-view').default} PointView */
-
-import ComponentView from './component-view.js';
+import ListItemView, {html} from './list-item-view.js';
 import TypeSelectView from './type-select-view.js';
 import DestinationSelectView from './destination-select-view.js';
+import DatePickerView from './date-picker-view.js';
+import PriceInputView from './price-input-view.js';
 import OfferSelectView from './offer-select-view.js';
 import DestinationDetailsView from './destination-details-view.js';
-import PriceInputView from './price-input-view.js';
-import DatePickerView from './date-picker-view.js';
-import { html, isKeyEscape } from '../utils.js';
+import {isKeyEscape} from '../utils.js';
 
-export default class EditorView extends ComponentView {
-  #linked = null;
+export default class EditorView extends ListItemView {
+  #linked;
 
   constructor() {
     super();
-
-    this.classList.add('trip-events__item');
 
     this.bodyView = this.querySelector('.event__details');
     this.offersContainerView = this.querySelector('.event__section--offers');

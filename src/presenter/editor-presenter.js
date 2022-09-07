@@ -1,29 +1,35 @@
-/** @typedef {import('../model/route-model').default} RouteModel */
-/** @typedef {import('../adapter/point-adapter').default} PointAdapter */
-
-import EditorView from '../view/editor-view.js';
+import Presenter from './presenter.js';
 import Type from '../enum/type.js';
 import TypeLabel from '../enum/type-label.js';
-import FormatDate from '../enum/format-date.js';
-import { formatDate } from '../utils.js';
 
-export default class EditorPresenter {
-  /** @type {RouteModel} */
-  #model = null;
+/**
+ * @template {ApplicationModel} Model
+ * @template {EditorView} View
+ * @extends Presenter<Model,View>
+ */
+export default class EditorPresenter extends Presenter {
+  #point;
 
-  /** @type {PointAdapter} */
-  #point = null;
-
-  constructor(model) {
-    this.#model = model;
-    this.view = new EditorView();
+  /**
+   * @param {[model: Model, view: View]} args
+   */
+  constructor(...args) {
+    super(...args);
 
     this.buildTypeSelectView();
     this.buildDestinationSelectView();
 
     document.addEventListener('point-edit', this.onPointEdit.bind(this));
-    this.view.typeSelectView.addEventListener('change', this.onTypeSelectChange.bind(this));
-    this.view.destinationSelectView.addEventListener('change', this.updateDestinationDetailsView.bind(this));
+
+    this.view.typeSelectView.addEventListener(
+      'change',
+      this.onTypeSelectChange.bind(this)
+    );
+
+    this.view.destinationSelectView.addEventListener(
+      'change',
+      this.updateDestinationDetailsView.bind(this)
+    );
   }
 
   buildTypeSelectView() {
@@ -40,7 +46,7 @@ export default class EditorPresenter {
 
   buildDestinationSelectView() {
     /** @type {[string, string][]} */
-    const options = this.#model.getDestinations().map(
+    const options = this.model.destinations.listAll().map(
       (item) => ['', item.name]
     );
 
@@ -50,7 +56,7 @@ export default class EditorPresenter {
 
   buildOfferSelectView() {
     const type = this.view.typeSelectView.getValue();
-    const availableOffers = this.#model.getAvailableOffers(type);
+    const availableOffers = this.model.offerGroups.findById(type).items;
 
     /** @type {[number, string, number][]} */
     const options = availableOffers.map((offer) => [offer.id, offer.title, offer.price]);
@@ -64,7 +70,7 @@ export default class EditorPresenter {
 
   updateDestinationSelectView() {
     const label = TypeLabel[Type.findKey(this.#point.type)];
-    const destination = this.#model.getDestinationById(this.#point.destinationId);
+    const destination = this.model.destinations.findById(this.#point.destinationId);
 
     this.view.destinationSelectView
       .setLabel(label)
@@ -72,17 +78,9 @@ export default class EditorPresenter {
   }
 
   updateDatePickerView() {
-    const startDate = formatDate(this.#point.startDate, FormatDate.DATE);
-    const startTime = formatDate(this.#point.startDate, FormatDate.TIME);
-    const startDateTime = `${startDate} ${startTime}`;
-
-    const endDate = formatDate(this.#point.endDate, FormatDate.DATE);
-    const endTime = formatDate(this.#point.endDate, FormatDate.TIME);
-    const endDateTime = `${endDate} ${endTime}`;
-
     this.view.datePickerView
-      .setStartDate(startDateTime)
-      .setEndDate(endDateTime);
+      .setStartDate(this.#point.startDate)
+      .setEndDate(this.#point.endDate);
   }
 
   updatePriceInput() {
@@ -91,7 +89,7 @@ export default class EditorPresenter {
 
   updateOfferSelectView() {
     const type = this.view.typeSelectView.getValue();
-    const availableOffers = this.#model.getAvailableOffers(type);
+    const availableOffers = this.model.offerGroups.findById(type).items;
     const optionsChecked = availableOffers.map(
       (offer) => (this.#point.offerIds.includes(offer.id))
     );
@@ -101,7 +99,7 @@ export default class EditorPresenter {
 
   updateDestinationDetailsView() {
     const name = this.view.destinationSelectView.getValue();
-    const destination = this.#model.getDestinationByName(name);
+    const destination = this.model.destinations.findBy('name', name);
 
     /** @type {[string, string][]} */
     const pictureOptions = destination.pictures.map(
@@ -126,7 +124,7 @@ export default class EditorPresenter {
   }
 
   onPointEdit(event) {
-    this.#point = this.#model.getPointById(event.detail);
+    this.#point = this.model.points.findById(event.detail);
 
     this.view.close();
     this.updateView();

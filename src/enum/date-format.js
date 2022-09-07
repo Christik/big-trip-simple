@@ -1,7 +1,7 @@
 import Enum from './enum.js';
 
-export default class FormatDate extends Enum {
+export default class DateFormat extends Enum {
   static DATE = 'DD/MM/YY';
   static TIME = 'HH:mm';
-  static POINT_DATE = 'MMM D';
+  static CALENDAR_DATE = 'MMM D';
 }

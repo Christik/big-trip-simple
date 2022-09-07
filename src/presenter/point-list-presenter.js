@@ -34,6 +34,7 @@ export default class PointListPresenter extends Presenter {
 
       return {
         id: point.id,
+        type: point.type,
         startIsoDate: startDate,
         endIsoDate: endDate,
         title: destination.name,

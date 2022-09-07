@@ -1,4 +1,4 @@
-import ComponentView from './component-view.js';
+import ListItemView from './list-item-view.js';
 import OfferView from './offer-view.js';
 import { html, getIconUrl } from '../utils.js';
 
@@ -16,14 +16,14 @@ import { html, getIconUrl } from '../utils.js';
  * @prop {OfferState[]} offers
  */
 
-export default class PointView extends ComponentView {
+export default class PointView extends ListItemView {
   #id;
 
   /**
    * @param {PointState} state
    */
   constructor(state) {
-    super();
+    super(state);
 
     this.#id = state.id;
 

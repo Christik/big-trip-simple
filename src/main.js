@@ -1,15 +1,20 @@
-import FilterPresenter from './presenter/filter-presenter.js';
-import EditorPresenter from './presenter/editor-presenter.js';
+import FilterPredicate from './enum/filter-predicate.js';
+
 import Store from './store/store.js';
-import DataTableModel from './model/data-table-model.js';
-import PointAdapter from './adapter/point-adapter.js';
 import CollectionModel from './model/collection-model.js';
+import DataTableModel from './model/data-table-model.js';
+import ApplicationModel from './model/application-model.js';
+
+import PointAdapter from './adapter/point-adapter.js';
 import DestinationAdapter from './adapter/destination-adapter.js';
 import OfferGroupAdapter from './adapter/offer-group-adapter.js';
-import ApplicationModel from './model/application-model.js';
-import PointListPresenter from './presenter/point-list-presenter.js';
+
 import PointListView from './view/point-list-view.js';
 import EditorView from './view/editor-view.js';
+
+import EditorPresenter from './presenter/editor-presenter.js';
+import PointListPresenter from './presenter/point-list-presenter.js';
+import FilterPresenter from './presenter/filter-presenter.js';
 
 const BASE_URL = 'https://18.ecmascript.pages.academy/big-trip';
 const POINTS_URL = `${BASE_URL}/points`;
@@ -29,7 +34,7 @@ const offerStore = new Store(OFFERS_URL, AUTH);
 const points = new DataTableModel(
   pointStore,
   (point) => new PointAdapter(point)
-);
+).setFilter(FilterPredicate.EVERYTHING);
 
 const destinations = new CollectionModel(
   destinationStore,

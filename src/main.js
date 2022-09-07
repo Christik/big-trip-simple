@@ -10,10 +10,12 @@ import DestinationAdapter from './adapter/destination-adapter.js';
 import OfferGroupAdapter from './adapter/offer-group-adapter.js';
 
 import FilterSelectView from './view/filter-select-view.js';
+import SortSelectView from './view/sort-select-view.js';
 import PointListView from './view/point-list-view.js';
 import EditorView from './view/editor-view.js';
 
 import FilterPresenter from './presenter/filter-presenter.js';
+import SortPresenter from './presenter/sort-presenter.js';
 import PointListPresenter from './presenter/point-list-presenter.js';
 import EditorPresenter from './presenter/editor-presenter.js';
 
@@ -52,11 +54,15 @@ const applicationModel = new ApplicationModel(points, destinations, offerGroups)
 /** @type {FilterSelectView} */
 const filterView = document.querySelector(String(FilterSelectView));
 
+/** @type {SortSelectView} */
+const sortView = document.querySelector(String(SortSelectView));
+
 /** @type {PointListView} */
 const pointListView = document.querySelector(String(PointListView));
 
 applicationModel.ready().then(() => {
   new FilterPresenter(applicationModel, filterView);
+  new SortPresenter(applicationModel, sortView);
   new PointListPresenter(applicationModel, pointListView);
   new EditorPresenter(applicationModel, new EditorView());
 });

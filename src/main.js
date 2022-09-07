@@ -9,12 +9,13 @@ import PointAdapter from './adapter/point-adapter.js';
 import DestinationAdapter from './adapter/destination-adapter.js';
 import OfferGroupAdapter from './adapter/offer-group-adapter.js';
 
+import FilterSelectView from './view/filter-select-view.js';
 import PointListView from './view/point-list-view.js';
 import EditorView from './view/editor-view.js';
 
-import EditorPresenter from './presenter/editor-presenter.js';
-import PointListPresenter from './presenter/point-list-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
+import PointListPresenter from './presenter/point-list-presenter.js';
+import EditorPresenter from './presenter/editor-presenter.js';
 
 const BASE_URL = 'https://18.ecmascript.pages.academy/big-trip';
 const POINTS_URL = `${BASE_URL}/points`;
@@ -48,10 +49,14 @@ const offerGroups = new CollectionModel(
 
 const applicationModel = new ApplicationModel(points, destinations, offerGroups);
 
+/** @type {FilterSelectView} */
+const filterView = document.querySelector(String(FilterSelectView));
+
 /** @type {PointListView} */
 const pointListView = document.querySelector(String(PointListView));
 
 applicationModel.ready().then(() => {
+  new FilterPresenter(applicationModel, filterView);
   new PointListPresenter(applicationModel, pointListView);
   new EditorPresenter(applicationModel, new EditorView());
 });

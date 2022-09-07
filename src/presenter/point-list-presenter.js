@@ -1,8 +1,8 @@
+import Type from '../enum/type.js';
+import TypeLabel from '../enum/type-label.js';
 import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
 import { formatDate } from '../utils.js';
-import Type from '../enum/type.js';
-import TypeLabel from '../enum/type-label.js';
 
 /**
  * @template {ApplicationModel} Model
@@ -15,6 +15,11 @@ export default class PointListPresenter extends Presenter {
    */
   constructor(...args) {
     super(...args);
+
+    this.model.points.addEventListener(
+      ['add', 'update', 'remove', 'filter', 'sort'],
+      this.updateView.bind(this)
+    );
 
     this.updateView();
   }

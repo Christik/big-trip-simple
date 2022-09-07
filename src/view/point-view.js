@@ -1,21 +1,31 @@
-/** @typedef {import('./offer-view').State} OfferState */
-
 import ComponentView from './component-view.js';
 import OfferView from './offer-view.js';
 import { html, getIconUrl } from '../utils.js';
 
-export default class PointView extends ComponentView {
-  #id = null;
+/**
+ * @typedef PointState
+ * @prop {number} id
+ * @prop {string} startIsoDate
+ * @prop {string} endIsoDate
+ * @prop {string} startDate
+ * @prop {string} title
+ * @prop {string} icon
+ * @prop {string} startTime
+ * @prop {string} endTime
+ * @prop {string} price
+ * @prop {OfferState[]} offers
+ */
 
-  constructor(id) {
+export default class PointView extends ComponentView {
+  #id;
+
+  /**
+   * @param {PointState} state
+   */
+  constructor(state) {
     super();
 
-    this.#id = id;
-
-    /**
-     * @type {OfferView}
-     */
-    this.pointOffersView = this.querySelector(String(OfferView));
+    this.#id = state.id;
 
     this.addEventListener('click', this.onClick);
   }
@@ -23,23 +33,35 @@ export default class PointView extends ComponentView {
   /**
    * @override
    */
-  createTemplate() {
+  createTemplate(state) {
     return html`
       <div class="event">
-        <time class="event__date" datetime="2000-01-01">DEC 00</time>
+        <time class="event__date" datetime="${state.startIsoDate}">
+          ${state.startDate}
+        </time>
         <div class="event__type">
-          <img class="event__type-icon" width="42" height="42" src="img/icons/name.png" alt="Event type icon">
+          <img
+            class="event__type-icon"
+            width="42"
+            height="42"
+            src="img/icons/${state.type}.png"
+            alt="Event type icon"
+          >
         </div>
-        <h3 class="event__title">Type City</h3>
+        <h3 class="event__title">${state.title}</h3>
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="2000-01-01T00:00">00:00</time>
+            <time class="event__start-time" datetime="${state.startIsoDate}">
+              ${state.startTime}
+            </time>
             &mdash;
-            <time class="event__end-time" datetime="2000-01-01T00:00">00:00</time>
+            <time class="event__end-time" datetime="${state.endIsoDate}">
+              ${state.endTime}
+            </time>
           </p>
         </div>
         <p class="event__price">
-          &euro;&nbsp;<span class="event__price-value">0</span>
+          &euro;&nbsp;<span class="event__price-value">${state.price}</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <div class="event__selected-offers">

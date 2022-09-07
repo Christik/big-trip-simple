@@ -9,6 +9,7 @@ import PointAdapter from './adapter/point-adapter.js';
 import DestinationAdapter from './adapter/destination-adapter.js';
 import OfferGroupAdapter from './adapter/offer-group-adapter.js';
 
+import PlaceholderView from './view/placeholder-view.js';
 import FilterSelectView from './view/filter-select-view.js';
 import SortSelectView from './view/sort-select-view.js';
 import PointListView from './view/point-list-view.js';
@@ -51,16 +52,16 @@ const offerGroups = new CollectionModel(
 
 const applicationModel = new ApplicationModel(points, destinations, offerGroups);
 
+const placeholderView = document.querySelector(String(PlaceholderView));
+const sortView = new SortSelectView();
+const pointListView = new PointListView();
+
 /** @type {FilterSelectView} */
 const filterView = document.querySelector(String(FilterSelectView));
 
-/** @type {SortSelectView} */
-const sortView = document.querySelector(String(SortSelectView));
-
-/** @type {PointListView} */
-const pointListView = document.querySelector(String(PointListView));
-
 applicationModel.ready().then(() => {
+  placeholderView.replaceWith(sortView, pointListView);
+
   new FilterPresenter(applicationModel, filterView);
   new SortPresenter(applicationModel, sortView);
   new PointListPresenter(applicationModel, pointListView);

@@ -1,3 +1,5 @@
+import './offer-select-view.css';
+
 import ComponentView, {html} from './component-view.js';
 import OfferOptionView from './offer-option-view';
 

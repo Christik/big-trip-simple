@@ -1,3 +1,4 @@
+import './list-item-view.css';
 import ComponentView from './component-view.js';
 
 export * from './component-view.js';

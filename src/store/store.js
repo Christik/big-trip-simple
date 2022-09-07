@@ -34,6 +34,11 @@ export default class Store {
       if (!response.ok) {
         throw new StoreError(response);
       }
+
+      if (response.headers.get('content-type').startsWith('text/plain')) {
+        return response.text();
+      }
+
       return response.json();
     });
   }

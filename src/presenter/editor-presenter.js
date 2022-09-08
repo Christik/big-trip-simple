@@ -80,8 +80,8 @@ export default class EditorPresenter extends Presenter {
 
   updateDatePickerView() {
     this.view.datePickerView
-      .setStartDate(this.#point.startDate)
-      .setEndDate(this.#point.endDate);
+      .setEndDate(this.#point.endDate)
+      .setStartDate(this.#point.startDate);
   }
 
   updatePriceInput() {

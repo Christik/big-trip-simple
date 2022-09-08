@@ -7,15 +7,26 @@ import OfferSelectView from './offer-select-view.js';
 import DestinationDetailsView from './destination-details-view.js';
 import {isKeyEscape} from '../utils.js';
 
+const RemovingMode = {
+  ACTIVE: 'Deleting...',
+  INACTIVE: 'Delete'
+};
+
 export default class EditorView extends ListItemView {
   #linked;
 
   constructor() {
     super();
 
+    this.removeSelector = '.event__reset-btn';
+    this.closeSelector = '.event__rollup-btn';
+
     this.bodyView = this.querySelector('.event__details');
     this.offersContainerView = this.querySelector('.event__section--offers');
     this.offerListView = this.querySelector('.event__available-offers');
+
+    /** @type {HTMLButtonElement} */
+    this.removeView = this.querySelector(this.removeSelector);
 
     /** @type {TypeSelectView} */
     this.typeSelectView = this.querySelector(String(TypeSelectView));
@@ -86,12 +97,22 @@ export default class EditorView extends ListItemView {
     return this;
   }
 
+  setRemovingMode() {
+    this.removeView.textContent = RemovingMode.ACTIVE;
+    this.removeView.disabled = true;
+  }
+
+  unsetRemovingMode() {
+    this.removeView.textContent = RemovingMode.INACTIVE;
+    this.removeView.disabled = false;
+  }
+
   onClick(event) {
-    if (event.target.closest('.event__rollup-btn')) {
+    if (event.target.closest(this.closeSelector)) {
       this.close();
     }
 
-    if (event.target.closest('.event__reset-btn')) {
+    if (event.target.closest(this.removeSelector)) {
       this.dispatchEvent(new CustomEvent('point-remove'));
     }
   }

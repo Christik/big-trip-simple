@@ -93,9 +93,9 @@ export default class CollectionModel extends Model {
    * @param {ItemId} id
    */
   async remove(id) {
-    await this.#store.remove(id);
     const index = this.findIndexById(id);
 
+    await this.#store.remove(id);
     this.#items.splice(index, 1);
 
     this.dispatchEvent(new CustomEvent('remove'));

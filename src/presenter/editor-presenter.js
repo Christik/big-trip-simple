@@ -142,9 +142,11 @@ export default class EditorPresenter extends Presenter {
       .open();
   }
 
-  onPointRemove() {
+  async onPointRemove() {
     const id = this.#point.id;
 
-    this.model.points.remove(id);
+    this.view.setRemovingMode();
+    await this.model.points.remove(id);
+    this.view.unsetRemovingMode();
   }
 }

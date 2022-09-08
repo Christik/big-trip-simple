@@ -17,11 +17,22 @@ export default class EditorView extends ListItemView {
     this.offersContainerView = this.querySelector('.event__section--offers');
     this.offerListView = this.querySelector('.event__available-offers');
 
+    /** @type {TypeSelectView} */
     this.typeSelectView = this.querySelector(String(TypeSelectView));
+
+    /** @type {DestinationSelectView} */
     this.destinationSelectView = this.querySelector(String(DestinationSelectView));
+
+    /** @type {PriceInputView} */
     this.priceInputView = this.querySelector(String(PriceInputView));
+
+    /** @type {DatePickerView} */
     this.datePickerView = this.querySelector(String(DatePickerView));
+
+    /** @type {OfferSelectView} */
     this.offerSelectView = this.querySelector(String(OfferSelectView));
+
+    /** @type {DestinationDetailsView} */
     this.destinationDetailsView = this.querySelector(String(DestinationDetailsView));
 
     this.addEventListener('click', this.onClick);

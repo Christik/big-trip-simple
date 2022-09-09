@@ -3,6 +3,7 @@ import TypeLabel from '../enum/type-label.js';
 import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
 import { formatDate } from '../utils.js';
+import Mode from '../enum/mode.js';
 
 /**
  * @template {ApplicationModel} Model
@@ -21,7 +22,9 @@ export default class PointListPresenter extends Presenter {
       this.updateView.bind(this)
     );
 
-    this.updateView();
+    this.updateView().addEventListener('point-edit', (/** @type {CustomEvent} */ event) => {
+      this.model.setMode(Mode.EDIT, event.detail);
+    });
   }
 
   updateView() {
@@ -56,6 +59,6 @@ export default class PointListPresenter extends Presenter {
       };
     });
 
-    this.view.setItems(states);
+    return this.view.setItems(states);
   }
 }

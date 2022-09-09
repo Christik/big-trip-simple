@@ -90,11 +90,19 @@ export default class EditorView extends ListItemView {
     return this;
   }
 
-  close() {
+  close(silent = false) {
     this.replaceWith(this.#linked);
     document.removeEventListener('keydown', this.onDocumentKeydown);
 
+    if (!silent) {
+      this.dispatchEvent(new CustomEvent('close'));
+    }
+
     return this;
+  }
+
+  reset() {
+    this.querySelector('form').reset();
   }
 
   setRemovingMode() {

@@ -67,3 +67,14 @@ applicationModel.ready().then(() => {
   new PointListPresenter(applicationModel, pointListView);
   new EditorPresenter(applicationModel, new EditorView());
 });
+
+const {group, groupEnd, trace} = console;
+
+applicationModel.addEventListener(['view', 'create', 'edit'], (event) => {
+  groupEnd();
+  group(event.type);
+});
+
+applicationModel.points.addEventListener(['add', 'update', 'remove', 'filter', 'sort'], (event) => {
+  trace(event.type);
+});

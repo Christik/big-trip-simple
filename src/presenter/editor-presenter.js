@@ -2,6 +2,7 @@ import Type from '../enum/type.js';
 import TypeLabel from '../enum/type-label.js';
 import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
+import Mode from '../enum/mode.js';
 
 /**
  * @template {ApplicationModel} Model
@@ -9,8 +10,6 @@ import Presenter from './presenter.js';
  * @extends Presenter<Model,View>
  */
 export default class EditorPresenter extends Presenter {
-  #point;
-
   /**
    * @param {[model: Model, view: View]} args
    */
@@ -21,8 +20,11 @@ export default class EditorPresenter extends Presenter {
     this.buildDestinationSelectView();
     this.buildDatePickerView();
 
-    document.addEventListener('point-edit', this.onPointEdit.bind(this));
+    this.model.addEventListener('edit', this.onPointEdit.bind(this));
     this.view.addEventListener('point-remove', this.onPointRemove.bind(this));
+    this.view.addEventListener('close', () => {
+      this.model.setMode(Mode.VIEW);
+    });
 
     this.view.typeSelectView.addEventListener(
       'change',
@@ -78,12 +80,14 @@ export default class EditorPresenter extends Presenter {
   }
 
   updateTypeSelectView() {
-    this.view.typeSelectView.setValue(this.#point.type);
+    this.view.typeSelectView.setValue(this.model.editablePoint.type);
   }
 
   updateDestinationSelectView() {
-    const label = TypeLabel[Type.findKey(this.#point.type)];
-    const destination = this.model.destinations.findById(this.#point.destinationId);
+    const label = TypeLabel[Type.findKey(this.model.editablePoint.type)];
+    const destination = this.model.destinations.findById(
+      this.model.editablePoint.destinationId
+    );
 
     this.view.destinationSelectView
       .setLabel(label)
@@ -92,19 +96,19 @@ export default class EditorPresenter extends Presenter {
 
   updateDatePickerView() {
     this.view.datePickerView
-      .setStartDate(this.#point.startDate)
-      .setEndDate(this.#point.endDate);
+      .setStartDate(this.model.editablePoint.startDate)
+      .setEndDate(this.model.editablePoint.endDate);
   }
 
   updatePriceInput() {
-    this.view.priceInputView.setValue(this.#point.basePrice);
+    this.view.priceInputView.setValue(this.model.editablePoint.basePrice);
   }
 
   updateOfferSelectView() {
     const type = this.view.typeSelectView.getValue();
     const availableOffers = this.model.offerGroups.findById(type).items;
     const optionsChecked = availableOffers.map(
-      (offer) => (this.#point.offerIds.includes(offer.id))
+      (offer) => (this.model.editablePoint.offerIds.includes(offer.id))
     );
 
     this.view.offerSelectView.setOptionsChecked(optionsChecked);
@@ -144,18 +148,21 @@ export default class EditorPresenter extends Presenter {
     this.buildOfferSelectView();
   }
 
-  onPointEdit(event) {
-    this.#point = this.model.points.findById(event.detail);
+  onPointEdit() {
+    /** @type {PointView} */
+    const linkedPointView = document.querySelector(
+      `[data-id="${this.model.editablePoint.id}"]`
+    );
 
-    this.view.close();
+    this.view.close(true);
     this.updateView();
     this.view
-      .link(event.target)
+      .link(linkedPointView)
       .open();
   }
 
   async onPointRemove() {
-    const id = this.#point.id;
+    const id = this.model.editablePoint.id;
 
     this.view.setRemovingMode();
     await this.model.points.remove(id);

@@ -25,6 +25,7 @@ export default class PointView extends ListItemView {
     super(state);
 
     this.#id = state.id;
+    this.dataset.id = String(state.id);
 
     this.addEventListener('click', this.onClick);
   }

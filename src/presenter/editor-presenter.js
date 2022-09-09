@@ -1,6 +1,7 @@
-import Presenter from './presenter.js';
 import Type from '../enum/type.js';
 import TypeLabel from '../enum/type-label.js';
+import DateFormat from '../enum/date-format.js';
+import Presenter from './presenter.js';
 
 /**
  * @template {ApplicationModel} Model
@@ -18,6 +19,7 @@ export default class EditorPresenter extends Presenter {
 
     this.buildTypeSelectView();
     this.buildDestinationSelectView();
+    this.buildDatePickerView();
 
     document.addEventListener('point-edit', this.onPointEdit.bind(this));
     this.view.addEventListener('point-remove', this.onPointRemove.bind(this));
@@ -55,6 +57,16 @@ export default class EditorPresenter extends Presenter {
       .setOptions(options);
   }
 
+  buildDatePickerView() {
+    const options = {
+      'dateFormat': DateFormat.DATE_TIME,
+      'enableTime': true,
+      'time_24hr': true
+    };
+
+    this.view.datePickerView.init(options);
+  }
+
   buildOfferSelectView() {
     const type = this.view.typeSelectView.getValue();
     const availableOffers = this.model.offerGroups.findById(type).items;
@@ -80,8 +92,8 @@ export default class EditorPresenter extends Presenter {
 
   updateDatePickerView() {
     this.view.datePickerView
-      .setEndDate(this.#point.endDate)
-      .setStartDate(this.#point.startDate);
+      .setStartDate(this.#point.startDate)
+      .setEndDate(this.#point.endDate);
   }
 
   updatePriceInput() {

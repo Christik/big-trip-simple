@@ -9,7 +9,7 @@ const SORT_DEFAULT = Sort.DAY;
 /**
  * @template {ApplicationModel} Model
  * @template {SortSelectView} View
- * @extends Presenter<Model,View>
+ * @extends {Presenter<Model,View>}
  */
 export default class SortPresenter extends Presenter {
   /**

@@ -7,7 +7,7 @@ import Presenter from './presenter.js';
 /**
  * @template {ApplicationModel} Model
  * @template {FilterSelectView} View
- * @extends Presenter<Model,View>
+ * @extends {Presenter<Model,View>}
  */
 export default class FilterPresenter extends Presenter {
   /**

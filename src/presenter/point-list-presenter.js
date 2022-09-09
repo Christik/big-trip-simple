@@ -8,7 +8,7 @@ import Mode from '../enum/mode.js';
 /**
  * @template {ApplicationModel} Model
  * @template {PointListView} View
- * @extends Presenter<Model,View>
+ * @extends {Presenter<Model,View>}
  */
 export default class PointListPresenter extends Presenter {
   /**

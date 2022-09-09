@@ -7,7 +7,7 @@ import Mode from '../enum/mode.js';
 /**
  * @template {ApplicationModel} Model
  * @template {EditorView} View
- * @extends Presenter<Model,View>
+ * @extends {Presenter<Model,View>}
  */
 export default class EditorPresenter extends Presenter {
   /**

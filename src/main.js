@@ -9,6 +9,7 @@ import PointAdapter from './adapter/point-adapter.js';
 import DestinationAdapter from './adapter/destination-adapter.js';
 import OfferGroupAdapter from './adapter/offer-group-adapter.js';
 
+import PlaceholderView from './view/placeholder-view.js';
 import FilterSelectView from './view/filter-select-view.js';
 import SortSelectView from './view/sort-select-view.js';
 import PointListView from './view/point-list-view.js';
@@ -23,7 +24,7 @@ const BASE_URL = 'https://18.ecmascript.pages.academy/big-trip';
 const POINTS_URL = `${BASE_URL}/points`;
 const DESTINATIONS_URL = `${BASE_URL}/destinations`;
 const OFFERS_URL = `${BASE_URL}/offers`;
-const AUTH = 'Basic er111jdzbdw';
+const AUTH = 'Basic er118jdzbdw';
 
 /** @type {Store<Point>} */
 const pointStore = new Store(POINTS_URL, AUTH);
@@ -51,16 +52,16 @@ const offerGroups = new CollectionModel(
 
 const applicationModel = new ApplicationModel(points, destinations, offerGroups);
 
+const placeholderView = document.querySelector(String(PlaceholderView));
+const sortView = new SortSelectView();
+const pointListView = new PointListView();
+
 /** @type {FilterSelectView} */
 const filterView = document.querySelector(String(FilterSelectView));
 
-/** @type {SortSelectView} */
-const sortView = document.querySelector(String(SortSelectView));
-
-/** @type {PointListView} */
-const pointListView = document.querySelector(String(PointListView));
-
 applicationModel.ready().then(() => {
+  placeholderView.replaceWith(sortView, pointListView);
+
   new FilterPresenter(applicationModel, filterView);
   new SortPresenter(applicationModel, sortView);
   new PointListPresenter(applicationModel, pointListView);

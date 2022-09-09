@@ -5,4 +5,6 @@ export default class SortPredicate extends Enum {
     Date.parse(point.startDate) - Date.parse(nextPoint.startDate);
 
   static PRICE = (point, nextPoint) => nextPoint.basePrice - point.basePrice;
+
+  static DEFAULT = this.DAY;
 }

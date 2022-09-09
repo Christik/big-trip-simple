@@ -20,6 +20,7 @@ export default class EditorPresenter extends Presenter {
     this.buildDestinationSelectView();
 
     document.addEventListener('point-edit', this.onPointEdit.bind(this));
+    this.view.addEventListener('point-remove', this.onPointRemove.bind(this));
 
     this.view.typeSelectView.addEventListener(
       'change',
@@ -79,8 +80,8 @@ export default class EditorPresenter extends Presenter {
 
   updateDatePickerView() {
     this.view.datePickerView
-      .setStartDate(this.#point.startDate)
-      .setEndDate(this.#point.endDate);
+      .setEndDate(this.#point.endDate)
+      .setStartDate(this.#point.startDate);
   }
 
   updatePriceInput() {
@@ -123,6 +124,14 @@ export default class EditorPresenter extends Presenter {
     return this;
   }
 
+  onTypeSelectChange() {
+    const type = this.view.typeSelectView.getValue();
+    const typeLabel = TypeLabel[Type.findKey(type)];
+
+    this.view.destinationSelectView.setLabel(typeLabel);
+    this.buildOfferSelectView();
+  }
+
   onPointEdit(event) {
     this.#point = this.model.points.findById(event.detail);
 
@@ -133,11 +142,11 @@ export default class EditorPresenter extends Presenter {
       .open();
   }
 
-  onTypeSelectChange() {
-    const type = this.view.typeSelectView.getValue();
-    const typeLabel = TypeLabel[Type.findKey(type)];
+  async onPointRemove() {
+    const id = this.#point.id;
 
-    this.view.destinationSelectView.setLabel(typeLabel);
-    this.buildOfferSelectView();
+    this.view.setRemovingMode();
+    await this.model.points.remove(id);
+    this.view.unsetRemovingMode();
   }
 }

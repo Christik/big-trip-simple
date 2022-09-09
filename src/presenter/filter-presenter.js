@@ -1,8 +1,8 @@
 import Filter from '../enum/filter.js';
 import FilterLabel from '../enum/filter-label.js';
 import FilterDisabled from '../enum/filter-disabled.js';
-import Presenter from './presenter.js';
 import FilterPredicate from '../enum/filter-predicate.js';
+import Presenter from './presenter.js';
 
 /**
  * @template {ApplicationModel} Model

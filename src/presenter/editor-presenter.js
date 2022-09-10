@@ -60,13 +60,9 @@ export default class EditorPresenter extends Presenter {
   }
 
   buildDatePickerView() {
-    const options = {
-      'dateFormat': DateFormat.DATE_TIME,
-      'enableTime': true,
-      'time_24hr': true
-    };
-
-    this.view.datePickerView.init(options);
+    this.view.datePickerView.configure({
+      dateFormat: DateFormat.DATE_TIME,
+    });
   }
 
   buildOfferSelectView() {

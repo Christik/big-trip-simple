@@ -101,10 +101,6 @@ export default class EditorView extends ListItemView {
     return this;
   }
 
-  reset() {
-    this.querySelector('form').reset();
-  }
-
   setRemovingMode() {
     this.removeView.textContent = RemovingMode.ACTIVE;
     this.removeView.disabled = true;

@@ -8,11 +8,34 @@ import ComponentView, {html} from './component-view.js';
 /** @typedef {import('flatpickr/dist/types/options').Options} CalendarOptions */
 
 export default class DatePickerView extends ComponentView {
-  startDateCalendar;
-  endDateCalendar;
+  #startDateCalendar;
+  #endDateCalendar;
 
   constructor() {
     super(...arguments);
+
+    const options = {
+      'enableTime': true,
+      'time_24hr': true
+    };
+
+    this.#startDateCalendar = initCalendar(
+      this.querySelector('[name="event-start-time"]'),
+      {
+        ...options,
+        onChange: [(selectedDates) =>
+          this.#endDateCalendar.set('minDate', selectedDates[0])]
+      }
+    );
+
+    this.#endDateCalendar = initCalendar(
+      this.querySelector('[name="event-end-time"]'),
+      {
+        ...options,
+        onChange: [(selectedDates) =>
+          this.#startDateCalendar.set('maxDate', selectedDates[0])]
+      }
+    );
 
     this.classList.add('event__field-group', 'event__field-group--time');
   }
@@ -42,45 +65,34 @@ export default class DatePickerView extends ComponentView {
     `;
   }
 
-  init(options = {}) {
-    this.startDateCalendar = initCalendar(
-      this.querySelector('[name="event-start-time"]'),
-      options
-    );
+  configure(options) {
+    this.#startDateCalendar.set(options);
+    this.#endDateCalendar.set(options);
 
-    this.endDateCalendar = initCalendar(
-      this.querySelector('[name="event-end-time"]'),
-      options
-    );
+    return this;
   }
 
   getStartDate() {
-    return this.startDateCalendar.selectedDates[0];
+    return this.#startDateCalendar.selectedDates[0];
   }
 
   /**
    * @param {CalendarDate} value
    */
   setStartDate(value) {
-    const date = new Date(value);
-
-    this.startDateCalendar.setDate(date);
-
+    this.#startDateCalendar.setDate(value);
     return this;
   }
 
   getEndDate() {
-    return this.endDateCalendar.selectedDates[0];
+    return this.#endDateCalendar.selectedDates[0];
   }
 
   /**
    * @param {CalendarDate} value
    */
   setEndDate(value) {
-    const date = new Date(value);
-
-    this.endDateCalendar.setDate(date);
-
+    this.#endDateCalendar.setDate(value);
     return this;
   }
 }

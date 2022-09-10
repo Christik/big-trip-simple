@@ -1,5 +1,4 @@
 import RadioGroupView, {html} from './radio-group-view.js';
-import TypeOptionView from './type-option-view.js';
 import {getIconUrl} from '../utils.js';
 
 export default class TypeSelectView extends RadioGroupView {
@@ -29,6 +28,27 @@ export default class TypeSelectView extends RadioGroupView {
     `;
   }
 
+  createOptionTemplate(label, value) {
+    return html`
+      <div class="event__type-item">
+        <input
+          id="event-type-${value}-1"
+          class="event__type-input  visually-hidden"
+          type="radio"
+          name="event-type"
+          value="${value}"
+        >
+        <label
+          class="event__type-label event__type-label--${value}"
+          for="event-type-${value}-1"
+        >
+          ${label}
+        </label>
+      </div>
+    `;
+  }
+
+
   getValue() {
     /** @type {HTMLInputElement} */
     const checkedInputView = this.querySelector('[type="radio"]:checked');
@@ -40,9 +60,10 @@ export default class TypeSelectView extends RadioGroupView {
    * @param {[string, PointType][]} states
    */
   setOptions(states) {
-    const views = states.map((state) => new TypeOptionView(...state));
+    const templates = states.map((state) => this.createOptionTemplate(...state));
 
-    this.querySelector('legend').after(...views);
+    this.querySelector('.event__type-group')
+      .insertAdjacentHTML('beforeend', templates.join(''));
 
     return this;
   }

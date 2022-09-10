@@ -1,5 +1,4 @@
 import RadioGroupView, {html} from './radio-group-view.js';
-import FilterOptionView from './filter-option-view.js';
 
 export default class FilterSelectView extends RadioGroupView {
   /**
@@ -13,13 +12,34 @@ export default class FilterSelectView extends RadioGroupView {
   `;
   }
 
+  createOptionTemplate(label, value) {
+    return html`
+      <div class="trip-filters__filter">
+        <input
+          id="filter-${value}"
+          class="trip-filters__filter-input  visually-hidden"
+          type="radio"
+          name="trip-filter"
+          value="${value}"
+        >
+        <label
+          class="trip-filters__filter-label"
+          for="filter-${value}"
+        >
+          ${label}
+        </label>
+      </div>
+    `;
+  }
+
   /**
    * @param {[string, string][]} states
    */
   setOptions(states) {
-    const views = states.map((state) => new FilterOptionView(...state));
+    const templates = states.map((state) => this.createOptionTemplate(...state));
 
-    this.querySelector('.trip-filters').prepend(...views);
+    this.querySelector('.trip-filters')
+      .insertAdjacentHTML('afterbegin', templates.join(''));
 
     return this;
   }

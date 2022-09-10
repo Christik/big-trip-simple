@@ -1,5 +1,4 @@
 import RadioGroupView, {html} from './radio-group-view.js';
-import SortOptionView from './sort-option-view.js';
 
 export default class SortSelectView extends RadioGroupView {
   /**
@@ -12,13 +11,31 @@ export default class SortSelectView extends RadioGroupView {
     `;
   }
 
+  createOptionTemplate(label, value) {
+    return html`
+      <div class="trip-sort__item trip-sort__item--${value}">
+        <input
+          id="sort-${value}"
+          class="trip-sort__input  visually-hidden"
+          type="radio"
+          name="trip-sort"
+          value="${value}"
+        >
+        <label class="trip-sort__btn" for="sort-${value}">
+          ${label}
+        </label>
+      </div>
+    `;
+  }
+
+
   /**
    * @param {[string, string][]} states
    */
   setOptions(states) {
-    const views = states.map((state) => new SortOptionView(...state));
+    const templates = states.map((state) => this.createOptionTemplate(...state));
 
-    this.querySelector('form').replaceChildren(...views);
+    this.querySelector('form').innerHTML = templates.join('');
 
     return this;
   }

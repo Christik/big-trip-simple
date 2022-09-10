@@ -9,7 +9,6 @@ import PointAdapter from './adapter/point-adapter.js';
 import DestinationAdapter from './adapter/destination-adapter.js';
 import OfferGroupAdapter from './adapter/offer-group-adapter.js';
 
-import PlaceholderView from './view/placeholder-view.js';
 import FilterSelectView from './view/filter-select-view.js';
 import SortSelectView from './view/sort-select-view.js';
 import PointListView from './view/point-list-view.js';
@@ -19,6 +18,7 @@ import FilterPresenter from './presenter/filter-presenter.js';
 import SortPresenter from './presenter/sort-presenter.js';
 import PointListPresenter from './presenter/point-list-presenter.js';
 import EditorPresenter from './presenter/editor-presenter.js';
+import PlaceholderPresenter from './presenter/placeholder-presenter.js';
 
 const BASE_URL = 'https://18.ecmascript.pages.academy/big-trip';
 const POINTS_URL = `${BASE_URL}/points`;
@@ -52,7 +52,7 @@ const offerGroups = new CollectionModel(
 
 const applicationModel = new ApplicationModel(points, destinations, offerGroups);
 
-const placeholderView = document.querySelector(String(PlaceholderView));
+const placeholderView = document.querySelector('.trip-events__msg');
 const sortView = new SortSelectView();
 const pointListView = new PointListView();
 
@@ -66,6 +66,7 @@ applicationModel.ready().then(() => {
   new SortPresenter(applicationModel, sortView);
   new PointListPresenter(applicationModel, pointListView);
   new EditorPresenter(applicationModel, new EditorView());
+  new PlaceholderPresenter(applicationModel, placeholderView);
 });
 
 const {group, groupEnd, trace} = console;

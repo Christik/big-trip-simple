@@ -21,7 +21,7 @@ export default class EditorPresenter extends Presenter {
     this.buildDatePickerView();
 
     this.model.addEventListener('edit', this.onPointEdit.bind(this));
-    this.view.addEventListener('point-remove', this.onPointRemove.bind(this));
+    this.view.addEventListener('reset', this.onViewReset.bind(this));
     this.view.addEventListener('close', () => {
       this.model.setMode(Mode.VIEW);
     });
@@ -161,11 +161,14 @@ export default class EditorPresenter extends Presenter {
       .open();
   }
 
-  async onPointRemove() {
-    const id = this.model.editablePoint.id;
+  async onViewReset(event) {
+    event.preventDefault();
 
     this.view.setRemovingMode();
-    await this.model.points.remove(id);
+
+    await this.model.points.remove(this.model.editablePoint.id);
+    this.view.close();
+
     this.view.unsetRemovingMode();
   }
 }

@@ -85,14 +85,14 @@ export default class EditorView extends ListItemView {
 
   open() {
     this.#linked.replaceWith(this);
-    document.addEventListener('keydown', this.onDocumentKeydown);
+    document.addEventListener('keydown', this);
 
     return this;
   }
 
   close(silent = false) {
     this.replaceWith(this.#linked);
-    document.removeEventListener('keydown', this.onDocumentKeydown);
+    document.removeEventListener('keydown', this);
 
     if (!silent) {
       this.dispatchEvent(new CustomEvent('close'));
@@ -119,22 +119,14 @@ export default class EditorView extends ListItemView {
     if (event.target.closest(this.closeSelector)) {
       this.close();
     }
-
-    if (event.target.closest(this.removeSelector)) {
-      this.dispatchEvent(new CustomEvent('point-remove'));
-    }
   }
 
   /**
-   * @this {Document}
    * @param {KeyboardEvent} event
    */
-  onDocumentKeydown(event) {
+  handleEvent(event) {
     if (isKeyEscape(event)) {
-      /** @type {EditorView} */
-      const editorView = this.querySelector(String(EditorView));
-
-      editorView.close();
+      this.close();
     }
   }
 }

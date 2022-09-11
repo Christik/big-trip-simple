@@ -19,6 +19,7 @@ import SortPresenter from './presenter/sort-presenter.js';
 import PointListPresenter from './presenter/point-list-presenter.js';
 import EditorPresenter from './presenter/editor-presenter.js';
 import PlaceholderPresenter from './presenter/placeholder-presenter.js';
+import CreateButtonPresenter from './presenter/create-button-presenter.js';
 
 const BASE_URL = 'https://18.ecmascript.pages.academy/big-trip';
 const POINTS_URL = `${BASE_URL}/points`;
@@ -56,6 +57,9 @@ const placeholderView = document.querySelector('.trip-events__msg');
 const sortView = new SortSelectView();
 const pointListView = new PointListView();
 
+/** @type {HTMLButtonElement} */
+const createButtonView = document.querySelector('.trip-main__event-add-btn');
+
 /** @type {FilterSelectView} */
 const filterView = document.querySelector(String(FilterSelectView));
 
@@ -67,6 +71,7 @@ applicationModel.ready().then(() => {
   new PointListPresenter(applicationModel, pointListView);
   new EditorPresenter(applicationModel, new EditorView());
   new PlaceholderPresenter(applicationModel, placeholderView);
+  new CreateButtonPresenter(applicationModel, createButtonView);
 });
 
 const {group, groupEnd, trace} = console;

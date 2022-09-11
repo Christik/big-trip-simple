@@ -65,22 +65,17 @@ export default class DatePickerView extends ComponentView {
     `;
   }
 
-  configure(options) {
-    this.#startDateCalendar.set(options);
-    this.#endDateCalendar.set(options);
-
-    return this;
-  }
-
   getStartDate() {
     return this.#startDateCalendar.selectedDates[0];
   }
 
   /**
-   * @param {CalendarDate} value
+   * @param {CalendarDate} date
    */
-  setStartDate(value) {
-    this.#startDateCalendar.setDate(value);
+  setStartDate(date, options = {}) {
+    this.#startDateCalendar.set(options);
+    this.#startDateCalendar.setDate(date);
+
     return this;
   }
 
@@ -89,10 +84,12 @@ export default class DatePickerView extends ComponentView {
   }
 
   /**
-   * @param {CalendarDate} value
+   * @param {CalendarDate} date
    */
-  setEndDate(value) {
-    this.#endDateCalendar.setDate(value);
+  setEndDate(date, options = {}) {
+    this.#endDateCalendar.set(options);
+    this.#endDateCalendar.setDate(date);
+
     return this;
   }
 }

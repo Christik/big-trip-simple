@@ -20,6 +20,7 @@ import ListPresenter from './presenter/list-presenter.js';
 import EditorPresenter from './presenter/editor-presenter.js';
 import PlaceholderPresenter from './presenter/placeholder-presenter.js';
 import CreateButtonPresenter from './presenter/create-button-presenter.js';
+import Mode from './enum/mode.js';
 
 const BASE_URL = 'https://18.ecmascript.pages.academy/big-trip';
 const POINTS_URL = `${BASE_URL}/points`;
@@ -79,9 +80,9 @@ applicationModel.ready().then(() => {
 
 const {group, groupEnd, trace} = console;
 
-applicationModel.addEventListener(['view', 'create', 'edit'], (event) => {
+applicationModel.addEventListener('mode', () => {
   groupEnd();
-  group(event.type);
+  group(Mode.findKey(event.target.getMode()));
 });
 
 applicationModel.points.addEventListener(['add', 'update', 'remove', 'filter', 'sort'], (event) => {

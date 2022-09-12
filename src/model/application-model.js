@@ -1,4 +1,3 @@
-import Mode from '../enum/mode.js';
 import Model from './model.js';
 
 export default class ApplicationModel extends Model {
@@ -38,11 +37,9 @@ export default class ApplicationModel extends Model {
    * @param {number} editablePointId
    */
   setMode(mode, editablePointId = null) {
-    const eventType = Mode.findKey(mode).toLowerCase();
-
     this.#mode = mode;
     this.activePoint = this.points.findById(editablePointId);
 
-    this.dispatchEvent(new CustomEvent(eventType));
+    this.dispatchEvent(new CustomEvent('mode'));
   }
 }

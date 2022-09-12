@@ -22,7 +22,7 @@ export default class EditorPresenter extends Presenter {
     this.buildDatePickerView();
 
     // TODO mode event
-    this.model.addEventListener('edit', this.onPointEdit.bind(this));
+    this.model.addEventListener('mode', this.onPointEdit.bind(this));
     this.view.addEventListener('reset', this.onViewReset.bind(this));
     this.view.addEventListener('close', () => {
       this.model.setMode(Mode.VIEW);
@@ -170,16 +170,18 @@ export default class EditorPresenter extends Presenter {
   }
 
   onPointEdit() {
-    /** @type {PointView} */
-    const linkedPointView = document.querySelector(
-      `[data-id="${this.model.activePoint.id}"]`
-    );
+    if (this.model.getMode() === Mode.EDIT) {
+      /** @type {PointView} */
+      const linkedPointView = document.querySelector(
+        `[data-id="${this.model.activePoint.id}"]`
+      );
 
-    this.view.close(true);
-    this.updateView();
-    this.view
-      .target(linkedPointView)
-      .open();
+      this.view.close(true);
+      this.updateView();
+      this.view
+        .target(linkedPointView)
+        .open();
+    }
   }
 
   async onViewReset(event) {

@@ -1,6 +1,6 @@
 import RadioGroupView, {html} from './radio-group-view.js';
 
-export default class FilterSelectView extends RadioGroupView {
+export default class FilterView extends RadioGroupView {
   /**
    * @override
    */
@@ -45,4 +45,4 @@ export default class FilterSelectView extends RadioGroupView {
   }
 }
 
-customElements.define(String(FilterSelectView), FilterSelectView);
+customElements.define(String(FilterView), FilterView);

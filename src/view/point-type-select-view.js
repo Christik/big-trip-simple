@@ -1,7 +1,7 @@
 import RadioGroupView, {html} from './radio-group-view.js';
 import {getIconUrl} from '../utils.js';
 
-export default class TypeSelectView extends RadioGroupView {
+export default class PointTypeSelectView extends RadioGroupView {
   constructor() {
     super(...arguments);
 
@@ -56,7 +56,7 @@ export default class TypeSelectView extends RadioGroupView {
   }
 
   /**
-   * @param {[string, PointType][]} states
+   * @param {[string, string][]} states
    */
   setOptions(states) {
     const templates = states.map((state) => this.createOptionTemplate(...state));
@@ -103,4 +103,4 @@ export default class TypeSelectView extends RadioGroupView {
   }
 }
 
-customElements.define(String(TypeSelectView), TypeSelectView);
+customElements.define(String(PointTypeSelectView), PointTypeSelectView);

@@ -1,8 +1,10 @@
+import FilterEmpty from '../enum/filter-empty.js';
+import FilterPredicate from '../enum/filter-predicate.js';
 import Presenter from './presenter.js';
 
 /**
  * @template {ApplicationModel} Model
- * @template {Element} View
+ * @template {HTMLParagraphElement} View
  * @extends {Presenter<Model,View>}
  */
 export default class PlaceholderPresenter extends Presenter {
@@ -11,9 +13,21 @@ export default class PlaceholderPresenter extends Presenter {
    */
   constructor(...args) {
     super(...args);
+
+    this.updateView();
+
+    this.model.points.addEventListener(['add', 'remove'], this.onModelPointsChange.bind(this));
   }
 
-  setMessage(text) {
-    this.view.textContent = text;
+  updateView() {
+    const {length} = this.model.points.list();
+    const key = FilterPredicate.findKey(this.model.points.getFilter());
+
+    this.view.textContent = length ? '' : FilterEmpty[key];
+    this.view.hidden = Boolean(length);
+  }
+
+  onModelPointsChange() {
+    this.updateView();
   }
 }

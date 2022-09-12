@@ -1,8 +1,8 @@
 import './offer-select-view.css';
 
-import ComponentView, {html} from './component-view.js';
+import View, {html} from './view.js';
 
-export default class OfferSelectView extends ComponentView {
+export default class OfferSelectView extends View {
   constructor() {
     super(...arguments);
 
@@ -51,16 +51,8 @@ export default class OfferSelectView extends ComponentView {
    * @param {[number, string, number][]} states
    */
   setOptions(states) {
-    const areOffersEmpty = (states.length === 0);
     const templates = states.map((state) => this.createOptionTemplate(...state));
 
-    if (areOffersEmpty) {
-      this.hidden = true;
-
-      return this;
-    }
-
-    this.hidden = false;
     this.offersView.innerHTML = templates.join('');
 
     return this;

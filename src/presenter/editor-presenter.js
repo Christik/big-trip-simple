@@ -21,12 +21,9 @@ export default class EditorPresenter extends Presenter {
     this.buildDestinationSelectView();
     this.buildDatePickerView();
 
-    // TODO mode event
-    this.model.addEventListener('mode', this.onPointEdit.bind(this));
+    this.model.addEventListener('mode', this.onModelModeChange.bind(this));
     this.view.addEventListener('reset', this.onViewReset.bind(this));
-    this.view.addEventListener('close', () => {
-      this.model.setMode(Mode.VIEW);
-    });
+    this.view.addEventListener('close', this.onViewClose.bind(this));
 
     this.view.pointTypeSelectView.addEventListener(
       'change',
@@ -169,7 +166,7 @@ export default class EditorPresenter extends Presenter {
     this.buildOfferSelectView();
   }
 
-  onPointEdit() {
+  onModelModeChange() {
     if (this.model.getMode() === Mode.EDIT) {
       /** @type {PointView} */
       const linkedPointView = document.querySelector(
@@ -182,6 +179,10 @@ export default class EditorPresenter extends Presenter {
         .target(linkedPointView)
         .open();
     }
+  }
+
+  onViewClose() {
+    this.model.setMode(Mode.VIEW);
   }
 
   async onViewReset(event) {

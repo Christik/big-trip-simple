@@ -2,7 +2,6 @@ import ListItemView, {html} from './list-item-view.js';
 import OfferView from './offer-view.js';
 
 export default class PointView extends ListItemView {
-  // TODO не нужен
   #id;
 
   /**

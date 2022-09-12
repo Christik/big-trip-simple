@@ -26,7 +26,7 @@ export default class SortPresenter extends Presenter {
     this.view
       .setOptions(options)
       .setOptionsDisabled(optionsDisabled)
-      .setValue(Sort.DAY);
+      .setValue(SORT_DEFAULT);
 
     this.view.addEventListener('change', this.onChange.bind(this));
     this.model.points.addEventListener('filter', this.onFilter.bind(this));

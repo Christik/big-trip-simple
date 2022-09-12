@@ -60,20 +60,9 @@ export default class EditorPresenter extends Presenter {
   }
 
   buildDatePickerView() {
-    const now = Date.now();
-    const options = {
+    this.view.datePickerView.configure({
       dateFormat: DateFormat.DATE_TIME
-    };
-
-    this.view.datePickerView
-      .setStartDate(now, {
-        ...options,
-        maxDate: now
-      })
-      .setEndDate(now, {
-        ...options,
-        minDate: now
-      });
+    });
   }
 
   buildOfferSelectView() {
@@ -102,13 +91,9 @@ export default class EditorPresenter extends Presenter {
   }
 
   updateDatePickerView() {
-    this.view.datePickerView
-      .setStartDate(this.model.editablePoint.startDate, {
-        maxDate: this.model.editablePoint.endDate
-      })
-      .setEndDate(this.model.editablePoint.endDate, {
-        minDate: this.model.editablePoint.startDate
-      });
+    const {startDate, endDate} = this.model.editablePoint;
+
+    this.view.datePickerView.setDates(startDate, endDate);
   }
 
   updatePriceInput() {

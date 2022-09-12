@@ -1,8 +1,9 @@
+import Mode from '../enum/mode.js';
 import Type from '../enum/type.js';
 import TypeLabel from '../enum/type-label.js';
 import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
-import Mode from '../enum/mode.js';
+import PointAdapter from '../adapter/point-adapter.js';
 
 /**
  * @template {ApplicationModel} Model
@@ -35,6 +36,8 @@ export default class EditorPresenter extends Presenter {
       'change',
       this.updateDestinationDetailsView.bind(this)
     );
+
+    this.view.addEventListener('submit', this.onViewSubmit.bind(this));
   }
 
   buildTypeSelectView() {
@@ -61,7 +64,8 @@ export default class EditorPresenter extends Presenter {
 
   buildDatePickerView() {
     this.view.datePickerView.configure({
-      dateFormat: DateFormat.DATE_TIME
+      dateFormat: DateFormat.DATE_TIME,
+      locale: {firstDayOfWeek: 1}
     });
   }
 
@@ -76,13 +80,13 @@ export default class EditorPresenter extends Presenter {
   }
 
   updateTypeSelectView() {
-    this.view.typeSelectView.setValue(this.model.editablePoint.type);
+    this.view.typeSelectView.setValue(this.model.activePoint.type);
   }
 
   updateDestinationSelectView() {
-    const label = TypeLabel[Type.findKey(this.model.editablePoint.type)];
+    const label = TypeLabel[Type.findKey(this.model.activePoint.type)];
     const destination = this.model.destinations.findById(
-      this.model.editablePoint.destinationId
+      this.model.activePoint.destinationId
     );
 
     this.view.destinationSelectView
@@ -91,20 +95,22 @@ export default class EditorPresenter extends Presenter {
   }
 
   updateDatePickerView() {
-    const {startDate, endDate} = this.model.editablePoint;
+    const {startDate, endDate} = this.model.activePoint;
 
     this.view.datePickerView.setDates(startDate, endDate);
   }
 
   updatePriceInput() {
-    this.view.priceInputView.setValue(this.model.editablePoint.basePrice);
+    const {basePrice} = this.model.activePoint;
+
+    this.view.priceInputView.setValue(String(basePrice));
   }
 
   updateOfferSelectView() {
     const type = this.view.typeSelectView.getValue();
     const availableOffers = this.model.offerGroups.findById(type).items;
     const optionsChecked = availableOffers.map(
-      (offer) => (this.model.editablePoint.offerIds.includes(offer.id))
+      (offer) => (this.model.activePoint.offerIds.includes(offer.id))
     );
 
     this.view.offerSelectView.setOptionsChecked(optionsChecked);
@@ -136,6 +142,22 @@ export default class EditorPresenter extends Presenter {
     return this;
   }
 
+  getFormData() {
+    const point = new PointAdapter();
+    const destinationName = this.view.destinationSelectView.getValue();
+    const [startDate, endDate] = this.view.datePickerView.getDates();
+
+    point.type = this.view.typeSelectView.getValue();
+    point.destinationId = this.model.destinations.findBy('name', destinationName)?.id;
+    point.startDate = startDate;
+    point.endDate = endDate;
+    point.basePrice = Number(this.view.priceInputView.getValue());
+    point.offerIds = this.view.offerSelectView.getSelectedValues().map(Number);
+    point.isFavorite = false;
+
+    return point;
+  }
+
   onTypeSelectChange() {
     const type = this.view.typeSelectView.getValue();
     const typeLabel = TypeLabel[Type.findKey(type)];
@@ -147,7 +169,7 @@ export default class EditorPresenter extends Presenter {
   onPointEdit() {
     /** @type {PointView} */
     const linkedPointView = document.querySelector(
-      `[data-id="${this.model.editablePoint.id}"]`
+      `[data-id="${this.model.activePoint.id}"]`
     );
 
     this.view.close(true);
@@ -162,9 +184,19 @@ export default class EditorPresenter extends Presenter {
 
     this.view.setRemovingMode();
 
-    await this.model.points.remove(this.model.editablePoint.id);
+    await this.model.points.remove(this.model.activePoint.id);
     this.view.close();
 
     this.view.unsetRemovingMode();
+  }
+
+  async onViewSubmit(event) {
+    event.preventDefault();
+
+    try {
+      await this.model.points.update(this.model.activePoint.id, this.getFormData());
+    } catch (exception) {
+      // shake
+    }
   }
 }

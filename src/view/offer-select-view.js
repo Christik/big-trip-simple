@@ -28,7 +28,8 @@ export default class OfferSelectView extends ComponentView {
           class="event__offer-checkbox  visually-hidden"
           id="event-offer-${id}"
           type="checkbox"
-          name="event-offer-${id}"
+          name="event-offer"
+          value="${id}"
         >
         <label class="event__offer-label" for="event-offer-${id}">
           <span class="event__offer-title">${title}</span>
@@ -37,6 +38,13 @@ export default class OfferSelectView extends ComponentView {
         </label>
       </div>
     `;
+  }
+
+  getSelectedValues() {
+    /** @type {NodeListOf<HTMLInputElement>} */
+    const selectedInputViews = this.querySelectorAll(':checked');
+
+    return [...selectedInputViews].map((view) => view.value);
   }
 
   /**

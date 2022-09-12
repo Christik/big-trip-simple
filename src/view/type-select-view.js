@@ -48,7 +48,6 @@ export default class TypeSelectView extends RadioGroupView {
     `;
   }
 
-
   getValue() {
     /** @type {HTMLInputElement} */
     const checkedInputView = this.querySelector('[type="radio"]:checked');

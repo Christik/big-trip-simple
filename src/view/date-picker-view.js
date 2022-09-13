@@ -1,23 +1,43 @@
 import 'flatpickr/dist/flatpickr.min.css';
 
-import flatpickr from 'flatpickr';
-import ComponentView, {html} from './component-view.js';
+import initCalendar from 'flatpickr';
+import View, {html} from './view.js';
 
-const DATE_FORMAT = 'd/m/y H:i';
-
-export default class DatePickerView extends ComponentView {
-  #startInputSelector = '[name="event-start-time"]';
-  #endInputSelector = '[name="event-end-time"]';
-
-  #startFlatpickr = null;
-  #endFlatpickr = null;
+export default class DatePickerView extends View {
+  #startDateCalendar;
+  #endDateCalendar;
 
   constructor() {
     super(...arguments);
 
-    this.classList.add('event__field-group', 'event__field-group--time');
+    const calendarOptions = {
+      'enableTime': true,
+      'time_24hr': true
+    };
 
-    this.#initFlatpickr();
+    const onStartDateChange = (selectedDates) =>
+      this.#endDateCalendar.set('minDate', selectedDates[0]);
+
+    /**
+     * @type {Calendar}
+     */
+    this.#startDateCalendar = initCalendar(
+      this.querySelector('[name="event-start-time"]'),
+      {
+        ...calendarOptions,
+        onChange: [onStartDateChange]
+      }
+    );
+
+    /**
+     * @type {Calendar}
+     */
+    this.#endDateCalendar = initCalendar(
+      this.querySelector('[name="event-end-time"]'),
+      calendarOptions
+    );
+
+    this.classList.add('event__field-group', 'event__field-group--time');
   }
 
   /**
@@ -45,69 +65,31 @@ export default class DatePickerView extends ComponentView {
     `;
   }
 
-  #initFlatpickr() {
-    const changeDate = (_, __, instance) => {
-      const inputView = instance.element;
-      const isStartInput = inputView.closest(this.#startInputSelector);
-
-      if (isStartInput) {
-        this.#updateStartDate();
-        return;
-      }
-
-      this.#updateEndDate();
-    };
-
-    const options = {
-      'dateFormat': DATE_FORMAT,
-      'enableTime': true,
-      'time_24hr': true,
-      'onChange': changeDate,
-    };
-
-    this.#startFlatpickr = flatpickr(
-      this.querySelector(this.#startInputSelector),
-      options
-    );
-
-    this.#endFlatpickr = flatpickr(
-      this.querySelector(this.#endInputSelector),
-      options
-    );
-  }
-
-  #updateStartDate() {
-    const [date] = this.#startFlatpickr.selectedDates;
-    this.#endFlatpickr.set('minDate', date);
-  }
-
-  #updateEndDate() {
-    const [date] = this.#endFlatpickr.selectedDates;
-    this.#startFlatpickr.set('maxDate', date);
-  }
-
   /**
-   * @param {string} value
+   * @param {CalendarOptions} startDateOptions
+   * @param {CalendarOptions} endDateOptions
    */
-  setStartDate(value) {
-    const date = new Date(value);
-
-    this.#startFlatpickr.setDate(date);
-    this.#updateStartDate();
+  configure(startDateOptions, endDateOptions = startDateOptions) {
+    this.#startDateCalendar.set(startDateOptions);
+    this.#endDateCalendar.set(endDateOptions);
 
     return this;
   }
 
+  getDates() {
+    return [
+      this.#startDateCalendar.selectedDates[0]?.toJSON(),
+      this.#endDateCalendar.selectedDates[0]?.toJSON()
+    ];
+  }
+
   /**
-   * @param {string} value
+   * @param {CalendarDate} startDate
+   * @param {CalendarDate} endDate
    */
-  setEndDate(value) {
-    const date = new Date(value);
-
-    this.#endFlatpickr.setDate(date);
-    this.#updateEndDate();
-
-    return this;
+  setDates(startDate, endDate = startDate) {
+    this.#startDateCalendar.setDate(new Date(startDate), true);
+    this.#endDateCalendar.setDate(new Date(endDate), true);
   }
 }
 

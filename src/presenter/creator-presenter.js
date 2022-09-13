@@ -5,25 +5,28 @@ import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
 import PointAdapter from '../adapter/point-adapter.js';
 
+const SubmitButtonText = {
+  ACTIVE: 'Save',
+  INACTIVE: 'Saving...'
+};
+
 /**
  * @template {ApplicationModel} Model
- * @template {EditorView} View
+ * @template {CreatorView} View
  * @extends {Presenter<Model,View>}
  */
-export default class EditorPresenter extends Presenter {
+export default class CreatorPresenter extends Presenter {
   /**
    * @param {[model: Model, view: View]} args
    */
   constructor(...args) {
     super(...args);
 
+    this.point = this.getEmptyPoint();
+
     this.buildTypeSelectView();
     this.buildDestinationSelectView();
     this.buildDatePickerView();
-
-    this.model.addEventListener('mode', this.onModelModeChange.bind(this));
-    this.view.addEventListener('reset', this.onViewReset.bind(this));
-    this.view.addEventListener('close', this.onViewClose.bind(this));
 
     this.view.pointTypeSelectView.addEventListener(
       'change',
@@ -32,9 +35,12 @@ export default class EditorPresenter extends Presenter {
 
     this.view.destinationSelectView.addEventListener(
       'change',
-      this.updateDestinationDetailsView.bind(this)
+      this.updateDestinationView.bind(this)
     );
 
+    this.model.addEventListener('mode', this.onModelModeChange.bind(this));
+    this.view.addEventListener('reset', this.onViewReset.bind(this));
+    this.view.addEventListener('close', this.onViewClose.bind(this));
     this.view.addEventListener('submit', this.onViewSubmit.bind(this));
   }
 
@@ -80,14 +86,12 @@ export default class EditorPresenter extends Presenter {
   }
 
   updateTypeSelectView() {
-    this.view.pointTypeSelectView.setValue(this.model.activePoint.type);
+    this.view.pointTypeSelectView.setValue(this.point.type);
   }
 
   updateDestinationSelectView() {
-    const label = PointLabel[PointType.findKey(this.model.activePoint.type)];
-    const destination = this.model.destinations.findById(
-      this.model.activePoint.destinationId
-    );
+    const label = PointLabel[PointType.findKey(this.point.type)];
+    const destination = this.model.destinations.findById(this.point.destinationId);
 
     this.view.destinationSelectView
       .setLabel(label)
@@ -95,28 +99,30 @@ export default class EditorPresenter extends Presenter {
   }
 
   updateDatePickerView() {
-    const {startDate, endDate} = this.model.activePoint;
+    const {startDate, endDate} = this.point;
 
     this.view.datePickerView.setDates(startDate, endDate);
   }
 
   updatePriceInput() {
-    const {basePrice} = this.model.activePoint;
+    const {basePrice} = this.point;
 
-    this.view.priceInputView.setValue(String(basePrice));
+    if (basePrice) {
+      this.view.priceInputView.setValue(String(basePrice));
+    }
   }
 
   updateOfferSelectView() {
     const type = this.view.pointTypeSelectView.getValue();
     const availableOffers = this.model.offerGroups.findById(type).items;
     const optionsChecked = availableOffers.map(
-      (offer) => (this.model.activePoint.offerIds.includes(offer.id))
+      (offer) => (this.point.offerIds.includes(offer.id))
     );
 
     this.view.offerSelectView.setOptionsChecked(optionsChecked);
   }
 
-  updateDestinationDetailsView() {
+  updateDestinationView() {
     const name = this.view.destinationSelectView.getValue();
     const destination = this.model.destinations.findBy('name', name);
 
@@ -137,9 +143,22 @@ export default class EditorPresenter extends Presenter {
     this.updatePriceInput();
     this.buildOfferSelectView();
     this.updateOfferSelectView();
-    this.updateDestinationDetailsView();
+    this.updateDestinationView();
 
     return this;
+  }
+
+  getEmptyPoint() {
+    const point = new PointAdapter();
+
+    point.type = PointType.TAXI;
+    point.destinationId = this.model.destinations.listAll()[0].id;
+    point.startDate = String(new Date());
+    point.endDate = String(new Date());
+    point.basePrice = null;
+    point.offerIds = [];
+
+    return point;
   }
 
   getFormData() {
@@ -158,6 +177,17 @@ export default class EditorPresenter extends Presenter {
     return point;
   }
 
+  /**
+   * @param {HTMLButtonElement} buttonView
+   * @param {{ACTIVE: string, INACTIVE: string}} ButtonText
+   */
+  toggleButtonDisable(buttonView, ButtonText) {
+    const isDisabled = buttonView.disabled;
+
+    buttonView.disabled = !isDisabled;
+    buttonView.textContent = isDisabled ? ButtonText.ACTIVE : ButtonText.INACTIVE;
+  }
+
   onTypeSelectChange() {
     const type = this.view.pointTypeSelectView.getValue();
     const typeLabel = PointLabel[PointType.findKey(type)];
@@ -167,17 +197,9 @@ export default class EditorPresenter extends Presenter {
   }
 
   onModelModeChange() {
-    if (this.model.getMode() === Mode.EDIT) {
-      /** @type {PointView} */
-      const linkedPointView = document.querySelector(
-        `[data-id="${this.model.activePoint.id}"]`
-      );
-
-      this.view.close(true);
+    if (this.model.getMode() === Mode.CREATE) {
       this.updateView();
-      this.view
-        .target(linkedPointView)
-        .open();
+      this.view.open();
     }
   }
 
@@ -188,21 +210,22 @@ export default class EditorPresenter extends Presenter {
   async onViewReset(event) {
     event.preventDefault();
 
-    this.view.setRemovingMode();
-
-    await this.model.points.remove(this.model.activePoint.id);
     this.view.close();
-
-    this.view.unsetRemovingMode();
   }
 
   async onViewSubmit(event) {
     event.preventDefault();
 
+    this.toggleButtonDisable(this.view.submitButtonView, SubmitButtonText);
+
     try {
-      await this.model.points.update(this.model.activePoint.id, this.getFormData());
+      await this.model.points.add(this.getFormData());
+      this.view.close();
+
     } catch (exception) {
       // shake
     }
+
+    this.toggleButtonDisable(this.view.submitButtonView, SubmitButtonText);
   }
 }

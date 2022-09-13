@@ -7,12 +7,7 @@ import OfferSelectView from './offer-select-view.js';
 import DestinationView from './destination-view.js';
 import {isKeyEscape} from '../utils.js';
 
-const RemovingMode = {
-  ACTIVE: 'Deleting...',
-  INACTIVE: 'Delete'
-};
-
-export default class EditorView extends ListItemView {
+export default class CreatorView extends ListItemView {
   constructor() {
     super();
 
@@ -36,12 +31,6 @@ export default class EditorView extends ListItemView {
 
     /** @type {HTMLButtonElement} */
     this.submitButtonView = this.querySelector('.event__save-btn');
-
-    /** @type {HTMLButtonElement} */
-    this.resetButtonView = this.querySelector('.event__reset-btn');
-
-    /** @type {HTMLButtonElement} */
-    this.closeButtonView = this.querySelector('.event__rollup-btn');
 
     /** @type {Element} */
     this.targetView = null;
@@ -73,11 +62,8 @@ export default class EditorView extends ListItemView {
   createButtonsTemplate() {
     return html`
       <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-      <button class="event__reset-btn" type="reset">Delete</button>
-      <button class="event__rollup-btn" type="button">
-        <span class="visually-hidden">Open event</span>
-      </button>
-  `;
+      <button class="event__reset-btn" type="reset">Cancel</button>
+    `;
   }
 
   /**
@@ -90,11 +76,11 @@ export default class EditorView extends ListItemView {
   }
 
   connect() {
-    this.targetView.replaceWith(this);
+    this.targetView.prepend(this);
   }
 
   disconnect() {
-    this.replaceWith(this.targetView);
+    this.remove();
   }
 
   open() {
@@ -117,20 +103,7 @@ export default class EditorView extends ListItemView {
     return this;
   }
 
-  setRemovingMode() {
-    this.resetButtonView.textContent = RemovingMode.ACTIVE;
-    this.resetButtonView.disabled = true;
-  }
-
-  unsetRemovingMode() {
-    this.resetButtonView.textContent = RemovingMode.INACTIVE;
-    this.resetButtonView.disabled = false;
-  }
-
-  onClick(event) {
-    if (event.target === this.closeButtonView) {
-      this.close();
-    }
+  onClick() {
   }
 
   /**
@@ -143,4 +116,4 @@ export default class EditorView extends ListItemView {
   }
 }
 
-customElements.define(String(EditorView), EditorView);
+customElements.define(String(CreatorView), CreatorView);

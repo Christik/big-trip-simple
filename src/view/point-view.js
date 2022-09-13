@@ -1,20 +1,6 @@
 import ListItemView, {html} from './list-item-view.js';
 import OfferView from './offer-view.js';
 
-/**
- * @typedef PointState
- * @prop {number} id
- * @prop {string} startIsoDate
- * @prop {string} endIsoDate
- * @prop {string} startDate
- * @prop {string} title
- * @prop {string} icon
- * @prop {string} startTime
- * @prop {string} endTime
- * @prop {string} price
- * @prop {OfferState[]} offers
- */
-
 export default class PointView extends ListItemView {
   #id;
 
@@ -25,6 +11,7 @@ export default class PointView extends ListItemView {
     super(state);
 
     this.#id = state.id;
+    this.dataset.id = String(state.id);
 
     this.addEventListener('click', this.onClick);
   }
@@ -92,7 +79,7 @@ export default class PointView extends ListItemView {
 
     this.dispatchEvent(
       new CustomEvent('point-edit', {
-        detail: this.#id,
+        detail: {id: this.#id},
         bubbles: true,
       })
     );

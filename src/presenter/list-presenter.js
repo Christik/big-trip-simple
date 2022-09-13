@@ -1,15 +1,16 @@
-import Type from '../enum/type.js';
-import TypeLabel from '../enum/type-label.js';
+import PointType from '../enum/point-type.js';
+import PointLabel from '../enum/point-label.js';
 import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
 import { formatDate } from '../utils.js';
+import Mode from '../enum/mode.js';
 
 /**
  * @template {ApplicationModel} Model
- * @template {PointListView} View
- * @extends Presenter<Model,View>
+ * @template {ListView} View
+ * @extends {Presenter<Model,View>}
  */
-export default class PointListPresenter extends Presenter {
+export default class ListPresenter extends Presenter {
   /**
    * @param {[model: Model, view: View]} args
    */
@@ -22,6 +23,7 @@ export default class PointListPresenter extends Presenter {
     );
 
     this.updateView();
+    this.view.addEventListener('point-edit', this.onPointViewEdit.bind(this));
   }
 
   updateView() {
@@ -30,7 +32,7 @@ export default class PointListPresenter extends Presenter {
     const states = points.map((point) => {
       const {startDate, endDate} = point;
       const destination = this.model.destinations.findById(point.destinationId);
-      const typeLabel = TypeLabel[Type.findKey(point.type)];
+      const typeLabel = PointLabel[PointType.findKey(point.type)];
       const title = `${typeLabel} ${destination.name}`;
       const offerGroup = this.model.offerGroups.findById(point.type);
 
@@ -56,6 +58,13 @@ export default class PointListPresenter extends Presenter {
       };
     });
 
-    this.view.setItems(states);
+    this.view.setPoints(states);
+  }
+
+  /**
+   * @param {PointEvent} event
+   */
+  onPointViewEdit(event) {
+    this.model.setMode(Mode.EDIT, event.detail.id);
   }
 }

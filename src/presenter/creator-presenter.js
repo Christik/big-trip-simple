@@ -181,11 +181,15 @@ export default class CreatorPresenter extends Presenter {
    * @param {HTMLButtonElement} buttonView
    * @param {{ACTIVE: string, INACTIVE: string}} ButtonText
    */
-  toggleButtonDisable(buttonView, ButtonText) {
+  toggleButtonDisabled(buttonView, ButtonText) {
     const isDisabled = buttonView.disabled;
 
     buttonView.disabled = !isDisabled;
     buttonView.textContent = isDisabled ? ButtonText.ACTIVE : ButtonText.INACTIVE;
+  }
+
+  toggleSubmitDisabled() {
+    this.toggleButtonDisabled(this.view.submitButtonView, SubmitButtonText);
   }
 
   onTypeSelectChange() {
@@ -216,7 +220,7 @@ export default class CreatorPresenter extends Presenter {
   async onViewSubmit(event) {
     event.preventDefault();
 
-    this.toggleButtonDisable(this.view.submitButtonView, SubmitButtonText);
+    this.toggleSubmitDisabled();
 
     try {
       await this.model.points.add(this.getFormData());
@@ -226,6 +230,6 @@ export default class CreatorPresenter extends Presenter {
       // shake
     }
 
-    this.toggleButtonDisable(this.view.submitButtonView, SubmitButtonText);
+    this.toggleSubmitDisabled();
   }
 }

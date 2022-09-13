@@ -21,6 +21,8 @@ import EditorPresenter from './presenter/editor-presenter.js';
 import PlaceholderPresenter from './presenter/placeholder-presenter.js';
 import CreateButtonPresenter from './presenter/create-button-presenter.js';
 import Mode from './enum/mode.js';
+import CreatorPresenter from './presenter/creator-presenter.js';
+import CreatorView from './view/creator-view.js';
 
 const BASE_URL = 'https://18.ecmascript.pages.academy/big-trip';
 const POINTS_URL = `${BASE_URL}/points`;
@@ -69,11 +71,14 @@ const createButtonView = document.querySelector('.trip-main__event-add-btn');
 /** @type {FilterView} */
 const filterView = document.querySelector(String(FilterView));
 
+const creatorView = new CreatorView().target(listView);
+
 applicationModel.ready().then(() => {
   new FilterPresenter(applicationModel, filterView);
   new SortPresenter(applicationModel, sortView);
   new ListPresenter(applicationModel, listView);
   new EditorPresenter(applicationModel, new EditorView());
+  new CreatorPresenter(applicationModel, creatorView);
   new PlaceholderPresenter(applicationModel, placeholderView);
   new CreateButtonPresenter(applicationModel, createButtonView);
 });
@@ -82,7 +87,7 @@ const {group, groupEnd, trace} = console;
 
 applicationModel.addEventListener('mode', () => {
   groupEnd();
-  group(Mode.findKey(event.target.getMode()));
+  group(Mode.findKey(applicationModel.getMode()));
 });
 
 applicationModel.points.addEventListener(['add', 'update', 'remove', 'filter', 'sort'], (event) => {

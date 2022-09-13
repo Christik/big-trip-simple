@@ -88,8 +88,8 @@ export default class DatePickerView extends View {
    * @param {CalendarDate} endDate
    */
   setDates(startDate, endDate = startDate) {
-    this.#startDateCalendar.setDate(startDate, true);
-    this.#endDateCalendar.setDate(endDate, true);
+    this.#startDateCalendar.setDate(new Date(startDate), true);
+    this.#endDateCalendar.setDate(new Date(endDate), true);
   }
 }
 

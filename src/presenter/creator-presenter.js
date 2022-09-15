@@ -17,7 +17,7 @@ export default class CreatorPresenter extends Presenter {
   constructor(...args) {
     super(...args);
 
-    this.point = this.getEmptyPoint();
+    this.point = null;
 
     this.buildPointTypeSelectView();
     this.buildDestinationSelectView();
@@ -136,22 +136,6 @@ export default class CreatorPresenter extends Presenter {
     return this;
   }
 
-  // TODO добавить resetView()
-  resetView() {}
-
-  getEmptyPoint() {
-    const point = new PointAdapter();
-
-    point.type = PointType.TAXI;
-    point.destinationId = this.model.destinations.listAll()[0].id;
-    point.startDate = String(new Date());
-    point.endDate = String(new Date());
-    point.basePrice = null;
-    point.offerIds = [];
-
-    return point;
-  }
-
   getFormData() {
     const point = new PointAdapter();
     const destinationName = this.view.destinationSelectView.getValue();
@@ -168,17 +152,6 @@ export default class CreatorPresenter extends Presenter {
     return point;
   }
 
-  /**
-   * @param {HTMLButtonElement} buttonView
-   * @param {{ACTIVE: string, INACTIVE: string}} ButtonText
-   */
-  toggleButtonDisabled(buttonView, ButtonText) {
-    const isDisabled = buttonView.disabled;
-
-    buttonView.disabled = !isDisabled;
-    buttonView.textContent = isDisabled ? ButtonText.ACTIVE : ButtonText.INACTIVE;
-  }
-
   onPointTypeSelectChange() {
     const type = this.view.pointTypeSelectView.getValue();
     const typeLabel = PointLabel[PointType.findKey(type)];
@@ -188,17 +161,16 @@ export default class CreatorPresenter extends Presenter {
   }
 
   onModelModeChange() {
+    this.point = this.model.activePoint;
+
     if (this.model.getMode() === Mode.CREATE) {
       this.updateView();
       this.view.open();
 
-      // return;
+      return;
     }
 
-    // TODO
-    // if (this.model.getMode() === Mode.CREATE) {
-    //   this.view.close();
-    // }
+    this.view.close(true);
   }
 
   onViewClose() {

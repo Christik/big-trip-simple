@@ -1,5 +1,6 @@
 import Mode from '../enum/mode.js';
 import CreatorPresenter from './creator-presenter.js';
+import PointView from '../view/point-view.js';
 
 /**
  * @template {ApplicationModel} Model
@@ -11,13 +12,11 @@ export default class EditorPresenter extends CreatorPresenter {
    * @override
    */
   onModelModeChange() {
-    if (this.model.getMode() === Mode.EDIT) {
-      /** @type {PointView} */
-      const linkedPointView = document.querySelector(
-        `[data-id="${this.model.activePoint.id}"]`
-      );
+    this.point = this.model.activePoint;
 
-      this.point = this.model.activePoint;
+    if (this.model.getMode() === Mode.EDIT) {
+      const linkedPointView = PointView.findById(this.model.activePoint.id);
+
       this.view.close(true);
       this.updateView();
       this.view

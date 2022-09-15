@@ -1,3 +1,4 @@
+import SaveButtonLabel from '../enum/save-button-label.js';
 import ListItemView, {html} from './list-item-view.js';
 import PointTypeSelectView from './point-type-select-view.js';
 import DestinationSelectView from './destination-select-view.js';
@@ -34,8 +35,6 @@ export default class CreatorView extends ListItemView {
 
     /** @type {Element} */
     this.targetView = null;
-
-    this.addEventListener('click', this.onClick);
   }
 
   /**
@@ -61,9 +60,24 @@ export default class CreatorView extends ListItemView {
 
   createButtonsTemplate() {
     return html`
-      <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-      <button class="event__reset-btn" type="reset">Cancel</button>
+      <button class="event__save-btn  btn  btn--blue" type="submit">
+        ${SaveButtonLabel.DEFAULT}
+      </button>
+      <button class="event__reset-btn" type="reset">
+        Cancel
+      </button>
     `;
+  }
+
+  /**
+   * @param {boolean} flag
+   */
+  setSaveButtonPressed(flag) {
+    /** @type {HTMLButtonElement} */
+    const buttonView = this.querySelector('.event__save-btn');
+
+    buttonView.disabled = flag;
+    buttonView.textContent = flag ? SaveButtonLabel.PRESSED : SaveButtonLabel.DEFAULT;
   }
 
   /**
@@ -101,9 +115,6 @@ export default class CreatorView extends ListItemView {
     }
 
     return this;
-  }
-
-  onClick() {
   }
 
   /**

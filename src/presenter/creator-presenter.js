@@ -5,11 +5,6 @@ import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
 import PointAdapter from '../adapter/point-adapter.js';
 
-const SubmitButtonText = {
-  ACTIVE: 'Save',
-  INACTIVE: 'Saving...'
-};
-
 /**
  * @template {ApplicationModel} Model
  * @template {CreatorView} View
@@ -148,6 +143,9 @@ export default class CreatorPresenter extends Presenter {
     return this;
   }
 
+  // TODO добавить resetView()
+  resetView() {}
+
   getEmptyPoint() {
     const point = new PointAdapter();
 
@@ -188,10 +186,6 @@ export default class CreatorPresenter extends Presenter {
     buttonView.textContent = isDisabled ? ButtonText.ACTIVE : ButtonText.INACTIVE;
   }
 
-  toggleSubmitDisabled() {
-    this.toggleButtonDisabled(this.view.submitButtonView, SubmitButtonText);
-  }
-
   onTypeSelectChange() {
     const type = this.view.pointTypeSelectView.getValue();
     const typeLabel = PointLabel[PointType.findKey(type)];
@@ -220,7 +214,7 @@ export default class CreatorPresenter extends Presenter {
   async onViewSubmit(event) {
     event.preventDefault();
 
-    this.toggleSubmitDisabled();
+    this.view.setSaveButtonPressed(true);
 
     try {
       await this.model.points.add(this.getFormData());
@@ -230,6 +224,6 @@ export default class CreatorPresenter extends Presenter {
       // shake
     }
 
-    this.toggleSubmitDisabled();
+    this.view.setSaveButtonPressed(false);
   }
 }

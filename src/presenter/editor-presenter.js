@@ -1,21 +1,12 @@
 import Mode from '../enum/mode.js';
 import CreatorPresenter from './creator-presenter.js';
 
-const DeleteButtonText = {
-  ACTIVE: 'Delete',
-  INACTIVE: 'Deleting...'
-};
-
 /**
  * @template {ApplicationModel} Model
  * @template {EditorView} View
  * @extends {CreatorPresenter<Model,View>}
  */
 export default class EditorPresenter extends CreatorPresenter {
-  toggleDeleteDisabled() {
-    this.toggleButtonDisabled(this.view.deleteButtonView, DeleteButtonText);
-  }
-
   /**
    * @override
    */
@@ -32,6 +23,12 @@ export default class EditorPresenter extends CreatorPresenter {
       this.view
         .target(linkedPointView)
         .open();
+
+      return;
+    }
+
+    if (this.model.getMode() === Mode.CREATE) {
+      this.view.close(true);
     }
   }
 
@@ -42,7 +39,7 @@ export default class EditorPresenter extends CreatorPresenter {
   async onViewReset(event) {
     event.preventDefault();
 
-    this.toggleDeleteDisabled();
+    this.view.setDeleteButtonPressed(true);
 
     try {
       await this.model.points.remove(this.model.activePoint.id);
@@ -52,7 +49,7 @@ export default class EditorPresenter extends CreatorPresenter {
       // shake
     }
 
-    this.toggleDeleteDisabled();
+    this.view.setDeleteButtonPressed(false);
   }
 
   /**
@@ -62,7 +59,7 @@ export default class EditorPresenter extends CreatorPresenter {
   async onViewSubmit(event) {
     event.preventDefault();
 
-    this.toggleSubmitDisabled();
+    this.view.setSaveButtonPressed(true);
 
     try {
       await this.model.points.update(this.model.activePoint.id, this.getFormData());
@@ -72,6 +69,6 @@ export default class EditorPresenter extends CreatorPresenter {
       // shake
     }
 
-    this.toggleSubmitDisabled();
+    this.view.setSaveButtonPressed(false);
   }
 }

@@ -66,7 +66,7 @@ export default class EditorPresenter extends CreatorPresenter {
       this.view.close();
 
     } catch (exception) {
-      // shake
+      this.view.shake();
     }
 
     this.view.setSaveButtonPressed(false);

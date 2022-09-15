@@ -19,19 +19,12 @@ export default class CreatorPresenter extends Presenter {
 
     this.point = this.getEmptyPoint();
 
-    this.buildTypeSelectView();
+    this.buildPointTypeSelectView();
     this.buildDestinationSelectView();
     this.buildDatePickerView();
 
-    this.view.pointTypeSelectView.addEventListener(
-      'change',
-      this.onTypeSelectChange.bind(this)
-    );
-
-    this.view.destinationSelectView.addEventListener(
-      'change',
-      this.updateDestinationView.bind(this)
-    );
+    this.view.pointTypeSelectView.addEventListener('change', this.onPointTypeSelectChange.bind(this));
+    this.view.destinationSelectView.addEventListener('change', this.updateDestinationView.bind(this));
 
     this.model.addEventListener('mode', this.onModelModeChange.bind(this));
     this.view.addEventListener('reset', this.onViewReset.bind(this));
@@ -39,7 +32,7 @@ export default class CreatorPresenter extends Presenter {
     this.view.addEventListener('submit', this.onViewSubmit.bind(this));
   }
 
-  buildTypeSelectView() {
+  buildPointTypeSelectView() {
     /** @type {[string, string][]} */
     const options = Object.values(PointType).map((value) => {
       const key = PointType.findKey(value);
@@ -186,7 +179,7 @@ export default class CreatorPresenter extends Presenter {
     buttonView.textContent = isDisabled ? ButtonText.ACTIVE : ButtonText.INACTIVE;
   }
 
-  onTypeSelectChange() {
+  onPointTypeSelectChange() {
     const type = this.view.pointTypeSelectView.getValue();
     const typeLabel = PointLabel[PointType.findKey(type)];
 
@@ -198,7 +191,14 @@ export default class CreatorPresenter extends Presenter {
     if (this.model.getMode() === Mode.CREATE) {
       this.updateView();
       this.view.open();
+
+      // return;
     }
+
+    // TODO
+    // if (this.model.getMode() === Mode.CREATE) {
+    //   this.view.close();
+    // }
   }
 
   onViewClose() {
@@ -221,7 +221,7 @@ export default class CreatorPresenter extends Presenter {
       this.view.close();
 
     } catch (exception) {
-      // shake
+      this.view.shake();
     }
 
     this.view.setSaveButtonPressed(false);

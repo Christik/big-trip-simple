@@ -32,6 +32,22 @@ export default class CreatorPresenter extends Presenter {
     this.view.addEventListener('submit', this.onViewSubmit.bind(this));
   }
 
+  get activePoint() {
+    const point = new PointAdapter();
+    const destinationName = this.view.destinationSelectView.getValue();
+    const [startDate, endDate] = this.view.datePickerView.getDates();
+
+    point.type = this.view.pointTypeSelectView.getValue();
+    point.destinationId = this.model.destinations.findBy('name', destinationName)?.id;
+    point.startDate = startDate;
+    point.endDate = endDate;
+    point.basePrice = Number(this.view.priceInputView.getValue());
+    point.offerIds = this.view.offerSelectView.getSelectedValues().map(Number);
+    point.isFavorite = false;
+
+    return point;
+  }
+
   buildPointTypeSelectView() {
     /** @type {[string, string][]} */
     const options = Object.values(PointType).map((value) => {
@@ -136,20 +152,8 @@ export default class CreatorPresenter extends Presenter {
     return this;
   }
 
-  getFormData() {
-    const point = new PointAdapter();
-    const destinationName = this.view.destinationSelectView.getValue();
-    const [startDate, endDate] = this.view.datePickerView.getDates();
-
-    point.type = this.view.pointTypeSelectView.getValue();
-    point.destinationId = this.model.destinations.findBy('name', destinationName)?.id;
-    point.startDate = startDate;
-    point.endDate = endDate;
-    point.basePrice = Number(this.view.priceInputView.getValue());
-    point.offerIds = this.view.offerSelectView.getSelectedValues().map(Number);
-    point.isFavorite = false;
-
-    return point;
+  saveActivePoint() {
+    return this.model.points.add(this.activePoint);
   }
 
   onPointTypeSelectChange() {
@@ -189,7 +193,7 @@ export default class CreatorPresenter extends Presenter {
     this.view.setSaveButtonPressed(true);
 
     try {
-      await this.model.points.add(this.getFormData());
+      await this.saveActivePoint();
       this.view.close();
 
     } catch (exception) {

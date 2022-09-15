@@ -11,16 +11,27 @@ export default class EditorPresenter extends CreatorPresenter {
   /**
    * @override
    */
+  saveActivePoint() {
+    return this.model.points.update(this.model.activePoint.id, this.activePoint);
+  }
+
+  deleteActivePoint() {
+    return this.model.points.remove(this.model.activePoint.id);
+  }
+
+  /**
+   * @override
+   */
   onModelModeChange() {
     this.point = this.model.activePoint;
 
     if (this.model.getMode() === Mode.EDIT) {
-      const linkedPointView = PointView.findById(this.model.activePoint.id);
+      const pointView = PointView.findById(this.model.activePoint.id);
 
       this.view.close(true);
       this.updateView();
       this.view
-        .target(linkedPointView)
+        .target(pointView)
         .open();
 
       return;
@@ -41,33 +52,13 @@ export default class EditorPresenter extends CreatorPresenter {
     this.view.setDeleteButtonPressed(true);
 
     try {
-      await this.model.points.remove(this.model.activePoint.id);
-      this.view.close();
-
-    } catch (exception) {
-      // shake
-    }
-
-    this.view.setDeleteButtonPressed(false);
-  }
-
-  /**
-   * @override
-   * @param {Event} event
-   */
-  async onViewSubmit(event) {
-    event.preventDefault();
-
-    this.view.setSaveButtonPressed(true);
-
-    try {
-      await this.model.points.update(this.model.activePoint.id, this.getFormData());
+      await this.deleteActivePoint();
       this.view.close();
 
     } catch (exception) {
       this.view.shake();
     }
 
-    this.view.setSaveButtonPressed(false);
+    this.view.setDeleteButtonPressed(false);
   }
 }

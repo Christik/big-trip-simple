@@ -41,6 +41,7 @@ export default class ApplicationModel extends Model {
    */
   setMode(mode, activePointId = null) {
     this.#mode = mode;
+    this.activePoint = null;
 
     if (mode === Mode.EDIT) {
       this.activePoint = this.points.findById(activePointId);
@@ -52,8 +53,8 @@ export default class ApplicationModel extends Model {
 
       point.type = PointType.TAXI;
       point.destinationId = firstDestination.id;
-      point.startDate = String(new Date());
-      point.endDate = String(new Date());
+      point.startDate = new Date().toJSON();
+      point.endDate = point.startDate;
       point.basePrice = null;
       point.offerIds = [];
 

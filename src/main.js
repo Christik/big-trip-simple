@@ -29,7 +29,7 @@ const BASE_URL = 'https://18.ecmascript.pages.academy/big-trip';
 const POINTS_URL = `${BASE_URL}/points`;
 const DESTINATIONS_URL = `${BASE_URL}/destinations`;
 const OFFERS_URL = `${BASE_URL}/offers`;
-const AUTH = 'Basic er1189jdzbdw';
+const AUTH = 'Basic er1183jdzbdw';
 
 /** @type {Store<Point>} */
 const pointStore = new Store(POINTS_URL, AUTH);

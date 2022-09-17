@@ -28,8 +28,17 @@ export default class SortPresenter extends Presenter {
       .setOptionsDisabled(optionsDisabled)
       .setValue(SORT_DEFAULT);
 
+    this.updateVisibility();
+
     this.view.addEventListener('change', this.onViewChange.bind(this));
+    this.model.points.addEventListener(['add', 'remove'], this.onModelPointsChange.bind(this));
     this.model.points.addEventListener('filter', this.onModelPointsFilter.bind(this));
+  }
+
+  updateVisibility() {
+    const {length} = this.model.points.list();
+
+    this.view.set('hidden', Boolean(!length));
   }
 
   onViewChange() {
@@ -37,6 +46,10 @@ export default class SortPresenter extends Presenter {
     const compare = SortPredicate[SortType.findKey(value)];
 
     this.model.points.setSort(compare);
+  }
+
+  onModelPointsChange() {
+    this.updateVisibility();
   }
 
   onModelPointsFilter() {

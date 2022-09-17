@@ -31,7 +31,7 @@ export default class SortPresenter extends Presenter {
     this.updateVisibility();
 
     this.view.addEventListener('change', this.onViewChange.bind(this));
-    this.model.points.addEventListener(['add', 'remove'], this.onModelPointsChange.bind(this));
+    this.model.points.addEventListener(['add', 'remove', 'filter'], this.onModelPointsChange.bind(this));
     this.model.points.addEventListener('filter', this.onModelPointsFilter.bind(this));
   }
 

@@ -190,6 +190,7 @@ export default class CreatorPresenter extends Presenter {
   async onViewSubmit(event) {
     event.preventDefault();
 
+    this.view.block();
     this.view.setSaveButtonPressed(true);
 
     try {
@@ -201,5 +202,6 @@ export default class CreatorPresenter extends Presenter {
     }
 
     this.view.setSaveButtonPressed(false);
+    this.view.unblock();
   }
 }

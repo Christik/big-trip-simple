@@ -1,3 +1,5 @@
+import './creator-view.css';
+
 import SaveButtonLabel from '../enum/save-button-label.js';
 import ListItemView, {html} from './list-item-view.js';
 import PointTypeSelectView from './point-type-select-view.js';
@@ -115,6 +117,14 @@ export default class CreatorView extends ListItemView {
     }
 
     return this;
+  }
+
+  block() {
+    this.classList.add('is-blocked');
+  }
+
+  unblock() {
+    this.classList.remove('is-blocked');
   }
 
   /**

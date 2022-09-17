@@ -49,6 +49,7 @@ export default class EditorPresenter extends CreatorPresenter {
   async onViewReset(event) {
     event.preventDefault();
 
+    this.view.block();
     this.view.setDeleteButtonPressed(true);
 
     try {
@@ -60,5 +61,6 @@ export default class EditorPresenter extends CreatorPresenter {
     }
 
     this.view.setDeleteButtonPressed(false);
+    this.view.unblock();
   }
 }

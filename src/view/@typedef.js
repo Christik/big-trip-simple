@@ -23,10 +23,3 @@
  * @prop {string} price
  * @prop {OfferState[]} offers
  */
-
-/** @typedef {CustomEvent<PointerEventData>} PointEvent */
-
-/**
- * @typedef PointerEventData
- * @prop {number} id
- */

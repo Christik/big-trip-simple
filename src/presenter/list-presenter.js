@@ -19,7 +19,7 @@ export default class ListPresenter extends Presenter {
 
     this.model.points.addEventListener(
       ['add', 'update', 'remove', 'filter', 'sort'],
-      this.updateView.bind(this)
+      this.onModelPointsChange.bind(this)
     );
 
     this.updateView();
@@ -61,10 +61,23 @@ export default class ListPresenter extends Presenter {
     this.view.setPoints(states);
   }
 
+  // /**
+  //  * @param {CollectionModelEvent<PointAdapter>} event
+  //  */
+  onModelPointsChange() {
+    // if (event.type === 'remove') {
+    //   this.view.findById(event.detail.id).remove();
+
+    //   return;
+    // }
+
+    this.updateView();
+  }
+
   /**
-   * @param {PointEvent} event
+   * @param {CustomEvent & {target: PointView}} event
    */
   onPointViewEdit(event) {
-    this.model.setMode(Mode.EDIT, event.detail.id);
+    this.model.setMode(Mode.EDIT, event.target.getId());
   }
 }

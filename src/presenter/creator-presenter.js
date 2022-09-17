@@ -5,11 +5,6 @@ import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
 import PointAdapter from '../adapter/point-adapter.js';
 
-const SubmitButtonText = {
-  ACTIVE: 'Save',
-  INACTIVE: 'Saving...'
-};
-
 /**
  * @template {ApplicationModel} Model
  * @template {CreatorView} View
@@ -22,21 +17,14 @@ export default class CreatorPresenter extends Presenter {
   constructor(...args) {
     super(...args);
 
-    this.point = this.getEmptyPoint();
+    this.point = null;
 
-    this.buildTypeSelectView();
+    this.buildPointTypeSelectView();
     this.buildDestinationSelectView();
     this.buildDatePickerView();
 
-    this.view.pointTypeSelectView.addEventListener(
-      'change',
-      this.onTypeSelectChange.bind(this)
-    );
-
-    this.view.destinationSelectView.addEventListener(
-      'change',
-      this.updateDestinationView.bind(this)
-    );
+    this.view.pointTypeSelectView.addEventListener('change', this.onPointTypeSelectChange.bind(this));
+    this.view.destinationSelectView.addEventListener('change', this.updateDestinationView.bind(this));
 
     this.model.addEventListener('mode', this.onModelModeChange.bind(this));
     this.view.addEventListener('reset', this.onViewReset.bind(this));
@@ -44,7 +32,23 @@ export default class CreatorPresenter extends Presenter {
     this.view.addEventListener('submit', this.onViewSubmit.bind(this));
   }
 
-  buildTypeSelectView() {
+  get activePoint() {
+    const point = new PointAdapter();
+    const destinationName = this.view.destinationSelectView.getValue();
+    const [startDate, endDate] = this.view.datePickerView.getDates();
+
+    point.type = this.view.pointTypeSelectView.getValue();
+    point.destinationId = this.model.destinations.findBy('name', destinationName)?.id;
+    point.startDate = startDate;
+    point.endDate = endDate;
+    point.basePrice = Number(this.view.priceInputView.getValue());
+    point.offerIds = this.view.offerSelectView.getSelectedValues().map(Number);
+    point.isFavorite = false;
+
+    return point;
+  }
+
+  buildPointTypeSelectView() {
     /** @type {[string, string][]} */
     const options = Object.values(PointType).map((value) => {
       const key = PointType.findKey(value);
@@ -148,47 +152,11 @@ export default class CreatorPresenter extends Presenter {
     return this;
   }
 
-  getEmptyPoint() {
-    const point = new PointAdapter();
-
-    point.type = PointType.TAXI;
-    point.destinationId = this.model.destinations.listAll()[0].id;
-    point.startDate = String(new Date());
-    point.endDate = String(new Date());
-    point.basePrice = null;
-    point.offerIds = [];
-
-    return point;
+  saveActivePoint() {
+    return this.model.points.add(this.activePoint);
   }
 
-  getFormData() {
-    const point = new PointAdapter();
-    const destinationName = this.view.destinationSelectView.getValue();
-    const [startDate, endDate] = this.view.datePickerView.getDates();
-
-    point.type = this.view.pointTypeSelectView.getValue();
-    point.destinationId = this.model.destinations.findBy('name', destinationName)?.id;
-    point.startDate = startDate;
-    point.endDate = endDate;
-    point.basePrice = Number(this.view.priceInputView.getValue());
-    point.offerIds = this.view.offerSelectView.getSelectedValues().map(Number);
-    point.isFavorite = false;
-
-    return point;
-  }
-
-  /**
-   * @param {HTMLButtonElement} buttonView
-   * @param {{ACTIVE: string, INACTIVE: string}} ButtonText
-   */
-  toggleButtonDisable(buttonView, ButtonText) {
-    const isDisabled = buttonView.disabled;
-
-    buttonView.disabled = !isDisabled;
-    buttonView.textContent = isDisabled ? ButtonText.ACTIVE : ButtonText.INACTIVE;
-  }
-
-  onTypeSelectChange() {
+  onPointTypeSelectChange() {
     const type = this.view.pointTypeSelectView.getValue();
     const typeLabel = PointLabel[PointType.findKey(type)];
 
@@ -197,10 +165,16 @@ export default class CreatorPresenter extends Presenter {
   }
 
   onModelModeChange() {
+    this.point = this.model.activePoint;
+
     if (this.model.getMode() === Mode.CREATE) {
       this.updateView();
       this.view.open();
+
+      return;
     }
+
+    this.view.close(true);
   }
 
   onViewClose() {
@@ -216,16 +190,16 @@ export default class CreatorPresenter extends Presenter {
   async onViewSubmit(event) {
     event.preventDefault();
 
-    this.toggleButtonDisable(this.view.submitButtonView, SubmitButtonText);
+    this.view.setSaveButtonPressed(true);
 
     try {
-      await this.model.points.add(this.getFormData());
+      await this.saveActivePoint();
       this.view.close();
 
     } catch (exception) {
-      // shake
+      this.view.shake();
     }
 
-    this.toggleButtonDisable(this.view.submitButtonView, SubmitButtonText);
+    this.view.setSaveButtonPressed(false);
   }
 }

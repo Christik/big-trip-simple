@@ -19,9 +19,7 @@ export default class CreatorPresenter extends Presenter {
 
     this.point = null;
 
-    this.buildPointTypeSelectView();
-    this.buildDestinationSelectView();
-    this.buildDatePickerView();
+    this.buildView();
 
     this.view.pointTypeSelectView.addEventListener('change', this.onPointTypeSelectChange.bind(this));
     this.view.destinationSelectView.addEventListener('change', this.updateDestinationView.bind(this));
@@ -48,45 +46,26 @@ export default class CreatorPresenter extends Presenter {
     return point;
   }
 
-  buildPointTypeSelectView() {
+  buildView() {
     /** @type {[string, string][]} */
-    const options = Object.values(PointType).map((value) => {
+    const pointTypeSelectOptions = Object.values(PointType).map((value) => {
       const key = PointType.findKey(value);
       const label = PointLabel[key];
 
       return [label, value];
     });
 
-    this.view.pointTypeSelectView.setOptions(options);
-  }
-
-  buildDestinationSelectView() {
     /** @type {[string, string][]} */
-    const options = this.model.destinations.listAll().map(
+    const destinationSelectOptions = this.model.destinations.listAll().map(
       (item) => ['', item.name]
     );
 
-    this.view.destinationSelectView
-      .setOptions(options);
-  }
-
-  buildDatePickerView() {
+    this.view.pointTypeSelectView.setOptions(pointTypeSelectOptions);
+    this.view.destinationSelectView.setOptions(destinationSelectOptions);
     this.view.datePickerView.configure({
       dateFormat: DateFormat.DATE_TIME,
       locale: {firstDayOfWeek: 1}
     });
-  }
-
-  buildOfferSelectView() {
-    const type = this.view.pointTypeSelectView.getValue();
-    const availableOffers = this.model.offerGroups.findById(type).items;
-
-    /** @type {[number, string, number][]} */
-    const options = availableOffers.map((offer) => [offer.id, offer.title, offer.price]);
-
-    this.view.offerSelectView
-      .set('hidden', !availableOffers.length)
-      .setOptions(options);
   }
 
   updateTypeSelectView() {
@@ -109,14 +88,22 @@ export default class CreatorPresenter extends Presenter {
   }
 
   updatePriceInput() {
-    const {basePrice} = this.point;
-
-    if (basePrice) {
-      this.view.priceInputView.setValue(String(basePrice));
-    }
+    this.view.priceInputView.setValue(String(this.point.basePrice));
   }
 
   updateOfferSelectView() {
+    const type = this.view.pointTypeSelectView.getValue();
+    const availableOffers = this.model.offerGroups.findById(type).items;
+
+    /** @type {[number, string, number][]} */
+    const options = availableOffers.map((offer) => [offer.id, offer.title, offer.price]);
+
+    this.view.offerSelectView
+      .set('hidden', !availableOffers.length)
+      .setOptions(options);
+  }
+
+  updateOfferSelectCheckedView() {
     const type = this.view.pointTypeSelectView.getValue();
     const availableOffers = this.model.offerGroups.findById(type).items;
     const optionsChecked = availableOffers.map(
@@ -145,8 +132,8 @@ export default class CreatorPresenter extends Presenter {
     this.updateDestinationSelectView();
     this.updateDatePickerView();
     this.updatePriceInput();
-    this.buildOfferSelectView();
     this.updateOfferSelectView();
+    this.updateOfferSelectCheckedView();
     this.updateDestinationView();
 
     return this;
@@ -161,7 +148,7 @@ export default class CreatorPresenter extends Presenter {
     const typeLabel = PointLabel[PointType.findKey(type)];
 
     this.view.destinationSelectView.setLabel(typeLabel);
-    this.buildOfferSelectView();
+    this.updateOfferSelectView();
   }
 
   onModelModeChange() {

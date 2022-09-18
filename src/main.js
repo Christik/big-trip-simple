@@ -83,13 +83,14 @@ applicationModel.ready().then(() => {
   new CreateButtonPresenter(applicationModel, createButtonView);
 });
 
-const {group, groupEnd, trace} = console;
+
+const {trace} = console;
 
 applicationModel.addEventListener('mode', () => {
-  groupEnd();
-  group(Mode.findKey(applicationModel.getMode()));
+  trace(`%cMode.${Mode.findKey(applicationModel.getMode())}`, 'font-size: large');
 });
 
-applicationModel.points.addEventListener(['add', 'update', 'remove', 'filter', 'sort'], (event) => {
-  trace(event.type);
+points.addEventListener(['add', 'update', 'remove', 'filter', 'sort'], (event) => {
+  trace(`%c${event.type}`, 'font-weight: bold');
 });
+

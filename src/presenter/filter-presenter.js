@@ -24,7 +24,7 @@ export default class FilterPresenter extends Presenter {
     this.view
       .setOptions(options)
       .setOptionsDisabled(this.getOptionsDisabled())
-      .setValue(FilterType.EVERYTHING);
+      .setValue(FilterType.default);
 
     this.view.addEventListener('change', this.onViewChange.bind(this));
     this.model.points.addEventListener(['add', 'remove', 'update', 'filter'], this.onModelPointsChange.bind(this));

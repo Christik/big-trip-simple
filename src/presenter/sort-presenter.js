@@ -4,8 +4,6 @@ import SortDisabled from '../enum/sort-disabled.js';
 import Presenter from './presenter.js';
 import SortPredicate from '../enum/sort-predicate.js';
 
-const SORT_DEFAULT = SortType.DAY;
-
 /**
  * @template {ApplicationModel} Model
  * @template {SortView} View
@@ -26,7 +24,7 @@ export default class SortPresenter extends Presenter {
     this.view
       .setOptions(options)
       .setOptionsDisabled(optionsDisabled)
-      .setValue(SORT_DEFAULT);
+      .setValue(SortType.default);
 
     this.updateVisibility();
 
@@ -53,7 +51,7 @@ export default class SortPresenter extends Presenter {
   }
 
   onModelPointsFilter() {
-    this.view.setValue(SORT_DEFAULT);
-    this.model.points.setSort(SortPredicate.DEFAULT);
+    this.view.setValue(SortType.default);
+    this.model.points.setSort(SortPredicate.default);
   }
 }

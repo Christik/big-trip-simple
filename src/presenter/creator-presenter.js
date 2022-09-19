@@ -176,7 +176,9 @@ export default class CreatorPresenter extends Presenter {
       return;
     }
 
-    this.view.close(true);
+    if (this.view.isConnected) {
+      this.view.close(true);
+    }
   }
 
   onViewClose() {
@@ -192,8 +194,7 @@ export default class CreatorPresenter extends Presenter {
   async onViewSubmit(event) {
     event.preventDefault();
 
-    this.view.block();
-    this.view.setSaveButtonPressed(true);
+    this.view.setSaving(true);
 
     try {
       await this.saveActivePoint();
@@ -203,7 +204,6 @@ export default class CreatorPresenter extends Presenter {
       this.view.shake();
     }
 
-    this.view.setSaveButtonPressed(false);
-    this.view.unblock();
+    this.view.setSaving(false);
   }
 }

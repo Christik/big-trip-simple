@@ -1,7 +1,0 @@
-{
-  "include": ["scr/**/*"],
-  "compilerOptions": {
-    "moduleResolution": "nodenext",
-    "target": "esnext"
-  }
-}

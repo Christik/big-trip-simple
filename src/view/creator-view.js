@@ -1,5 +1,3 @@
-import './creator-view.css';
-
 import SaveButtonLabel from '../enum/save-button-label.js';
 import ListItemView, {html} from './list-item-view.js';
 import PointTypeSelectView from './point-type-select-view.js';
@@ -101,7 +99,11 @@ export default class CreatorView extends ListItemView {
    * @param {boolean} flag
    */
   display(flag) {
-    this.targetView[flag ? 'prepend' : 'removeChild'](this);
+    if (flag) {
+      this.targetView.prepend(this);
+    } else {
+      this.remove();
+    }
 
     return this;
   }

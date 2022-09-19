@@ -78,26 +78,21 @@ export default class CreatorPresenter extends Presenter {
     this.view.priceInputView.setValue(String(this.model.activePoint.basePrice));
   }
 
-  updateOfferSelectView() {
+  updateOfferSelectView(check = false) {
     const type = this.view.pointTypeSelectView.getValue();
     const availableOffers = this.model.offerGroupsModel.findById(type).items;
 
-    /** @type {[number, string, number][]} */
-    const options = availableOffers.map((offer) => [offer.id, offer.title, offer.price]);
+    /** @type {[number, string, number, boolean][]} */
+    const options = availableOffers.map((offer) => [
+      offer.id,
+      offer.title,
+      offer.price,
+      check && this.model.activePoint.offerIds.includes(offer.id)
+    ]);
 
     this.view.offerSelectView
       .set('hidden', !availableOffers.length)
       .setOptions(options);
-  }
-
-  updateOfferSelectCheckedView() {
-    const type = this.view.pointTypeSelectView.getValue();
-    const availableOffers = this.model.offerGroupsModel.findById(type).items;
-    const optionsChecked = availableOffers.map(
-      (offer) => (this.model.activePoint.offerIds.includes(offer.id))
-    );
-
-    this.view.offerSelectView.setOptionsChecked(optionsChecked);
   }
 
   updateDestinationView() {
@@ -119,8 +114,7 @@ export default class CreatorPresenter extends Presenter {
     this.updateDestinationSelectView();
     this.updateDatePickerView();
     this.updatePriceInput();
-    this.updateOfferSelectView();
-    this.updateOfferSelectCheckedView();
+    this.updateOfferSelectView(true);
     this.updateDestinationView();
 
     return this;
@@ -169,15 +163,11 @@ export default class CreatorPresenter extends Presenter {
   }
 
   onModelModeChange() {
+    this.view.close(true);
+
     if (this.model.getMode() === Mode.CREATE) {
       this.updateView();
       this.view.open();
-
-      return;
-    }
-
-    if (this.view.isConnected) {
-      this.view.close(true);
     }
   }
 

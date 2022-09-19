@@ -10,6 +10,7 @@ export default class DatePickerView extends View {
   constructor() {
     super(...arguments);
 
+    // TODO: перенести колбэки в презентер buildView()
     const onStartDateChange = (selectedDates) =>
       this.#endDateCalendar.set('minDate', selectedDates[0]);
 

@@ -1,5 +1,5 @@
 export default class Enum {
-  static get default() {
+  static get defaultValue() {
     return Object.values(this)[0];
   }
 

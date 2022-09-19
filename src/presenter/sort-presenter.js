@@ -3,6 +3,7 @@ import SortLabel from '../enum/sort-label.js';
 import SortDisabled from '../enum/sort-disabled.js';
 import Presenter from './presenter.js';
 import SortPredicate from '../enum/sort-predicate.js';
+import Mode from '../enum/mode.js';
 
 /**
  * @template {ApplicationModel} Model
@@ -16,42 +17,54 @@ export default class SortPresenter extends Presenter {
   constructor(...args) {
     super(...args);
 
-    /** @type {[string, string][]} */
-    const options = Object.keys(SortType).map((key) => [SortLabel[key], SortType[key]]);
-
-    const optionsDisabled = Object.values(SortDisabled);
-
-    this.view
-      .setOptions(options)
-      .setOptionsDisabled(optionsDisabled)
-      .setValue(SortType.default);
-
-    this.updateVisibility();
+    this.buildView();
 
     this.view.addEventListener('change', this.onViewChange.bind(this));
     this.model.pointsModel.addEventListener(['add', 'remove', 'filter'], this.onModelPointsChange.bind(this));
-    this.model.pointsModel.addEventListener('filter', this.onModelPointsFilter.bind(this));
   }
 
-  updateVisibility() {
+  buildView() {
+    /** @type {[string, string][]} */
+    const options = Object.keys(SortType).map((key) => [SortLabel[key], SortType[key]]);
+
+    this.view
+      .setOptions(options)
+      .setOptionsDisabled(Object.values(SortDisabled));
+
+    this.updateViewValue();
+    this.updateViewDisplay();
+  }
+
+  updateViewValue() {
+    const compare = this.model.pointsModel.getSort();
+    const type = SortType[SortPredicate.findKey(compare)];
+
+    this.view.setValue(type);
+  }
+
+  updateViewDisplay() {
     const {length} = this.model.pointsModel.list();
 
-    this.view.set('hidden', Boolean(!length));
+    this.view.display(Boolean(length));
   }
 
   onViewChange() {
     const value = this.view.getValue();
     const compare = SortPredicate[SortType.findKey(value)];
 
+    this.model.setMode(Mode.VIEW);
     this.model.pointsModel.setSort(compare);
   }
 
-  onModelPointsChange() {
-    this.updateVisibility();
-  }
+  onModelPointsChange(event) {
+    if (event.type === 'filter') {
+      this.model.pointsModel.setSort(SortPredicate.defaultValue, false);
 
-  onModelPointsFilter() {
-    this.view.setValue(SortType.default);
-    this.model.pointsModel.setSort(SortPredicate.default);
+      this.updateViewValue();
+
+      return;
+    }
+
+    this.updateViewDisplay();
   }
 }

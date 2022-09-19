@@ -16,19 +16,37 @@ export default class FilterPresenter extends Presenter {
   constructor(...args) {
     super(...args);
 
+    this.buildView();
+
+    this.view.addEventListener('change', this.onViewChange.bind(this));
+
+    this.model.addEventListener('mode', this.onModelChange.bind(this));
+    this.model.pointsModel.addEventListener(['add', 'remove', 'update'], this.onModelPointsChange.bind(this));
+  }
+
+  buildView() {
     /** @type {[string, string][]} */
     const options = Object.keys(FilterType).map(
       (key) => [FilterLabel[key], FilterType[key]]
     );
 
-    this.view
-      .setOptions(options)
-      .setOptionsDisabled(this.getOptionsDisabled())
-      .setValue(FilterType.default);
+    this.view.setOptions(options);
+    this.updateViewOptionsDisabled();
+    this.updateViewValue();
+  }
 
-    this.view.addEventListener('change', this.onViewChange.bind(this));
-    this.model.pointsModel.addEventListener(['add', 'remove', 'update', 'filter'], this.onModelPointsChange.bind(this));
-    this.model.addEventListener('mode', this.onModelChange.bind(this));
+  updateViewValue() {
+    const predicate = this.model.pointsModel.getFilter();
+    const type = FilterType[FilterPredicate.findKey(predicate)];
+
+    this.view.setValue(type);
+  }
+
+  updateViewOptionsDisabled() {
+    const predicates = Object.values(FilterPredicate);
+    const states = predicates.map((predicate) => !this.model.pointsModel.list(predicate).length);
+
+    this.view.setOptionsDisabled(states);
   }
 
   getOptionsDisabled() {
@@ -40,20 +58,19 @@ export default class FilterPresenter extends Presenter {
     const value = this.view.getValue();
     const predicate = FilterPredicate[FilterType.findKey(value)];
 
+    this.model.setMode(Mode.VIEW);
     this.model.pointsModel.setFilter(predicate);
   }
 
   onModelPointsChange() {
-    this.view.setOptionsDisabled(this.getOptionsDisabled());
+    this.updateViewOptionsDisabled();
   }
 
   onModelChange() {
-    const flags = this.getOptionsDisabled();
+    if (this.model.getMode() === Mode.CREATE) {
+      this.model.pointsModel.setFilter(FilterPredicate.defaultValue);
 
-    if (this.model.getMode() !== Mode.VIEW) {
-      flags.fill(true);
+      this.updateViewValue();
     }
-
-    this.view.setOptionsDisabled(flags);
   }
 }

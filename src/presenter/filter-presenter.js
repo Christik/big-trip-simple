@@ -27,20 +27,20 @@ export default class FilterPresenter extends Presenter {
       .setValue(FilterType.default);
 
     this.view.addEventListener('change', this.onViewChange.bind(this));
-    this.model.points.addEventListener(['add', 'remove', 'update', 'filter'], this.onModelPointsChange.bind(this));
+    this.model.pointsModel.addEventListener(['add', 'remove', 'update', 'filter'], this.onModelPointsChange.bind(this));
     this.model.addEventListener('mode', this.onModelChange.bind(this));
   }
 
   getOptionsDisabled() {
     return Object.values(FilterPredicate).map((predicate) =>
-      !this.model.points.list(predicate).length);
+      !this.model.pointsModel.list(predicate).length);
   }
 
   onViewChange() {
     const value = this.view.getValue();
     const predicate = FilterPredicate[FilterType.findKey(value)];
 
-    this.model.points.setFilter(predicate);
+    this.model.pointsModel.setFilter(predicate);
   }
 
   onModelPointsChange() {

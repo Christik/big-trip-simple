@@ -48,7 +48,7 @@ export default class CreatorPresenter extends Presenter {
     });
 
     /** @type {[string, string][]} */
-    const destinationSelectOptions = this.model.destinations.listAll()
+    const destinationSelectOptions = this.model.destinationsModel.listAll()
       .map((item) => ['', item.name]);
 
     this.view.pointTypeSelectView.setOptions(pointTypeSelectOptions);
@@ -61,7 +61,7 @@ export default class CreatorPresenter extends Presenter {
 
   updateDestinationSelectView() {
     const label = PointLabel[PointType.findKey(this.model.activePoint.type)];
-    const destination = this.model.destinations.findById(this.model.activePoint.destinationId);
+    const destination = this.model.destinationsModel.findById(this.model.activePoint.destinationId);
 
     this.view.destinationSelectView
       .setLabel(label)
@@ -80,7 +80,7 @@ export default class CreatorPresenter extends Presenter {
 
   updateOfferSelectView() {
     const type = this.view.pointTypeSelectView.getValue();
-    const availableOffers = this.model.offerGroups.findById(type).items;
+    const availableOffers = this.model.offerGroupsModel.findById(type).items;
 
     /** @type {[number, string, number][]} */
     const options = availableOffers.map((offer) => [offer.id, offer.title, offer.price]);
@@ -92,7 +92,7 @@ export default class CreatorPresenter extends Presenter {
 
   updateOfferSelectCheckedView() {
     const type = this.view.pointTypeSelectView.getValue();
-    const availableOffers = this.model.offerGroups.findById(type).items;
+    const availableOffers = this.model.offerGroupsModel.findById(type).items;
     const optionsChecked = availableOffers.map(
       (offer) => (this.model.activePoint.offerIds.includes(offer.id))
     );
@@ -102,7 +102,7 @@ export default class CreatorPresenter extends Presenter {
 
   updateDestinationView() {
     const name = this.view.destinationSelectView.getValue();
-    const destination = this.model.destinations.findBy('name', name);
+    const destination = this.model.destinationsModel.findBy('name', name);
 
     /** @type {[string, string][]} */
     const pictureOptions = destination.pictures.map(
@@ -127,7 +127,7 @@ export default class CreatorPresenter extends Presenter {
   }
 
   saveActivePoint() {
-    return this.model.points.add(this.model.activePoint);
+    return this.model.pointsModel.add(this.model.activePoint);
   }
 
   onPointTypeSelectViewChange() {
@@ -142,7 +142,7 @@ export default class CreatorPresenter extends Presenter {
 
   onDestinationSelectViewChange() {
     const name = this.view.destinationSelectView.getValue();
-    const destination = this.model.destinations.findBy('name', name);
+    const destination = this.model.destinationsModel.findBy('name', name);
 
     this.model.activePoint.destinationId = destination.id;
 

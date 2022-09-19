@@ -16,10 +16,12 @@ export default class ApplicationModel extends Model {
   constructor(points, destinations, offerGroups) {
     super();
 
-    this.points = points;
+    this.pointsModel = points;
     this.activePoint = null;
-    this.destinations = destinations;
-    this.offerGroups = offerGroups;
+    this.destinationsModel = destinations;
+    this.offerGroupsModel = offerGroups;
+
+    // TODO: переименовать обработчики
   }
 
   /**
@@ -27,15 +29,15 @@ export default class ApplicationModel extends Model {
    */
   async ready() {
     await Promise.all([
-      this.points.ready(),
-      this.destinations.ready(),
-      this.offerGroups.ready()
+      this.pointsModel.ready(),
+      this.destinationsModel.ready(),
+      this.offerGroupsModel.ready()
     ]);
   }
 
   get defaultPoint() {
-    const point = this.points.blank;
-    const [firstDestination] = this.destinations.listAll();
+    const point = this.pointsModel.blank;
+    const [firstDestination] = this.destinationsModel.listAll();
 
     point.type = PointType.TAXI;
     point.destinationId = firstDestination.id;
@@ -63,7 +65,7 @@ export default class ApplicationModel extends Model {
         break;
 
       case Mode.EDIT:
-        this.activePoint = this.points.findById(activePointId);
+        this.activePoint = this.pointsModel.findById(activePointId);
         break;
 
       case Mode.CREATE:

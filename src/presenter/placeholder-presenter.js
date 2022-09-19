@@ -17,7 +17,7 @@ export default class PlaceholderPresenter extends Presenter {
 
     this.updateView();
 
-    this.model.points.addEventListener(
+    this.model.pointsModel.addEventListener(
       ['add', 'remove', 'update', 'filter'],
       this.onModelPointsChange.bind(this)
     );
@@ -26,8 +26,8 @@ export default class PlaceholderPresenter extends Presenter {
   }
 
   updateView() {
-    const {length} = this.model.points.list();
-    const key = FilterPredicate.findKey(this.model.points.getFilter());
+    const {length} = this.model.pointsModel.list();
+    const key = FilterPredicate.findKey(this.model.pointsModel.getFilter());
 
     this.view.textContent = length ? '' : FilterEmpty[key];
     this.view.hidden = Boolean(length);

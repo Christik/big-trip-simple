@@ -32,29 +32,29 @@ const OFFERS_URL = `${BASE_URL}/offers`;
 const AUTH = 'Basic er1180jdzbdw';
 
 /** @type {Store<Point>} */
-const pointStore = new Store(POINTS_URL, AUTH);
+const pointsStore = new Store(POINTS_URL, AUTH);
 
 /** @type {Store<Destination>} */
-const destinationStore = new Store(DESTINATIONS_URL, AUTH);
+const destinationsStore = new Store(DESTINATIONS_URL, AUTH);
 
 /** @type {Store<OfferGroup>} */
-const offerStore = new Store(OFFERS_URL, AUTH);
+const offerGroupsStore = new Store(OFFERS_URL, AUTH);
 
-const points = new DataTableModel(pointStore, (point) => new PointAdapter(point))
+const pointsModel = new DataTableModel(pointsStore, (point) => new PointAdapter(point))
   .setFilter(FilterPredicate.EVERYTHING)
   .setSort(SortPredicate.DAY);
 
-const destinations = new CollectionModel(
-  destinationStore,
+const destinationsModel = new CollectionModel(
+  destinationsStore,
   (destination) => new DestinationAdapter(destination)
 );
 
-const offerGroups = new CollectionModel(
-  offerStore,
+const offerGroupsModel = new CollectionModel(
+  offerGroupsStore,
   (offerGroup) => new OfferGroupAdapter(offerGroup)
 );
 
-const applicationModel = new ApplicationModel(points, destinations, offerGroups);
+const applicationModel = new ApplicationModel(pointsModel, destinationsModel, offerGroupsModel);
 
 /** @type {SortView} */
 const sortView = document.querySelector(String(SortView));
@@ -90,7 +90,7 @@ applicationModel.addEventListener('mode', () => {
   trace(`%cMode.${Mode.findKey(applicationModel.getMode())}`, 'font-size: large');
 });
 
-points.addEventListener(['add', 'update', 'remove', 'filter', 'sort'], (event) => {
+pointsModel.addEventListener(['add', 'update', 'remove', 'filter', 'sort'], (event) => {
   trace(`%c${event.type}`, 'font-weight: bold');
 });
 

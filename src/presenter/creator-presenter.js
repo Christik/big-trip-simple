@@ -4,6 +4,14 @@ import PointLabel from '../enum/point-label.js';
 import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
 import PointAdapter from '../adapter/point-adapter.js';
+import DatePickerView from '../view/date-picker-view.js';
+
+DatePickerView.configure({
+  'enableTime': true,
+  'time_24hr': true,
+  'dateFormat': DateFormat.DATE_TIME,
+  'locale': {firstDayOfWeek: 1}
+});
 
 /**
  * @template {ApplicationModel} Model
@@ -56,16 +64,11 @@ export default class CreatorPresenter extends Presenter {
     });
 
     /** @type {[string, string][]} */
-    const destinationSelectOptions = this.model.destinations.listAll().map(
-      (item) => ['', item.name]
-    );
+    const destinationSelectOptions = this.model.destinations.listAll()
+      .map((item) => ['', item.name]);
 
     this.view.pointTypeSelectView.setOptions(pointTypeSelectOptions);
     this.view.destinationSelectView.setOptions(destinationSelectOptions);
-    this.view.datePickerView.configure({
-      dateFormat: DateFormat.DATE_TIME,
-      locale: {firstDayOfWeek: 1}
-    });
   }
 
   updateTypeSelectView() {

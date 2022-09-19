@@ -43,6 +43,7 @@ export default class ApplicationModel extends Model {
     point.endDate = point.startDate;
     point.basePrice = 0;
     point.offerIds = [];
+    point.isFavorite = false;
 
     return point;
   }

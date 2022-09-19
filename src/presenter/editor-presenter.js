@@ -12,7 +12,7 @@ export default class EditorPresenter extends CreatorPresenter {
    * @override
    */
   saveActivePoint() {
-    return this.model.points.update(this.model.activePoint.id, this.activePoint);
+    return this.model.points.update(this.model.activePoint.id, this.model.activePoint);
   }
 
   deleteActivePoint() {

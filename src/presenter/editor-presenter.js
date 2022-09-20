@@ -25,7 +25,7 @@ export default class EditorPresenter extends CreatorPresenter {
   onModelModeChange() {
     this.point = this.model.activePoint;
 
-    this.view.close(true);
+    this.view.close(false);
 
     if (this.model.getMode() === Mode.EDIT) {
       const pointView = PointView.findById(this.model.activePoint.id);

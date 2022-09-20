@@ -20,8 +20,6 @@ export default class ApplicationModel extends Model {
     this.activePoint = null;
     this.destinationsModel = destinations;
     this.offerGroupsModel = offerGroups;
-
-    // TODO: переименовать обработчики
   }
 
   /**

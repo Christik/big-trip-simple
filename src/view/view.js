@@ -42,18 +42,6 @@ export default class View extends HTMLElement {
   }
 
   /**
-   * @param {string} key
-   * @param {*} value
-   */
-  set(key, value) {
-    this[key] = value;
-
-    return this;
-  }
-
-  // TODO: избавиться от set()
-
-  /**
    * @param {boolean} flag
    */
   display(flag) {

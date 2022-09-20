@@ -26,7 +26,6 @@ export default class DataTableModel extends CollectionModel {
   setFilter(predicate, notify = true) {
     this.#filter = predicate;
 
-    // TODO: сделать единообразное именование (silent)
     if (notify) {
       this.dispatchEvent(new CustomEvent('filter'));
     }

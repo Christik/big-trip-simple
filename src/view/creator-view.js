@@ -6,7 +6,6 @@ import DatePickerView from './date-picker-view.js';
 import PriceInputView from './price-input-view.js';
 import OfferSelectView from './offer-select-view.js';
 import DestinationView from './destination-view.js';
-import {isKeyEscape} from '../format.js';
 import LoaderView from './loader-view';
 
 export default class CreatorView extends ListItemView {
@@ -127,12 +126,12 @@ export default class CreatorView extends ListItemView {
     return this;
   }
 
-  close(silent = false) {
+  close(notify = true) {
     this.display(false);
 
     document.removeEventListener('keydown', this);
 
-    if (!silent) {
+    if (notify) {
       this.dispatchEvent(new CustomEvent('close'));
     }
 

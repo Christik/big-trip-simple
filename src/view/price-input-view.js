@@ -4,9 +4,7 @@ export default class PriceInputView extends View {
   constructor() {
     super(...arguments);
 
-    /**
-     * @type {HTMLInputElement}
-     */
+    /** @type {HTMLInputElement} */
     this.inputView = this.querySelector('.event__input--price');
 
     this.classList.add('event__field-group', 'event__field-group--price');

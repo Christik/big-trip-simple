@@ -1,14 +1,13 @@
 import Mode from '../enum/mode.js';
 import PointType from '../enum/point-type.js';
 import PointLabel from '../enum/point-label.js';
-import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
 import DatePickerView from '../view/date-picker-view.js';
 
 DatePickerView.configure({
   'enableTime': true,
   'time_24hr': true,
-  'dateFormat': DateFormat.DATE_TIME,
+  'dateFormat': 'd/m/y H:i',
   'locale': {firstDayOfWeek: 1}
 });
 
@@ -91,7 +90,7 @@ export default class CreatorPresenter extends Presenter {
     ]);
 
     this.view.offerSelectView
-      .set('hidden', !availableOffers.length)
+      .display(Boolean(availableOffers.length))
       .setOptions(options);
   }
 
@@ -163,7 +162,7 @@ export default class CreatorPresenter extends Presenter {
   }
 
   onModelModeChange() {
-    this.view.close(true);
+    this.view.close(false);
 
     if (this.model.getMode() === Mode.CREATE) {
       this.updateView();
@@ -198,9 +197,6 @@ export default class CreatorPresenter extends Presenter {
 
         /** @type {HTMLInputElement} */
         (this.view.formView[fieldName])?.focus();
-
-        // TODO: доделать фокусировку
-        console.log(exception.cause, fieldName);
       }
     }
 

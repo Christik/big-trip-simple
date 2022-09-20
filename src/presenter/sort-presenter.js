@@ -20,7 +20,7 @@ export default class SortPresenter extends Presenter {
     this.buildView();
 
     this.view.addEventListener('change', this.onViewChange.bind(this));
-    this.model.pointsModel.addEventListener(['add', 'remove', 'filter'], this.onModelPointsChange.bind(this));
+    this.model.pointsModel.addEventListener(['add', 'remove', 'filter'], this.onPointsModelChange.bind(this));
   }
 
   buildView() {
@@ -56,7 +56,7 @@ export default class SortPresenter extends Presenter {
     this.model.pointsModel.setSort(compare);
   }
 
-  onModelPointsChange(event) {
+  onPointsModelChange(event) {
     if (event.type === 'filter') {
       this.model.pointsModel.setSort(SortPredicate.defaultValue, false);
 

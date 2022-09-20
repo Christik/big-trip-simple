@@ -1,9 +1,13 @@
 import Mode from '../enum/mode.js';
 import PointType from '../enum/point-type.js';
 import PointLabel from '../enum/point-label.js';
-import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
 import { formatDate, formatNumber } from '../format.js';
+
+const DateFormat = {
+  TIME: 'HH:mm',
+  CALENDAR_DATE: 'MMM D'
+};
 
 /**
  * @template {ApplicationModel} Model
@@ -61,16 +65,7 @@ export default class ListPresenter extends Presenter {
     this.view.setPoints(states);
   }
 
-  // /**
-  //  * @param {CollectionModelEvent<PointAdapter>} event
-  //  */
   onModelPointsChange() {
-    // if (event.type === 'remove') {
-    //   this.view.findById(event.detail.id).remove();
-
-    //   return;
-    // }
-
     this.updateView();
   }
 

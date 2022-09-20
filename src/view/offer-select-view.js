@@ -6,9 +6,9 @@ export default class OfferSelectView extends View {
   constructor() {
     super(...arguments);
 
-    this.classList.add('event__section', 'event__section--offers');
-
     this.offersView = this.querySelector('.event__available-offers');
+
+    this.classList.add('event__section', 'event__section--offers');
   }
 
   /**

@@ -192,6 +192,16 @@ export default class CreatorPresenter extends Presenter {
 
     } catch (exception) {
       this.view.shake();
+
+      if (Array.isArray(exception.cause)) {
+        const [{fieldName}] = exception.cause;
+
+        /** @type {HTMLInputElement} */
+        (this.view.formView[fieldName])?.focus();
+
+        // TODO: доделать фокусировку
+        console.log(exception.cause, fieldName);
+      }
     }
 
     this.view.setSaving(false);

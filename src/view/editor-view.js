@@ -34,9 +34,9 @@ export default class EditorView extends CreatorView {
     /** @type {HTMLButtonElement} */
     const buttonView = this.querySelector('.event__reset-btn');
 
-    buttonView.disabled = flag;
     buttonView.textContent = flag ? DeleteButtonLabel.PRESSED : DeleteButtonLabel.DEFAULT;
 
+    this.setDisabled(flag);
     this.loaderView.display(flag);
   }
 

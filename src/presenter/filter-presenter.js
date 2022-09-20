@@ -49,11 +49,6 @@ export default class FilterPresenter extends Presenter {
     this.view.setOptionsDisabled(states);
   }
 
-  getOptionsDisabled() {
-    return Object.values(FilterPredicate).map((predicate) =>
-      !this.model.pointsModel.list(predicate).length);
-  }
-
   onViewChange() {
     const value = this.view.getValue();
     const predicate = FilterPredicate[FilterType.findKey(value)];

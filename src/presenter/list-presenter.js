@@ -1,9 +1,9 @@
+import Mode from '../enum/mode.js';
 import PointType from '../enum/point-type.js';
 import PointLabel from '../enum/point-label.js';
 import DateFormat from '../enum/date-format.js';
 import Presenter from './presenter.js';
-import { formatDate } from '../utils.js';
-import Mode from '../enum/mode.js';
+import { formatDate, formatNumber } from '../format.js';
 
 /**
  * @template {ApplicationModel} Model
@@ -53,7 +53,7 @@ export default class ListPresenter extends Presenter {
         startDate: formatDate(startDate, DateFormat.CALENDAR_DATE),
         startTime: formatDate(startDate, DateFormat.TIME),
         endTime: formatDate(endDate, DateFormat.TIME),
-        price: String(point.basePrice),
+        price: formatNumber(point.basePrice),
         offers: offerStates
       };
     });

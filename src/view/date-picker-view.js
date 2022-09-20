@@ -44,6 +44,7 @@ export default class DatePickerView extends View {
         id="event-start-time-1"
         type="text"
         name="date_from"
+        required
         value=""
       >
       &mdash;
@@ -53,6 +54,7 @@ export default class DatePickerView extends View {
         id="event-end-time-1"
         type="text"
         name="date_to"
+        required
         value=""
       >
     `;

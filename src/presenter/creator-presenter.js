@@ -68,8 +68,9 @@ export default class CreatorPresenter extends Presenter {
   }
 
   updateDestinationSelectView() {
-    const label = PointLabel[PointType.findKey(this.model.activePoint.type)];
-    const destination = this.model.destinationsModel.findById(this.model.activePoint.destinationId);
+    const {type, destinationId} = this.model.activePoint;
+    const label = PointLabel[PointType.findKey(type)];
+    const destination = this.model.destinationsModel.findById(destinationId);
 
     this.view.destinationSelectView
       .setLabel(label)

@@ -10,6 +10,8 @@ export default class DatePickerView extends View {
   constructor() {
     super(...arguments);
 
+    // Запрещает очистку полей с датами с клавиатуры,
+    // подписка на обработчик должна происходить до инициализации flatpickr
     this.addEventListener('keydown', this.onKeydown.bind(this), true);
 
     /**
@@ -23,6 +25,10 @@ export default class DatePickerView extends View {
     this.#endDateCalendar = initCalendar(this.querySelector('[name="date_to"]'));
 
     this.classList.add('event__field-group', 'event__field-group--time');
+  }
+
+  get disallowedKeys() {
+    return ['Backspace', 'Delete'];
   }
 
   /**
@@ -50,10 +56,6 @@ export default class DatePickerView extends View {
         value=""
       >
     `;
-  }
-
-  get disallowedKeys() {
-    return ['Backspace', 'Delete'];
   }
 
   getDates() {
@@ -85,14 +87,14 @@ export default class DatePickerView extends View {
     return this;
   }
 
-  static configure(options) {
-    initCalendar.setDefaults(options);
-  }
-
   onKeydown(event) {
     if (this.disallowedKeys.includes(event.key)) {
       event.stopPropagation();
     }
+  }
+
+  static configure(options) {
+    initCalendar.setDefaults(options);
   }
 }
 

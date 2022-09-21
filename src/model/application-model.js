@@ -17,20 +17,9 @@ export default class ApplicationModel extends Model {
     super();
 
     this.pointsModel = pointsModel;
-    this.activePoint = null;
     this.destinationsModel = destinationsModel;
     this.offerGroupsModel = offerGroupsModel;
-  }
-
-  /**
-   * @override
-   */
-  async ready() {
-    await Promise.all([
-      this.pointsModel.ready(),
-      this.destinationsModel.ready(),
-      this.offerGroupsModel.ready()
-    ]);
+    this.activePoint = null;
   }
 
   get defaultPoint() {
@@ -45,6 +34,17 @@ export default class ApplicationModel extends Model {
     point.isFavorite = false;
 
     return point;
+  }
+
+  /**
+   * @override
+   */
+  async ready() {
+    await Promise.all([
+      this.pointsModel.ready(),
+      this.destinationsModel.ready(),
+      this.offerGroupsModel.ready()
+    ]);
   }
 
   getMode() {

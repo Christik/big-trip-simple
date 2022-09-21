@@ -41,6 +41,24 @@ export default class CreatorView extends ListItemView {
     this.formView = this.querySelector('form');
   }
 
+  get closeKeys() {
+    return ['Escape', 'Esc'];
+  }
+
+  /**
+   * @override
+   * @param {boolean} flag
+   */
+  display(flag) {
+    if (flag) {
+      this.targetView.prepend(this);
+    } else {
+      this.remove();
+    }
+
+    return this;
+  }
+
   /**
    * @override
    */
@@ -60,10 +78,6 @@ export default class CreatorView extends ListItemView {
         </section>
       </form>
     `;
-  }
-
-  get closeKeys() {
-    return ['Escape', 'Esc'];
   }
 
   createButtonsTemplate() {
@@ -105,20 +119,6 @@ export default class CreatorView extends ListItemView {
    */
   target(view) {
     this.targetView = view;
-
-    return this;
-  }
-
-  /**
-   * @override
-   * @param {boolean} flag
-   */
-  display(flag) {
-    if (flag) {
-      this.targetView.prepend(this);
-    } else {
-      this.remove();
-    }
 
     return this;
   }

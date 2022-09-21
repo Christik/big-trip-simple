@@ -10,25 +10,17 @@ export default class DatePickerView extends View {
   constructor() {
     super(...arguments);
 
-    // TODO: перенести колбэки в презентер buildView()
-    const onStartDateChange = (selectedDates) =>
-      this.#endDateCalendar.set('minDate', selectedDates[0]);
+    this.addEventListener('keydown', this.onKeydown.bind(this), true);
 
     /**
      * @type {Calendar}
      */
-    this.#startDateCalendar = initCalendar(
-      this.querySelector('[name="date_from"]'),
-    );
+    this.#startDateCalendar = initCalendar(this.querySelector('[name="date_from"]'));
 
     /**
      * @type {Calendar}
      */
-    this.#endDateCalendar = initCalendar(
-      this.querySelector('[name="date_to"]')
-    );
-
-    this.#startDateCalendar.set('onChange', onStartDateChange);
+    this.#endDateCalendar = initCalendar(this.querySelector('[name="date_to"]'));
 
     this.classList.add('event__field-group', 'event__field-group--time');
   }
@@ -60,6 +52,10 @@ export default class DatePickerView extends View {
     `;
   }
 
+  get disallowedKeys() {
+    return ['Backspace', 'Delete'];
+  }
+
   getDates() {
     return [
       this.#startDateCalendar.selectedDates[0]?.toJSON(),
@@ -71,9 +67,11 @@ export default class DatePickerView extends View {
    * @param {CalendarDate} startDate
    * @param {CalendarDate} endDate
    */
-  setDates(startDate, endDate = startDate) {
-    this.#startDateCalendar.setDate(new Date(startDate), true);
-    this.#endDateCalendar.setDate(new Date(endDate), true);
+  setDates(startDate, endDate = startDate, notify = true) {
+    this.#startDateCalendar.setDate(new Date(startDate), notify);
+    this.#endDateCalendar.setDate(new Date(endDate), notify);
+
+    return this;
   }
 
   /**
@@ -89,6 +87,12 @@ export default class DatePickerView extends View {
 
   static configure(options) {
     initCalendar.setDefaults(options);
+  }
+
+  onKeydown(event) {
+    if (this.disallowedKeys.includes(event.key)) {
+      event.stopPropagation();
+    }
   }
 }
 

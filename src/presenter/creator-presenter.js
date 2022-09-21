@@ -50,8 +50,17 @@ export default class CreatorPresenter extends Presenter {
     const destinationSelectOptions = this.model.destinationsModel.listAll()
       .map((item) => ['', item.name]);
 
+    const startDateOptions = {
+      onChange: [(selectedDates) => {
+        const [minDate] = selectedDates;
+
+        this.view.datePickerView.configure({}, {minDate});
+      }]
+    };
+
     this.view.pointTypeSelectView.setOptions(pointTypeSelectOptions);
     this.view.destinationSelectView.setOptions(destinationSelectOptions);
+    this.view.datePickerView.configure(startDateOptions, {});
   }
 
   updateTypeSelectView() {
@@ -191,13 +200,6 @@ export default class CreatorPresenter extends Presenter {
 
     } catch (exception) {
       this.view.shake();
-
-      if (Array.isArray(exception.cause)) {
-        const [{fieldName}] = exception.cause;
-
-        /** @type {HTMLInputElement} */
-        (this.view.formView[fieldName])?.focus();
-      }
     }
 
     this.view.setSaving(false);

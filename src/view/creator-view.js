@@ -62,6 +62,10 @@ export default class CreatorView extends ListItemView {
     `;
   }
 
+  get closeKeys() {
+    return ['Escape', 'Esc'];
+  }
+
   createButtonsTemplate() {
     return html`
       <button class="event__save-btn  btn  btn--blue" type="submit">
@@ -76,7 +80,9 @@ export default class CreatorView extends ListItemView {
   /**
    * @param {boolean} flag
    */
-  setDisabled(flag) {
+  setLoading(flag) {
+    this.loaderView.display(flag);
+
     [...this.formView].forEach((/** @type {HTMLInputElement} */ inputView) => {
       inputView.disabled = flag;
     });
@@ -91,8 +97,7 @@ export default class CreatorView extends ListItemView {
 
     buttonView.textContent = flag ? SaveButtonLabel.PRESSED : SaveButtonLabel.DEFAULT;
 
-    this.setDisabled(flag);
-    this.loaderView.display(flag);
+    this.setLoading(flag);
   }
 
   /**
@@ -142,7 +147,7 @@ export default class CreatorView extends ListItemView {
    * @param {KeyboardEvent} event
    */
   handleEvent(event) {
-    if (event.key?.startsWith('Esc')) {
+    if (this.closeKeys.includes(event?.key)) {
       this.close();
     }
   }

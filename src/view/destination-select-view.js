@@ -46,7 +46,7 @@ export default class DestinationSelectView extends View {
   }
 
   get allowedKeys() {
-    return ['Tab', 'ArrowUp', 'ArrowDown', 'Escape'];
+    return ['Tab', 'ArrowUp', 'ArrowDown', 'Escape', 'Esc'];
   }
 
   /**

@@ -21,7 +21,7 @@ export default class DestinationSelectView extends View {
     this.addEventListener('focus', this.onFocus, true);
     this.addEventListener('change', this.onChange);
     this.addEventListener('keydown', this.onKeydown);
-    this.addEventListener('blur', this.onBlur);
+    this.addEventListener('blur', this.onBlur, true);
   }
 
   /**
@@ -40,6 +40,7 @@ export default class DestinationSelectView extends View {
         name="event-destination"
         value=""
         list="destination-list-1"
+        required
       >
       <datalist id="destination-list-1"></datalist>
     `;

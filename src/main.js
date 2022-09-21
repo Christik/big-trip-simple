@@ -73,7 +73,9 @@ const filterView = document.querySelector(String(FilterView));
 
 const creatorView = new CreatorView().target(listView);
 
-applicationModel.ready().then(() => {
+const initializeApp = async () => {
+  await applicationModel.ready();
+
   new FilterPresenter(applicationModel, filterView);
   new SortPresenter(applicationModel, sortView);
   new ListPresenter(applicationModel, listView);
@@ -81,7 +83,9 @@ applicationModel.ready().then(() => {
   new CreatorPresenter(applicationModel, creatorView);
   new PlaceholderPresenter(applicationModel, placeholderView);
   new CreateButtonPresenter(applicationModel, createButtonView);
-});
+};
+
+initializeApp();
 
 
 const {trace} = console;

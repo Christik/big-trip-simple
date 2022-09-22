@@ -58,9 +58,17 @@ export default class CreatorPresenter extends Presenter {
       }]
     };
 
+    const endDateOptions = {
+      onValueUpdate: [() => {
+        const [startDate, endDate = startDate] = this.view.datePickerView.getDates();
+
+        this.view.datePickerView.setDates(startDate, endDate, false);
+      }]
+    };
+
     this.view.pointTypeSelectView.setOptions(pointTypeSelectOptions);
     this.view.destinationSelectView.setOptions(destinationSelectOptions);
-    this.view.datePickerView.configure(startDateOptions, {});
+    this.view.datePickerView.configure(startDateOptions, endDateOptions);
   }
 
   updateTypeSelectView() {

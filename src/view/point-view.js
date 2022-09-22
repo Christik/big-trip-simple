@@ -1,7 +1,9 @@
-import ListItemView, {html} from './list-item-view.js';
+import './point-view.css';
+
+import View, {html} from './view.js';
 import OfferView from './offer-view.js';
 
-export default class PointView extends ListItemView {
+export default class PointView extends View {
   #id;
 
   /**
@@ -12,6 +14,8 @@ export default class PointView extends ListItemView {
 
     this.#id = state.id;
     this.id = `${this.constructor}-${state.id}`;
+
+    this.classList.add('trip-events__item');
 
     this.addEventListener('click', this.onClick);
   }

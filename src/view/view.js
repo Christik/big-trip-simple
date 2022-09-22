@@ -1,5 +1,4 @@
 import './view.css';
-import he from 'he';
 
 /**
  * @param {TemplateStringsArray} strings
@@ -16,11 +15,6 @@ export const html = (strings, ...values) =>
     if (Array.isArray(value)) {
       value = value.join('');
     }
-
-    // TODO: доработать экранирование
-    // else if (typeof value === 'string') {
-    //   value = he.encode(value);
-    // }
 
     return result + value + strings[index + 1];
 

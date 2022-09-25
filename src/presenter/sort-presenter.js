@@ -28,7 +28,7 @@ export default class SortPresenter extends Presenter {
   }
 
   buildView() {
-    /** @type {[string, string][]} */
+    /** @type {SortOptionState[]} */
     const options = Object.keys(SortType).map(
       (key) => [SortLabel[key], SortType[key]]
     );
@@ -62,6 +62,9 @@ export default class SortPresenter extends Presenter {
     this.model.pointsModel.setSort(compare);
   }
 
+  /**
+   * @param {CustomEvent} event
+   */
   onPointsModelChange(event) {
     if (event.type === 'filter') {
       this.model.pointsModel.setSort(SortCompare.defaultValue, false);

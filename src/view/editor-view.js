@@ -52,6 +52,9 @@ export default class EditorView extends CreatorView {
     this.setLoading(flag);
   }
 
+  /**
+   * @param {Event & {target: HTMLButtonElement}} event
+   */
   onClick(event) {
     if (event.target.closest('.event__rollup-btn')) {
       this.close();

@@ -49,8 +49,7 @@ export default class CreatorPresenter extends Presenter {
       return [label, value];
     });
 
-    // TODO: вынести в @typedef.js
-    /** @type {[string, string][]} */
+    /** @type {DestinationOptionState[]} */
     const destinationSelectOptions = this.model.destinationsModel.listAll()
       .map((destination) => ['', escape(destination.name)]);
 
@@ -103,7 +102,7 @@ export default class CreatorPresenter extends Presenter {
     const type = this.view.pointTypeSelectView.getValue();
     const availableOffers = this.model.offerGroupsModel.findById(type).items;
 
-    /** @type {[string, string, number, boolean][]} */
+    /** @type {OfferOptionState[]} */
     const options = availableOffers.map((offer) => [
       escape(offer.id),
       escape(offer.title),
@@ -120,7 +119,7 @@ export default class CreatorPresenter extends Presenter {
     const name = this.view.destinationSelectView.getValue();
     const destination = this.model.destinationsModel.findBy('name', name);
 
-    /** @type {[string, string][]} */
+    /** @type {DestinationPictureState[]} */
     const pictureOptions = destination.pictures.map(({src, description }) => [
       escape(src),
       escape(description)

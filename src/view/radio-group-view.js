@@ -25,6 +25,9 @@ export default class RadioGroupView extends View {
     return null;
   }
 
+  /**
+   * @param {string} value
+   */
   setValue(value) {
     /** @type {HTMLInputElement} */
     const inputView = this.querySelector(`${this.inputSelector}[value="${value}"]`);

@@ -101,6 +101,9 @@ export default class PointView extends View {
     return this;
   }
 
+  /**
+   * @param {Event & {target: Element}} event
+   */
   onClick(event) {
     if (!event.target.closest('.event__rollup-btn')) {
       return;

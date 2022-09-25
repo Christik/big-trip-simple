@@ -70,6 +70,9 @@ export default class ListPresenter extends Presenter {
     this.view.setPoints(states);
   }
 
+  /**
+   * @param {CustomEvent} event
+   */
   onModelPointsChange(event) {
     if (event.type === 'remove') {
       this.view.findById(event.detail.id).remove();

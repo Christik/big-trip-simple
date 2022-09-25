@@ -28,6 +28,9 @@ export default class DestinationView extends View {
     `;
   }
 
+  /**
+   * @param {string} description
+   */
   setDescription(description) {
     this.querySelector('.event__destination-description').textContent = description;
 
@@ -35,7 +38,7 @@ export default class DestinationView extends View {
   }
 
   /**
-   * @param {[string, string][]} states
+   * @param {DestinationPictureState[]} states
    */
   setPictures(states) {
     const views = states.map(([src, alt]) =>

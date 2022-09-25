@@ -28,7 +28,7 @@ export default class FilterPresenter extends Presenter {
   }
 
   buildView() {
-    /** @type {[string, string][]} */
+    /** @type {FilterOptionState[]} */
     const options = Object.keys(FilterType).map(
       (key) => [FilterLabel[key], FilterType[key]]
     );

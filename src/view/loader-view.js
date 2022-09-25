@@ -28,6 +28,9 @@ export default class LoaderView extends View {
     this.ownerView.removeEventListener('keydown', this);
   }
 
+  /**
+   * @param {KeyboardEvent} event
+   */
   handleEvent(event) {
     event.preventDefault();
   }

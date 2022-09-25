@@ -23,6 +23,12 @@
  * @prop {OfferState[]} offers
  */
 
-/** @typedef {[label: string, value: string]} PointTypeOptionState */
-
-/** @typedef {[title: string, price: number]} OfferState */
+/**
+ * @typedef {[string, string]} FilterOptionState
+ * @typedef {[string, string]} SortOptionState
+ * @typedef {[label: string, value: string]} PointTypeOptionState
+ * @typedef {[title: string, price: number]} OfferState
+ * @typedef {[string, string]} DestinationOptionState
+ * @typedef {[string, string, number, boolean]} OfferOptionState
+ * @typedef {[string, string]} DestinationPictureState
+ */

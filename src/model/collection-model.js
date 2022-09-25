@@ -69,6 +69,9 @@ export default class CollectionModel extends Model {
     return this.findIndexBy('id', value);
   }
 
+  /**
+   * @param {number} index
+   */
   item(index) {
     const item = this.#items[index];
 

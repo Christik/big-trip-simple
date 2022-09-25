@@ -1,5 +1,6 @@
-import KeyboardCommand from '../enum/keyboard-command';
 import './destination-select-view.css';
+
+import KeyboardCommand from '../enum/keyboard-command';
 import View, {html} from './view.js';
 
 export default class DestinationSelectView extends View {
@@ -76,7 +77,7 @@ export default class DestinationSelectView extends View {
   }
 
   /**
-   * @param {[string, string][]} states
+   * @param {DestinationOptionState[]} states
    */
   setOptions(states) {
     const views = states.map((state) => new Option(...state));
@@ -109,6 +110,9 @@ export default class DestinationSelectView extends View {
     this.replaceValueWithPlaceholder();
   }
 
+  /**
+   * @param {KeyboardEvent} event
+   */
   onKeydown(event) {
     if (!this.allowedKeys.includes(event.key)) {
       event.preventDefault();

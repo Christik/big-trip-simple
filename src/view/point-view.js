@@ -1,7 +1,6 @@
 import './point-view.css';
 
 import View, {html} from './view.js';
-import OfferView from './offer-view.js';
 
 export default class PointView extends View {
   #id;
@@ -56,13 +55,7 @@ export default class PointView extends View {
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <div class="event__selected-offers">
-          ${state.offers.map(([title, price]) => html`
-            <div class="event__offer">
-              <span class="event__offer-title">${title}</span>
-              &plus;&euro;&nbsp;
-              <span class="event__offer-price">${price}</span>
-            </div>
-          `)}
+          ${this.createOffersTemplate(state.offers)}
         </div>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
@@ -72,18 +65,20 @@ export default class PointView extends View {
   }
 
   /**
-   * @param {OfferState} state
+   * @param {OfferState[]} states
    */
-  createOfferTemplate(...state) {
-    const [title, price] = state;
+  createOffersTemplate(states) {
+    return states.map((state) => {
+      const [title, price] = state;
 
-    return html`
-      <div class="event__offer">
-        <span class="event__offer-title">${title}</span>
-        &plus;&euro;&nbsp;
-        <span class="event__offer-price">${price}</span>
-      </div>
-    `;
+      return html`
+        <div class="event__offer">
+          <span class="event__offer-title">${title}</span>
+          &plus;&euro;&nbsp;
+          <span class="event__offer-price">${price}</span>
+        </div>
+      `;
+    }).join('');
   }
 
   getId() {
@@ -94,9 +89,7 @@ export default class PointView extends View {
    * @param {OfferState[]} states
    */
   setOffers(states) {
-    const views = states.map((state) => new OfferView(...state));
-
-    this.querySelector('.event__selected-offers').replaceChildren(...views);
+    this.querySelector('.event__selected-offers').innerHTML = this.createOffersTemplate(states);
 
     return this;
   }

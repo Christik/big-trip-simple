@@ -1,16 +1,11 @@
 import {escape} from 'he';
-import { formatDate, formatNumber } from '../format.js';
+import { formatDate, formatTime, formatNumber } from '../format.js';
 
 import Mode from '../enum/mode.js';
 import PointType from '../enum/point-type.js';
 import PointLabel from '../enum/point-label.js';
 
 import Presenter from './presenter.js';
-
-const DateFormat = {
-  TIME: 'HH:mm',
-  CALENDAR_DATE: 'MMM D'
-};
 
 /**
  * @template {ApplicationModel} Model
@@ -59,9 +54,9 @@ export default class ListPresenter extends Presenter {
         endIsoDate: escape(endDate),
         title: escape(title),
         icon: escape(point.type),
-        startDate: formatDate(startDate, DateFormat.CALENDAR_DATE),
-        startTime: formatDate(startDate, DateFormat.TIME),
-        endTime: formatDate(endDate, DateFormat.TIME),
+        startDate: formatDate(startDate),
+        startTime: formatTime(startDate),
+        endTime: formatTime(endDate),
         price: escape(formatNumber(point.basePrice)),
         offers: offerStates
       };

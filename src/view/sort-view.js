@@ -37,7 +37,7 @@ export default class SortView extends RadioGroupView {
    * @param {SortOptionState[]} states
    */
   setOptions(states) {
-    const templates = states.map((state) => this.createOptionTemplate(state));
+    const templates = states.map(this.createOptionTemplate);
 
     this.querySelector('form').innerHTML = templates.join('');
 

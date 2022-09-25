@@ -70,8 +70,6 @@ export default class SortPresenter extends Presenter {
       this.model.pointsModel.setSort(SortCompare.defaultValue, false);
 
       this.updateViewValue();
-
-      return;
     }
 
     this.updateViewDisplay();

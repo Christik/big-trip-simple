@@ -112,7 +112,7 @@ export default class PointTypeSelectView extends RadioGroupView {
    * @param {PointTypeOptionState[]} states
    */
   setOptions(states) {
-    const templates = states.map((state) => this.createOptionTemplate(state));
+    const templates = states.map(this.createOptionTemplate);
 
     this.querySelector('.event__type-group')
       .insertAdjacentHTML('beforeend', templates.join(''));

@@ -1,4 +1,5 @@
 import FilterPredicate from './enum/filter-predicate.js';
+import SortCompare from './enum/sort-compare.js';
 
 import Store from './store/store.js';
 import CollectionModel from './model/collection-model.js';
@@ -12,6 +13,7 @@ import OfferGroupAdapter from './adapter/offer-group-adapter.js';
 import FilterView from './view/filter-view.js';
 import SortView from './view/sort-view.js';
 import ListView from './view/list-view.js';
+import CreatorView from './view/creator-view.js';
 import EditorView from './view/editor-view.js';
 
 import FilterPresenter from './presenter/filter-presenter.js';
@@ -20,16 +22,13 @@ import ListPresenter from './presenter/list-presenter.js';
 import EditorPresenter from './presenter/editor-presenter.js';
 import PlaceholderPresenter from './presenter/placeholder-presenter.js';
 import CreateButtonPresenter from './presenter/create-button-presenter.js';
-import Mode from './enum/mode.js';
 import CreatorPresenter from './presenter/creator-presenter.js';
-import CreatorView from './view/creator-view.js';
-import SortCompare from './enum/sort-compare.js';
 
 const BASE_URL = 'https://18.ecmascript.pages.academy/big-trip';
 const POINTS_URL = `${BASE_URL}/points`;
 const DESTINATIONS_URL = `${BASE_URL}/destinations`;
 const OFFERS_URL = `${BASE_URL}/offers`;
-const AUTH = 'Basic er1083jdzbdw';
+const AUTH = 'Basic er1083bdzbgg';
 
 /** @type {Store<Point>} */
 const pointsStore = new Store(POINTS_URL, AUTH);
@@ -86,15 +85,3 @@ const initializeApp = async () => {
 };
 
 initializeApp();
-
-
-const {trace} = console;
-
-applicationModel.addEventListener('mode', () => {
-  trace(`%cMode.${Mode.findKey(applicationModel.getMode())}`, 'font-size: large');
-});
-
-pointsModel.addEventListener(['add', 'update', 'remove', 'filter', 'sort'], (event) => {
-  trace(`%c${event.type}`, 'font-weight: bold');
-});
-

@@ -57,7 +57,7 @@ export default class OfferSelectView extends View {
    * @param {OfferOptionState[]} states
    */
   setOptions(states) {
-    const templates = states.map((state) => this.createOptionTemplate(state));
+    const templates = states.map(this.createOptionTemplate);
 
     this.offersView.innerHTML = templates.join('');
 

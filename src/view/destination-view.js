@@ -29,6 +29,17 @@ export default class DestinationView extends View {
   }
 
   /**
+   * @param {DestinationPictureState} state
+   */
+  createPictureTemplate(state) {
+    const [src, alt] = state;
+
+    return html`
+      <img class="event__photo" src="${src}" alt="${alt}">
+    `;
+  }
+
+  /**
    * @param {string} description
    */
   setDescription(description) {
@@ -41,12 +52,9 @@ export default class DestinationView extends View {
    * @param {DestinationPictureState[]} states
    */
   setPictures(states) {
-    const views = states.map(([src, alt]) =>
-    // TODO: через шаблон добавлять изображение
-      Object.assign(new Image(), { src, alt, className: 'event__photo' })
-    );
+    const templates = states.map(this.createPictureTemplate);
 
-    this.photoListView.replaceChildren(...views);
+    this.photoListView.innerHTML = templates.join('');
     this.append(this.photoContainerView);
 
     return this;

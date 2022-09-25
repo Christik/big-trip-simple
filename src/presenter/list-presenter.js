@@ -1,8 +1,11 @@
+import {escape} from 'he';
+import { formatDate, formatNumber } from '../format.js';
+
 import Mode from '../enum/mode.js';
 import PointType from '../enum/point-type.js';
 import PointLabel from '../enum/point-label.js';
+
 import Presenter from './presenter.js';
-import { formatDate, formatNumber } from '../format.js';
 
 const DateFormat = {
   TIME: 'HH:mm',
@@ -43,23 +46,23 @@ export default class ListPresenter extends Presenter {
 
       const offerStates = offerGroup.items.reduce((result, offer) => {
         if (point.offerIds.includes(offer.id)) {
-          result.push([offer.title, offer.price]);
+          result.push([escape(offer.title), escape(formatNumber(offer.price))]);
         }
 
         return result;
       }, []);
 
       return {
-        id: point.id,
-        type: point.type,
-        startIsoDate: startDate,
-        endIsoDate: endDate,
-        title,
-        icon: point.type,
+        id: escape(point.id),
+        type: escape(point.type),
+        startIsoDate: escape(startDate),
+        endIsoDate: escape(endDate),
+        title: escape(title),
+        icon: escape(point.type),
         startDate: formatDate(startDate, DateFormat.CALENDAR_DATE),
         startTime: formatDate(startDate, DateFormat.TIME),
         endTime: formatDate(endDate, DateFormat.TIME),
-        price: formatNumber(point.basePrice),
+        price: escape(formatNumber(point.basePrice)),
         offers: offerStates
       };
     });

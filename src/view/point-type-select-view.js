@@ -70,7 +70,12 @@ export default class PointTypeSelectView extends RadioGroupView {
     `;
   }
 
-  createOptionTemplate(label, value) {
+  /**
+   * @param {PointTypeOptionState} state
+   */
+  createOptionTemplate(...state) {
+    const [label, value] = state;
+
     return html`
       <div class="event__type-item">
         <input
@@ -101,7 +106,7 @@ export default class PointTypeSelectView extends RadioGroupView {
   }
 
   /**
-   * @param {[string, string][]} states
+   * @param {PointTypeOptionState[]} states
    */
   setOptions(states) {
     const templates = states.map((state) => this.createOptionTemplate(...state));

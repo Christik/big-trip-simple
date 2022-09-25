@@ -35,7 +35,7 @@ export default class Store {
   }
 
   /**
-   * @param {ItemId} id
+   * @param {string} id
    * @param {Item} item
    * @returns {Promise<Item>}
    */
@@ -47,7 +47,7 @@ export default class Store {
   }
 
   /**
-   * @param {ItemId} id
+   * @param {string} id
    * @returns {Promise<Item>}
    */
   remove(id) {

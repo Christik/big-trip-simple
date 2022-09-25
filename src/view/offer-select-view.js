@@ -49,7 +49,7 @@ export default class OfferSelectView extends View {
   }
 
   /**
-   * @param {[number, string, number, boolean][]} states
+   * @param {[string, string, number, boolean][]} states
    */
   setOptions(states) {
     const templates = states.map((state) => this.createOptionTemplate(...state));

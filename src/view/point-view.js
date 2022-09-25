@@ -22,6 +22,7 @@ export default class PointView extends View {
 
   /**
    * @override
+   * @param {PointState} state
    */
   createTemplate(state) {
     return html`
@@ -55,10 +56,32 @@ export default class PointView extends View {
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <div class="event__selected-offers">
+          ${state.offers.map(([title, price]) => html`
+            <div class="event__offer">
+              <span class="event__offer-title">${title}</span>
+              &plus;&euro;&nbsp;
+              <span class="event__offer-price">${price}</span>
+            </div>
+          `)}
         </div>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
         </button>
+      </div>
+    `;
+  }
+
+  /**
+   * @param {OfferState} state
+   */
+  createOfferTemplate(...state) {
+    const [title, price] = state;
+
+    return html`
+      <div class="event__offer">
+        <span class="event__offer-title">${title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${price}</span>
       </div>
     `;
   }
@@ -89,7 +112,7 @@ export default class PointView extends View {
   }
 
   /**
-   * @param {number} id
+   * @param {string} id
    * @param {Document | Element} rootView
    * @returns {PointView}
    */

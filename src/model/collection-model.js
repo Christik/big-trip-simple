@@ -48,7 +48,7 @@ export default class CollectionModel extends Model {
   }
 
   /**
-   * @param {ItemId} value
+   * @param {string} value
    */
   findById(value) {
     return this.findBy('id', value);
@@ -63,7 +63,7 @@ export default class CollectionModel extends Model {
   }
 
   /**
-   * @param {ItemId} value
+   * @param {string} value
    */
   findIndexById(value) {
     return this.findIndexBy('id', value);
@@ -88,7 +88,7 @@ export default class CollectionModel extends Model {
   }
 
   /**
-   * @param {ItemId} id
+   * @param {string} id
    * @param {ItemAdapter} item
    */
   async update(id, item) {
@@ -102,7 +102,7 @@ export default class CollectionModel extends Model {
   }
 
   /**
-   * @param {ItemId} id
+   * @param {string} id
    */
   async remove(id) {
     await this.#store.remove(id);

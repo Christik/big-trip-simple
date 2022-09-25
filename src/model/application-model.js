@@ -53,7 +53,7 @@ export default class ApplicationModel extends Model {
 
   /**
    * @param {number} mode
-   * @param {number} activePointId
+   * @param {string} activePointId
    */
   setMode(mode, activePointId = null) {
     switch (mode) {

@@ -18,9 +18,8 @@ module.exports = {
   optimization: {
     minimizer: [
       new TerserPlugin({
-        parallel: true,
         terserOptions: {
-          keep_classnames: true,
+          keep_classnames: /View$/,
         },
       }),
     ],

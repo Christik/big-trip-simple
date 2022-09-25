@@ -39,6 +39,7 @@ export default class DestinationView extends View {
    */
   setPictures(states) {
     const views = states.map(([src, alt]) =>
+    // TODO: через шаблон добавлять изображение
       Object.assign(new Image(), { src, alt, className: 'event__photo' })
     );
 

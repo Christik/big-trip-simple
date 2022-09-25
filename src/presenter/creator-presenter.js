@@ -1,6 +1,9 @@
+import {escape} from 'he';
+
 import Mode from '../enum/mode.js';
 import PointType from '../enum/point-type.js';
 import PointLabel from '../enum/point-label.js';
+
 import Presenter from './presenter.js';
 import DatePickerView from '../view/date-picker-view.js';
 
@@ -38,7 +41,7 @@ export default class CreatorPresenter extends Presenter {
   }
 
   buildView() {
-    /** @type {[string, string][]} */
+    /** @type {PointTypeOptionState[]} */
     const pointTypeSelectOptions = Object.values(PointType).map((value) => {
       const key = PointType.findKey(value);
       const label = PointLabel[key];
@@ -46,9 +49,10 @@ export default class CreatorPresenter extends Presenter {
       return [label, value];
     });
 
+    // TODO: вынести в @typedef.js
     /** @type {[string, string][]} */
     const destinationSelectOptions = this.model.destinationsModel.listAll()
-      .map((item) => ['', item.name]);
+      .map((destination) => ['', escape(destination.name)]);
 
     const startDateOptions = {
       onChange: [(selectedDates) => {
@@ -58,9 +62,17 @@ export default class CreatorPresenter extends Presenter {
       }]
     };
 
+    const endDateOptions = {
+      onValueUpdate: [() => {
+        const [startDate, endDate = startDate] = this.view.datePickerView.getDates();
+
+        this.view.datePickerView.setDates(startDate, endDate, false);
+      }]
+    };
+
     this.view.pointTypeSelectView.setOptions(pointTypeSelectOptions);
     this.view.destinationSelectView.setOptions(destinationSelectOptions);
-    this.view.datePickerView.configure(startDateOptions, {});
+    this.view.datePickerView.configure(startDateOptions, endDateOptions);
   }
 
   updateTypeSelectView() {
@@ -91,11 +103,11 @@ export default class CreatorPresenter extends Presenter {
     const type = this.view.pointTypeSelectView.getValue();
     const availableOffers = this.model.offerGroupsModel.findById(type).items;
 
-    /** @type {[number, string, number, boolean][]} */
+    /** @type {[string, string, number, boolean][]} */
     const options = availableOffers.map((offer) => [
-      offer.id,
-      offer.title,
-      offer.price,
+      escape(offer.id),
+      escape(offer.title),
+      escape(String(offer.price)),
       check && this.model.activePoint.offerIds.includes(offer.id)
     ]);
 
@@ -109,9 +121,10 @@ export default class CreatorPresenter extends Presenter {
     const destination = this.model.destinationsModel.findBy('name', name);
 
     /** @type {[string, string][]} */
-    const pictureOptions = destination.pictures.map(
-      ({ src, description }) => [ src, description ]
-    );
+    const pictureOptions = destination.pictures.map(({src, description }) => [
+      escape(src),
+      escape(description)
+    ]);
 
     this.view.destinationView
       .setDescription(destination.description)
@@ -166,7 +179,7 @@ export default class CreatorPresenter extends Presenter {
   }
 
   onOfferSelectViewChange() {
-    const offerIds = this.view.offerSelectView.getSelectedValues().map(Number);
+    const offerIds = this.view.offerSelectView.getSelectedValues();
 
     this.model.activePoint.offerIds = offerIds;
   }

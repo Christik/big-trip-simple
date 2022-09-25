@@ -1,3 +1,4 @@
+import KeyboardCommand from '../enum/keyboard-command';
 import './destination-select-view.css';
 import View, {html} from './view.js';
 
@@ -25,7 +26,7 @@ export default class DestinationSelectView extends View {
   }
 
   get allowedKeys() {
-    return ['Tab', 'ArrowUp', 'ArrowDown', 'Escape', 'Esc'];
+    return ['Tab', ...Object.values(KeyboardCommand)];
   }
 
   /**

@@ -1,5 +1,6 @@
 import 'flatpickr/dist/flatpickr.min.css';
 
+import KeyboardCommand from '../enum/keyboard-command.js';
 import initCalendar from 'flatpickr';
 import View, {html} from './view.js';
 
@@ -25,6 +26,10 @@ export default class DatePickerView extends View {
     this.#endDateCalendar = initCalendar(this.querySelector('[name="date_to"]'));
 
     this.classList.add('event__field-group', 'event__field-group--time');
+  }
+
+  get isOpen() {
+    return this.#startDateCalendar.isOpen || this.#endDateCalendar.isOpen;
   }
 
   get disallowedKeys() {
@@ -58,6 +63,11 @@ export default class DatePickerView extends View {
     `;
   }
 
+  close() {
+    this.#startDateCalendar.close();
+    this.#endDateCalendar.close();
+  }
+
   getDates() {
     return [
       this.#startDateCalendar.selectedDates[0]?.toJSON(),
@@ -70,8 +80,8 @@ export default class DatePickerView extends View {
    * @param {CalendarDate} endDate
    */
   setDates(startDate, endDate = startDate, notify = true) {
-    this.#startDateCalendar.setDate(new Date(startDate), notify);
-    this.#endDateCalendar.setDate(new Date(endDate), notify);
+    this.#startDateCalendar.setDate(startDate, notify);
+    this.#endDateCalendar.setDate(endDate, notify);
 
     return this;
   }
@@ -90,6 +100,14 @@ export default class DatePickerView extends View {
   onKeydown(event) {
     if (this.disallowedKeys.includes(event.key)) {
       event.stopPropagation();
+
+      return;
+    }
+
+    if (KeyboardCommand.EXIT.includes(event.key) && this.isOpen) {
+      event.stopPropagation();
+
+      this.close();
     }
   }
 

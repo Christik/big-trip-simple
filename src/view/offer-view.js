@@ -1,5 +1,6 @@
-/** @typedef {[title: string, price: number]} State */
 
+
+// TODO: перенести в point-view.js
 import View, {html} from './view.js';
 
 export default class OfferView extends View {

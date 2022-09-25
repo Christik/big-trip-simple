@@ -8,18 +8,21 @@
 /** @typedef {import('./editor-view').default} EditorView */
 /** @typedef {import('./creator-view').default} CreatorView */
 /** @typedef {import('./list-view').default} ListView */
-/** @typedef {import('./offer-view').State} OfferState */
 
 /**
  * @typedef PointState
- * @prop {number} id
+ * @prop {string} id
  * @prop {string} startIsoDate
  * @prop {string} endIsoDate
  * @prop {string} startDate
  * @prop {string} title
- * @prop {string} icon
+ * @prop {string} type
  * @prop {string} startTime
  * @prop {string} endTime
  * @prop {string} price
  * @prop {OfferState[]} offers
  */
+
+/** @typedef {[label: string, value: string]} PointTypeOptionState */
+
+/** @typedef {[title: string, price: number]} OfferState */

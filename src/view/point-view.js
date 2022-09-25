@@ -1,7 +1,9 @@
-import ListItemView, {html} from './list-item-view.js';
+import './point-view.css';
+
+import View, {html} from './view.js';
 import OfferView from './offer-view.js';
 
-export default class PointView extends ListItemView {
+export default class PointView extends View {
   #id;
 
   /**
@@ -13,11 +15,14 @@ export default class PointView extends ListItemView {
     this.#id = state.id;
     this.id = `${this.constructor}-${state.id}`;
 
+    this.classList.add('trip-events__item');
+
     this.addEventListener('click', this.onClick);
   }
 
   /**
    * @override
+   * @param {PointState} state
    */
   createTemplate(state) {
     return html`
@@ -51,10 +56,32 @@ export default class PointView extends ListItemView {
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <div class="event__selected-offers">
+          ${state.offers.map(([title, price]) => html`
+            <div class="event__offer">
+              <span class="event__offer-title">${title}</span>
+              &plus;&euro;&nbsp;
+              <span class="event__offer-price">${price}</span>
+            </div>
+          `)}
         </div>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
         </button>
+      </div>
+    `;
+  }
+
+  /**
+   * @param {OfferState} state
+   */
+  createOfferTemplate(...state) {
+    const [title, price] = state;
+
+    return html`
+      <div class="event__offer">
+        <span class="event__offer-title">${title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${price}</span>
       </div>
     `;
   }
@@ -85,7 +112,7 @@ export default class PointView extends ListItemView {
   }
 
   /**
-   * @param {number} id
+   * @param {string} id
    * @param {Document | Element} rootView
    * @returns {PointView}
    */

@@ -9,7 +9,7 @@ export default class ListView extends View {
   }
 
   /**
-   * @param {number} id
+   * @param {string} id
    */
   findById(id) {
     return PointView.findById(id, this);

@@ -9,6 +9,9 @@ import DestinationView from './destination-view.js';
 import LoaderView from './loader-view';
 import KeyboardCommand from '../enum/keyboard-command.js';
 
+/**
+ * @implements {EventListenerObject}
+ */
 export default class CreatorView extends View {
   constructor() {
     super();
@@ -41,7 +44,7 @@ export default class CreatorView extends View {
 
     this.formView = this.querySelector('form');
 
-    this.classList.add('trip-events__item');
+    this.classList.add('trip-events__item', 'trip-events__item--reveal-alternate');
   }
 
   /**

@@ -5,9 +5,7 @@ export default class PointTypeSelectView extends RadioGroupView {
   constructor() {
     super(...arguments);
 
-    /**
-     * @type {HTMLInputElement}
-     */
+    /** @type {HTMLInputElement} */
     this.toggleView = this.querySelector('.event__type-toggle');
 
     this.classList.add('event__type-wrapper');
@@ -61,7 +59,12 @@ export default class PointTypeSelectView extends RadioGroupView {
         <span class="visually-hidden">Choose event type</span>
         <img class="event__type-icon" width="17" height="17" src="" alt="Event type icon">
       </label>
-      <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox" tabindex="-1">
+      <input
+        class="event__type-toggle  visually-hidden"
+        id="event-type-toggle-1"
+        type="checkbox"
+        tabindex="-1"
+      >
       <div class="event__type-list">
         <fieldset class="event__type-group">
           <legend class="visually-hidden">Event type</legend>
@@ -73,7 +76,7 @@ export default class PointTypeSelectView extends RadioGroupView {
   /**
    * @param {PointTypeOptionState} state
    */
-  createOptionTemplate(...state) {
+  createOptionTemplate(state) {
     const [label, value] = state;
 
     return html`
@@ -109,7 +112,7 @@ export default class PointTypeSelectView extends RadioGroupView {
    * @param {PointTypeOptionState[]} states
    */
   setOptions(states) {
-    const templates = states.map((state) => this.createOptionTemplate(...state));
+    const templates = states.map(this.createOptionTemplate);
 
     this.querySelector('.event__type-group')
       .insertAdjacentHTML('beforeend', templates.join(''));
@@ -117,6 +120,9 @@ export default class PointTypeSelectView extends RadioGroupView {
     return this;
   }
 
+  /**
+   * @param {Event & {target: HTMLInputElement}} event
+   */
   onClick(event) {
     if ([...this.inputViews].includes(event.target)) {
       this.setIcon(event.target.value);
@@ -124,6 +130,9 @@ export default class PointTypeSelectView extends RadioGroupView {
     }
   }
 
+  /**
+   * @param {Event} event
+   */
   onChange(event) {
     if (event.target === this.toggleView) {
       event.stopImmediatePropagation();

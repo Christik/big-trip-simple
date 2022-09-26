@@ -48,7 +48,6 @@ export default class DatePickerView extends View {
         type="text"
         name="date_from"
         required
-        value=""
       >
       &mdash;
       <label class="visually-hidden" for="event-end-time-1">To</label>
@@ -58,7 +57,6 @@ export default class DatePickerView extends View {
         type="text"
         name="date_to"
         required
-        value=""
       >
     `;
   }
@@ -97,6 +95,9 @@ export default class DatePickerView extends View {
     return this;
   }
 
+  /**
+   * @param {KeyboardEvent} event
+   */
   onKeydown(event) {
     if (this.disallowedKeys.includes(event.key)) {
       event.stopPropagation();
@@ -111,6 +112,9 @@ export default class DatePickerView extends View {
     }
   }
 
+  /**
+   * @param {CalendarOptions} options
+   */
   static configure(options) {
     initCalendar.setDefaults(options);
   }

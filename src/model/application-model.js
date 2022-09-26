@@ -3,10 +3,7 @@ import PointType from '../enum/point-type.js';
 import Model from './model.js';
 
 export default class ApplicationModel extends Model {
-  /**
-   * @type {number}
-   */
-  #mode;
+  #mode = Mode.VIEW;
 
   /**
    * @param {DataTableModel<Point,PointAdapter>} pointsModel

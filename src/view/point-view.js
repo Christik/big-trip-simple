@@ -1,7 +1,6 @@
 import './point-view.css';
 
 import View, {html} from './view.js';
-import OfferView from './offer-view.js';
 
 export default class PointView extends View {
   #id;
@@ -16,6 +15,13 @@ export default class PointView extends View {
     this.id = `${this.constructor}-${state.id}`;
 
     this.classList.add('trip-events__item');
+
+    if (state.index !== null) {
+      this.classList.add('trip-events__item--reveal');
+      this.style.setProperty('--index', String(state.index));
+
+      this.addEventListener('animationend', this.onAnimationEnd);
+    }
 
     this.addEventListener('click', this.onClick);
   }
@@ -56,13 +62,7 @@ export default class PointView extends View {
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <div class="event__selected-offers">
-          ${state.offers.map(([title, price]) => html`
-            <div class="event__offer">
-              <span class="event__offer-title">${title}</span>
-              &plus;&euro;&nbsp;
-              <span class="event__offer-price">${price}</span>
-            </div>
-          `)}
+          ${this.createOffersTemplate(state.offers)}
         </div>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
@@ -72,18 +72,20 @@ export default class PointView extends View {
   }
 
   /**
-   * @param {OfferState} state
+   * @param {OfferState[]} states
    */
-  createOfferTemplate(...state) {
-    const [title, price] = state;
+  createOffersTemplate(states) {
+    return states.map((state) => {
+      const [title, price] = state;
 
-    return html`
-      <div class="event__offer">
-        <span class="event__offer-title">${title}</span>
-        &plus;&euro;&nbsp;
-        <span class="event__offer-price">${price}</span>
-      </div>
-    `;
+      return html`
+        <div class="event__offer">
+          <span class="event__offer-title">${title}</span>
+          &plus;&euro;&nbsp;
+          <span class="event__offer-price">${price}</span>
+        </div>
+      `;
+    }).join('');
   }
 
   getId() {
@@ -91,24 +93,16 @@ export default class PointView extends View {
   }
 
   /**
-   * @param {OfferState[]} states
+   * @param {Event & {target: Element}} event
    */
-  setOffers(states) {
-    const views = states.map((state) => new OfferView(...state));
-
-    this.querySelector('.event__selected-offers').replaceChildren(...views);
-
-    return this;
+  onClick(event) {
+    if (event.target.closest('.event__rollup-btn')) {
+      this.dispatchEvent(new CustomEvent('edit', {bubbles: true}));
+    }
   }
 
-  onClick(event) {
-    if (!event.target.closest('.event__rollup-btn')) {
-      return;
-    }
-
-    event.preventDefault();
-
-    this.dispatchEvent(new CustomEvent('edit', {bubbles: true}));
+  onAnimationEnd() {
+    this.style.removeProperty('--index');
   }
 
   /**

@@ -4,12 +4,7 @@ export default class DestinationView extends View {
   constructor() {
     super(...arguments);
 
-    this.photoContainerView = this.querySelector('.event__photos-container');
-    this.photoListView = this.querySelector('.event__photos-tape');
-
     this.classList.add('event__section', 'event__section--destination');
-
-    this.photoContainerView.remove();
   }
 
   /**
@@ -21,9 +16,7 @@ export default class DestinationView extends View {
       <p class="event__destination-description"></p>
 
       <div class="event__photos-container">
-        <div class="event__photos-tape">
-          <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
-         </div>
+        <div class="event__photos-tape"></div>
       </div>
     `;
   }
@@ -54,8 +47,7 @@ export default class DestinationView extends View {
   setPictures(states) {
     const templates = states.map(this.createPictureTemplate);
 
-    this.photoListView.innerHTML = templates.join('');
-    this.append(this.photoContainerView);
+    this.querySelector('.event__photos-tape').innerHTML = templates.join('');
 
     return this;
   }

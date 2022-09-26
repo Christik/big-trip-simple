@@ -9,6 +9,9 @@ import DestinationView from './destination-view.js';
 import LoaderView from './loader-view';
 import KeyboardCommand from '../enum/keyboard-command.js';
 
+/**
+ * @implements {EventListenerObject}
+ */
 export default class CreatorView extends View {
   constructor() {
     super();

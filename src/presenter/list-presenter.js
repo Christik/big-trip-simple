@@ -21,11 +21,11 @@ export default class ListPresenter extends Presenter {
 
     this.updateView();
 
-    this.view.addEventListener('edit', this.onPointViewEdit.bind(this));
+    this.view.addEventListener('edit', this.onViewEdit.bind(this));
 
     this.model.pointsModel.addEventListener(
       ['add', 'update', 'remove', 'filter', 'sort'],
-      this.onModelPointsChange.bind(this)
+      this.onPointsModelChange.bind(this)
     );
   }
 
@@ -76,7 +76,7 @@ export default class ListPresenter extends Presenter {
   /**
    * @param {CustomEvent<PointAdapter> & CustomEvent<[newItem: PointAdapter, oldItem: PointAdapter]>} event
    */
-  onModelPointsChange(event) {
+  onPointsModelChange(event) {
     if (event.type === 'add') {
       this.updateView(event.detail.id);
 
@@ -103,7 +103,7 @@ export default class ListPresenter extends Presenter {
   /**
    * @param {CustomEvent & {target: PointView}} event
    */
-  onPointViewEdit(event) {
+  onViewEdit(event) {
     this.model.setMode(Mode.EDIT, event.target.getId());
   }
 }

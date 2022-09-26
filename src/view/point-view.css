@@ -3,9 +3,11 @@
   animation: 200ms calc(100ms * var(--index)) both;
   display: block;
 }
+
 .trip-events__item--reveal {
   animation-name: reveal;
 }
+
 .trip-events__item--reveal-alternate {
   animation-name: reveal-alternate;
 }
@@ -22,6 +24,7 @@
     opacity: 0;
     transform: translateX(40px);
   }
+
   to {
     opacity: 1;
     transform: none;
@@ -33,6 +36,7 @@
     opacity: 0;
     transform: translateX(-40px);
   }
+
   to {
     opacity: 1;
     transform: none;

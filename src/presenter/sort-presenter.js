@@ -67,7 +67,7 @@ export default class SortPresenter extends Presenter {
    */
   onPointsModelChange(event) {
     if (event.type === 'filter') {
-      this.model.pointsModel.setSort(SortCompare.defaultValue, false);
+      this.model.pointsModel.setSort(SortCompare.DAY, false);
 
       this.updateViewValue();
     }

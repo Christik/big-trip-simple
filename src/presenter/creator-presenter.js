@@ -34,7 +34,7 @@ export default class CreatorPresenter extends Presenter {
     this.view.priceInputView.addEventListener('change', this.onPriceInputViewChange.bind(this));
     this.view.offerSelectView.addEventListener('change', this.onOfferSelectViewChange.bind(this));
 
-    this.model.addEventListener('mode', this.onModelModeChange.bind(this));
+    this.model.addEventListener('mode', this.onModelMode.bind(this));
     this.view.addEventListener('reset', this.onViewReset.bind(this));
     this.view.addEventListener('close', this.onViewClose.bind(this));
     this.view.addEventListener('submit', this.onViewSubmit.bind(this));
@@ -53,6 +53,7 @@ export default class CreatorPresenter extends Presenter {
     const destinationSelectOptions = this.model.destinationsModel.listAll()
       .map((destination) => ['', escape(destination.name)]);
 
+    /** @type {CalendarOptions} */
     const startDateOptions = {
       onChange: [(selectedDates) => {
         const [minDate] = selectedDates;
@@ -61,6 +62,7 @@ export default class CreatorPresenter extends Presenter {
       }]
     };
 
+    /** @type {CalendarOptions} */
     const endDateOptions = {
       onValueUpdate: [() => {
         const [startDate, endDate = startDate] = this.view.datePickerView.getDates();
@@ -183,7 +185,7 @@ export default class CreatorPresenter extends Presenter {
     this.model.activePoint.offerIds = offerIds;
   }
 
-  onModelModeChange() {
+  onModelMode() {
     this.view.close(false);
 
     if (this.model.getMode() === Mode.CREATE) {
@@ -196,12 +198,18 @@ export default class CreatorPresenter extends Presenter {
     this.model.setMode(Mode.VIEW);
   }
 
+  /**
+   * @param {Event} event
+   */
   async onViewReset(event) {
     event.preventDefault();
 
     this.view.close();
   }
 
+  /**
+   * @param {SubmitEvent} event
+   */
   async onViewSubmit(event) {
     event.preventDefault();
 

@@ -1,7 +1,16 @@
 import dayjs from 'dayjs';
 
-export const formatDate = (date) => dayjs(date).format('MMM D');
+/**
+ * @param {string} date
+ */
+export const formatDate = (date, template = 'MMM D') => dayjs(date).format(template);
 
-export const formatTime = (date) => dayjs(date).format('HH:mm');
+/**
+ * @param {string} date
+ */
+export const formatTime = (date, template = 'HH:mm') => dayjs(date).format(template);
 
+/**
+ * @param {number} value
+ */
 export const formatNumber = (value, locale = 'en') => value.toLocaleString(locale);

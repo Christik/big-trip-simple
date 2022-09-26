@@ -30,6 +30,6 @@
  * @typedef {[label: string, value: string]} PointTypeOptionState
  * @typedef {[title: string, price: number]} OfferState
  * @typedef {[string, string]} DestinationOptionState
- * @typedef {[string, string, number, boolean]} OfferOptionState
+ * @typedef {[string, string, string, boolean]} OfferOptionState
  * @typedef {[string, string]} DestinationPictureState
  */

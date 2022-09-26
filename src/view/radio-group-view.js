@@ -8,7 +8,7 @@ export default class RadioGroupView extends View {
   }
 
   /**
-   * @returns {NodeListOf<HTMLInputElement>}
+   * @type {NodeListOf<HTMLInputElement>}
    */
   get inputViews() {
     return this.querySelectorAll(this.inputSelector);
@@ -22,7 +22,7 @@ export default class RadioGroupView extends View {
       return inputCheckedView.value;
     }
 
-    return null;
+    return '';
   }
 
   /**

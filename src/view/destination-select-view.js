@@ -4,8 +4,6 @@ import KeyboardCommand from '../enum/keyboard-command';
 import View, {html} from './view.js';
 
 export default class DestinationSelectView extends View {
-  #options;
-
   constructor() {
     super(...arguments);
 
@@ -83,7 +81,6 @@ export default class DestinationSelectView extends View {
     const views = states.map((state) => new Option(...state));
 
     this.datalistView.replaceChildren(...views);
-    this.#options = states;
 
     return this;
   }

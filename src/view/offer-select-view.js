@@ -6,8 +6,6 @@ export default class OfferSelectView extends View {
   constructor() {
     super(...arguments);
 
-    this.offersView = this.querySelector('.event__available-offers');
-
     this.classList.add('event__section', 'event__section--offers');
   }
 
@@ -59,7 +57,7 @@ export default class OfferSelectView extends View {
   setOptions(states) {
     const templates = states.map(this.createOptionTemplate);
 
-    this.offersView.innerHTML = templates.join('');
+    this.querySelector('.event__available-offers').innerHTML = templates.join('');
 
     return this;
   }

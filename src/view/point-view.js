@@ -93,25 +93,12 @@ export default class PointView extends View {
   }
 
   /**
-   * @param {OfferState[]} states
-   */
-  setOffers(states) {
-    this.querySelector('.event__selected-offers').innerHTML = this.createOffersTemplate(states);
-
-    return this;
-  }
-
-  /**
    * @param {Event & {target: Element}} event
    */
   onClick(event) {
-    if (!event.target.closest('.event__rollup-btn')) {
-      return;
+    if (event.target.closest('.event__rollup-btn')) {
+      this.dispatchEvent(new CustomEvent('edit', {bubbles: true}));
     }
-
-    event.preventDefault();
-
-    this.dispatchEvent(new CustomEvent('edit', {bubbles: true}));
   }
 
   onAnimationEnd() {

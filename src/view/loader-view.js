@@ -1,6 +1,9 @@
 import './loader-view.css';
 import View from './view.js';
 
+/**
+ * @implements {EventListenerObject}
+ */
 export default class LoaderView extends View {
   constructor() {
     super(...arguments);

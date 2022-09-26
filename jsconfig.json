@@ -2,10 +2,7 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "moduleResolution": "nodenext",
-    "allowSyntheticDefaultImports": true,
     "target": "esnext",
-    "allowJs": true,
-    "checkJs": true,
-    "noEmit": true
+    "checkJs": true
   }
 }

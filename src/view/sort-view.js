@@ -6,8 +6,7 @@ export default class SortView extends RadioGroupView {
    */
   createTemplate() {
     return html`
-      <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
-      </form>
+      <form class="trip-events__trip-sort  trip-sort" action="#" method="get"></form>
     `;
   }
 

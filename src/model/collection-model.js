@@ -102,7 +102,7 @@ export default class CollectionModel extends Model {
   async update(id, item) {
     const updatedItem = await this.#store.update(id, item.toJSON());
     const index = this.findIndexById(id);
-    const detail = [this.item(index), this.#adapt(updatedItem)];
+    const detail = [this.#adapt(updatedItem), this.item(index)];
 
     this.#items.splice(index, 1, updatedItem);
 

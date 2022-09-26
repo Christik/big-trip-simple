@@ -29,10 +29,13 @@ export default class ListPresenter extends Presenter {
     );
   }
 
-  updateView() {
+  /**
+   * @param {string} [revealingPointId]
+   */
+  updateView(revealingPointId) {
     const points = this.model.pointsModel.list();
 
-    const states = points.map((point) => {
+    const states = points.map((point, index) => {
       const {startDate, endDate} = point;
       const destination = this.model.destinationsModel.findById(point.destinationId);
       const typeLabel = PointLabel[PointType.findKey(point.type)];
@@ -47,8 +50,13 @@ export default class ListPresenter extends Presenter {
         return result;
       }, []);
 
+      if (revealingPointId) {
+        index = (revealingPointId === point.id) ? 0 : null;
+      }
+
       return {
         id: escape(point.id),
+        index,
         type: escape(point.type),
         startIsoDate: escape(startDate),
         endIsoDate: escape(endDate),
@@ -66,9 +74,23 @@ export default class ListPresenter extends Presenter {
   }
 
   /**
-   * @param {CustomEvent} event
+   * @param {CustomEvent<PointAdapter> & CustomEvent<[newItem: PointAdapter, oldItem: PointAdapter]>} event
    */
   onModelPointsChange(event) {
+    if (event.type === 'add') {
+      this.updateView(event.detail.id);
+
+      return;
+    }
+
+    if (event.type === 'update') {
+      const [point] = event.detail;
+
+      this.updateView(point.id);
+
+      return;
+    }
+
     if (event.type === 'remove') {
       this.view.findById(event.detail.id).remove();
 

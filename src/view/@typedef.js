@@ -12,6 +12,7 @@
 /**
  * @typedef PointState
  * @prop {string} id
+ * @prop {number | null} index
  * @prop {string} startIsoDate
  * @prop {string} endIsoDate
  * @prop {string} startDate

@@ -41,7 +41,7 @@ export default class CreatorView extends View {
 
     this.formView = this.querySelector('form');
 
-    this.classList.add('trip-events__item');
+    this.classList.add('trip-events__item', 'trip-events__item--reveal-alternate');
   }
 
   /**
